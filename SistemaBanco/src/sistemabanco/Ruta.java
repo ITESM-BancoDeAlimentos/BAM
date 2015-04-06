@@ -12,7 +12,7 @@ package sistemabanco;
  */
 public class Ruta {
     
-    private String nombre, lugares;
+    private String nombre;
     private int IDRuta;
 
     public int getIDRuta() {
@@ -32,14 +32,6 @@ public class Ruta {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getLugares() {
-        return lugares;
-    }
-
-    public void setLugares(String lugares) {
-        this.lugares = lugares;
     }
     
 }
