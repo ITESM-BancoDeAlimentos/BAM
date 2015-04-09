@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" >
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="refresh" content="1790" />
+        <title><h:outputText value="#{bundle.Title}" /></title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}" />
+        <h:outputStylesheet name="css/cssLayout.css" />
+        <h:outputStylesheet name="css/CaritasCSS.css" />
+    </h:head>
+
+    <h:body>
+        <div id="topLogin">
+            <div id="Cabecera_Caritas_Login" >
+                <h:graphicImage value="/resources/images/sorteoCM.jpg" style="height: 115px;" />
+                <h:graphicImage value="/resources/images/balimentos_logo.jpg" style="height: 115px;" />
+            </div>
+
+        </div>
+
+        <div id="middleLogin" class="ui-widget-header">
+            <div id="titleLogin">
+                Iniciar Sesión
+            </div> 
+            <div id="actionsLogin">
+                Ingrese sus Datos
+            </div>
+        </div>
+
+        <h:form id="globalFormLogin">
+            <div id="infoLogin" class="ui-widget-content">
+                <div class="login" style="padding: 10px;">
+                    <p:focus context="globalFormLogin" for="id"/>
+                    <h:outputLabel value="#{bundle.UsuariosLabel_IDUsuario}" for="id" />
+                    <br />
+                    <p:inputText id="id" value="#{usuariosAuth.IDUsuarioTemp}"
+                                 title="#{bundle.UsuariosTitle_IDUsuario}" required="true"
+                                 requiredMessage="#{bundle.UsuariosRequiredMessage_IDUsuario}"
+                                 style="text-align: center; width: 15em;" size="15" maxlength="15" />
+                    <br />
+                    <h:outputLabel value="#{bundle.UsuariosLabel_password}" for="pass" />
+                    <br />
+                    <p:password id="pass" value="#{usuariosAuth.passwordTemp}"
+                                title="#{bundle.UsuariosTitle_password}" required="true"
+                                requiredMessage="#{bundle.UsuariosRequiredMessage_password}"
+                                style="text-align: center; width: 15em;" size="15" maxlength="15"/>
+                    <br />
+                    <p:separator style="width: 20em" />
+                    <p:commandButton value="#{bundle.Login}" action="#{usuariosAuth.logIn()}" ajax="false" />
+                </div>
+            </div>
+        </h:form>
+
+        <p:growl id="globalMessagePanelInfo" severity="info" life="10000" />
+        <p:growl id="globalMessagePanelError" severity="warn error fatal" life="10000"/>
+
+    </h:body>
+
+</html>

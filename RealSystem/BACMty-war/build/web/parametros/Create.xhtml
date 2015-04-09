@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ParametrosTitle}" />
+        </ui:define>
+        
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.Create}" />
+        </ui:define>
+        
+        <ui:define name="displayDataSection" >
+            <h:panelGrid id="dataView" columns="3" styleClass="center" >
+                <p:outputLabel value="#{bundle.ParametrosLabel_Parametro}" for="parametro" />
+                <p:inputText id="parametro"
+                             value="#{parametrosController.selected.parametro}"
+                             title="#{bundle.ParametrosTitle_Parametro}"
+                             size="20"
+                             maxlength="16"
+                             required="true"
+                             requiredMessage="#{bundle.ParametrosRequiredMessage_Parametro}"
+                             />
+                <p:message display="icon" for="parametro" />
+                
+                <p:outputLabel value="#{bundle.ParametrosLabel_valor}" for="valor" />
+                <p:inputText id="valor"
+                             value="#{parametrosController.selected.valor}"
+                             title="#{bundle.ParametrosTitle_valor}"
+                             size="50"
+                             maxlength="50"
+                             required="true"
+                             requiredMessage="#{bundle.ParametrosRequiredMessage_valor}"
+                             />
+                <p:message display="icon" for="valor" />
+            </h:panelGrid>
+        </ui:define>
+        
+        <ui:define name="tools">
+            <comp:createTools controller="#{parametrosController}" />
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

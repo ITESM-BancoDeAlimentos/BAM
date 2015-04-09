@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="title">
+                Impresion de Credencial
+            </ui:define>
+
+            <ui:define name="displayDataSection">
+                <p:panelGrid columns="5" id="selector">
+                    <p:outputLabel value="Expediente:" />
+                    <p:spinner value="#{credencialController.expediente}" />
+                    <p:outputLabel value="Area:" />
+                    <p:selectOneMenu 
+                        value="#{credencialController.areaGeo}"
+                        required="true" 
+                        requiredMessage="Se requiere un area" >
+                        <f:selectItems value="#{enumCtrl.areaGeograficaItems}" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton 
+                        value="Seleccionar Beneficiario" 
+                        action="#{credencialController.seleccionaJefe()}"
+                        process="selector"
+                        update="previewPanel commandPanel :messages "/>
+                </p:panelGrid>
+
+                <p:commandButton 
+                    id="fotoLoader"
+                    value="Seleccionar Foto" 
+                    type="button" 
+                    icon="ui-icon-plusthick" />
+
+                <p:panelGrid columns="2" id="commandPanel">
+                    <h:panelGroup>
+                        <p:commandButton
+                            value="Vista Previa"
+                            action="#{credencialController.cargaPreview()}"
+                            update="previewPanel :messages" />
+                        <p:commandButton 
+                            rendered="#{false}"
+                            value="Imprimir"
+                            action="#{credencialController.imprimeCredencial()}" />
+                    </h:panelGroup>
+                </p:panelGrid>
+
+                <h:panelGrid id="previewPanel" columns="3">
+                    <p:panel header="Jefe de la Familia" rendered="#{credencialController.jefeInd != null}">
+                        #{credencialController.jefeInd.encSocioNutriciaIndPK.nombre}
+                    </p:panel>
+                    <p:panel header="Foto Seleccionada" rendered="#{previewCredencial.fotoStream != null}">
+                        <p:graphicImage value="#{previewCredencial.fotoStream}" 
+                                        height="160" width="160" />
+                    </p:panel>
+                    <p:panel header="Vista Previa" rendered="#{previewCredencial.previewStream != null}" >
+                        <p:media value="#{previewCredencial.previewStream}" player="pdf"
+                                 height="195" width="305" >
+                            <h:outputText value="Tu explorador no ve PDFs" />
+                            <p:commandButton value="Descarga" icon="ui-icon-arrowthick-s"> 
+                                <p:fileDownload value="#{previewCredencial.previewStream}" />
+                            </p:commandButton>
+                        </p:media>
+                    </p:panel>
+                </h:panelGrid>
+            </ui:define>
+
+            <ui:define name="dataTableSection">
+                <h:panelGroup rendered="false" />
+            </ui:define>
+
+            <ui:define name="NonForm">
+                <p:overlayPanel for=":globalForm:fotoLoader" widgetVar="fotoLoader">
+                    <h:form enctype="multipart/form-data">
+                        <p:fileUpload 
+                            label="Seleccione"
+                            fileUploadListener="#{credencialController.listenFileUpload}"
+                            showButtons="true"
+                            multiple="false"
+                            widgetVar="upload" 
+                            update=":globalForm:commandPanel :globalForm:previewPanel"
+                            oncomplete="fotoLoader.hide();"/>
+                    </h:form>
+                </p:overlayPanel>
+                <h:outputScript target="body">
+                    $(document).ready(function() {
+                    upload.buttonBar.find('input[type=file]').change(function() {
+                    if (this.value) {
+                    var files = upload.uploadContent.find('.files tr');
+                    if (files.length > 1) {
+                    files.get(0).remove();
+                    }
+                    }
+                    });
+                    });
+                </h:outputScript>
+                <h:head>
+                    <style>
+                        .fileupload-buttonbar.ui-widget-header.ui-corner-top {
+                            background: none;
+                        }
+                        .fileupload-content.ui-widget-content.ui-corner-bottom {
+                            border: none;
+                        }
+                        tr.start {
+                            display: none;
+                        }
+                        tr.cancel {
+                            display: none;
+                        }
+                    </style>
+                </h:head>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

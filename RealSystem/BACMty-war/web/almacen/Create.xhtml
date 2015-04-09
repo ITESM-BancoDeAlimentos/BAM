@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateAlmacenTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_IDAlmacen}" for="IDAlmacen" />
+                    <h:inputText id="IDAlmacen" value="#{almacenController.selected.IDAlmacen}" title="#{bundle.CreateAlmacenTitle_IDAlmacen}" required="true" requiredMessage="#{bundle.CreateAlmacenRequiredMessage_IDAlmacen}"/>
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{almacenController.selected.nombre}" title="#{bundle.CreateAlmacenTitle_nombre}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_direccion}" for="direccion" />
+                    <h:inputText id="direccion" value="#{almacenController.selected.direccion}" title="#{bundle.CreateAlmacenTitle_direccion}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_telefono}" for="telefono" />
+                    <h:inputText id="telefono" value="#{almacenController.selected.telefono}" title="#{bundle.CreateAlmacenTitle_telefono}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_fax}" for="fax" />
+                    <h:inputText id="fax" value="#{almacenController.selected.fax}" title="#{bundle.CreateAlmacenTitle_fax}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_rfc}" for="rfc" />
+                    <h:inputText id="rfc" value="#{almacenController.selected.rfc}" title="#{bundle.CreateAlmacenTitle_rfc}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_EMail}" for="EMail" />
+                    <h:inputText id="EMail" value="#{almacenController.selected.EMail}" title="#{bundle.CreateAlmacenTitle_EMail}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_folioValesSal}" for="folioValesSal" />
+                    <h:inputText id="folioValesSal" value="#{almacenController.selected.folioValesSal}" title="#{bundle.CreateAlmacenTitle_folioValesSal}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_folioMovAlm}" for="folioMovAlm" />
+                    <h:inputText id="folioMovAlm" value="#{almacenController.selected.folioMovAlm}" title="#{bundle.CreateAlmacenTitle_folioMovAlm}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_localizacion}" for="localizacion" />
+                    <h:inputText id="localizacion" value="#{almacenController.selected.localizacion}" title="#{bundle.CreateAlmacenTitle_localizacion}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_costeo}" for="costeo" />
+                    <h:inputText id="costeo" value="#{almacenController.selected.costeo}" title="#{bundle.CreateAlmacenTitle_costeo}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_folioCap}" for="folioCap" />
+                    <h:inputText id="folioCap" value="#{almacenController.selected.folioCap}" title="#{bundle.CreateAlmacenTitle_folioCap}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_folioCaja}" for="folioCaja" />
+                    <h:inputText id="folioCaja" value="#{almacenController.selected.folioCaja}" title="#{bundle.CreateAlmacenTitle_folioCaja}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_folioMovCla}" for="folioMovCla" />
+                    <h:inputText id="folioMovCla" value="#{almacenController.selected.folioMovCla}" title="#{bundle.CreateAlmacenTitle_folioMovCla}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_fechaIni}" for="fechaIni" />
+                    <h:inputText id="fechaIni" value="#{almacenController.selected.fechaIni}" title="#{bundle.CreateAlmacenTitle_fechaIni}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_fechaFin}" for="fechaFin" />
+                    <h:inputText id="fechaFin" value="#{almacenController.selected.fechaFin}" title="#{bundle.CreateAlmacenTitle_fechaFin}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_folioTxt}" for="folioTxt" />
+                    <h:inputText id="folioTxt" value="#{almacenController.selected.folioTxt}" title="#{bundle.CreateAlmacenTitle_folioTxt}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_desc40}" for="desc40" />
+                    <h:inputText id="desc40" value="#{almacenController.selected.desc40}" title="#{bundle.CreateAlmacenTitle_desc40}" />
+                    <h:outputLabel value="#{bundle.CreateAlmacenLabel_fechaTablaTmp}" for="fechaTablaTmp" />
+                    <h:inputText id="fechaTablaTmp" value="#{almacenController.selected.fechaTablaTmp}" title="#{bundle.CreateAlmacenTitle_fechaTablaTmp}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{almacenController.create}" value="#{bundle.CreateAlmacenSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{almacenController.prepareList}" value="#{bundle.CreateAlmacenShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateAlmacenIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

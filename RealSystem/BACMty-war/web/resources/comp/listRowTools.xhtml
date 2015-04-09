@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="controller" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:commandLink 
+            action="#{cc.attrs.controller.prepareView}"
+            value="#{bundle.View}"
+            style="margin: 0 0.5em 0 0;"
+            ajax="false"
+            immediate="true"
+            />
+        <p:commandLink
+            action="#{cc.attrs.controller.prepareEdit}"
+            value="#{bundle.Edit}"
+            style="margin: 0 0.5em 0 0;"
+            rendered="#{authorizationController.accesos.editar}"
+            ajax="false"
+            immediate="true"
+            />
+        <p:commandLink 
+            action="#{cc.attrs.controller.destroy}" 
+            value="#{bundle.Destroy}"
+            onclick="if (!confirm('#{bundle.ConfirmDestroy}'))
+                        return false;"
+            style="margin: 0 0.5em 0 0;"
+            rendered="#{authorizationController.accesos.borrar}"
+            ajax="false"
+            immediate="true"
+            />
+    </cc:implementation>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.UsuariosTitle}" />
+        </ui:define>
+        <ui:define name="tools">
+            <comp:listTools controller="#{usuariosController}" />
+        </ui:define>
+        <ui:define name="dataTableSection">
+            <p:dataTable
+                value="#{usuariosController.items}" emptyMessage="#{bundle.UsuariosEmpty}"
+                id="table" var="item" widgetVar="tableWidget" rows="5" lazy="true"
+                draggableColumns="true" paginator="true" paginatorPosition="bottom"
+                paginatorTemplate="#{bundle.paginatorTemplate}" 
+                rowsPerPageTemplate="5,10,15,30" >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.UsuariosTitle_IDNivel}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.IDNivel.nivel}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.UsuariosTitle_IDUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.IDUsuario}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.UsuariosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.UsuariosTitle_password}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.password}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.UsuariosTitle_IDZona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.IDZona}"/>
+                </p:column>
+                <p:column>
+                    <comp:listRowTools controller="#{usuariosController}" />
+                </p:column>
+            </p:dataTable>
+        </ui:define>
+    </ui:composition>
+
+</html>

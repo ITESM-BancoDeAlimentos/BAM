@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.UsuariosTitle}" />
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.View}" />
+        </ui:define>
+        <ui:define name="tools">
+            <comp:viewTools controller="#{usuariosController}" />
+        </ui:define>
+        <ui:define name="dataTableSection">
+            <h:panelGroup id="selection">
+                <p:outputLabel value="Usuario:" />
+                <p:selectOneMenu value="#{usuariosController.selected}" required="true" requiredMessage="#{bundle.RequiredMessage_NullSelected_Key}">
+                    <f:selectItems value="#{usuariosController.itemsAvailableSelectOne}" />
+                    <p:ajax event="change" update="controls" />
+                </p:selectOneMenu>
+            </h:panelGroup>
+            <h:panelGroup id="controls">
+                <h:panelGrid columns="2" styleClass="center" rendered="#{usuariosController.selected != null}">
+                    <p:outputLabel value="#{bundle.UsuariosLabel_IDUsuario}"/>
+                    <p:inputText disabled="true" value="#{usuariosController.selected.IDUsuario}" title="#{bundle.UsuariosTitle_IDUsuario}"/>
+                    <p:outputLabel value="#{bundle.UsuariosLabel_password}"/>
+                    <p:inputText disabled="true" value="#{usuariosController.selected.password}" title="#{bundle.UsuariosTitle_password}" />
+                    <p:outputLabel value="#{bundle.UsuariosLabel_nombre}"/>
+                    <p:inputText disabled="true" value="#{usuariosController.selected.nombre}" title="#{bundle.UsuariosTitle_nombre}" />
+                    <p:outputLabel value="#{bundle.UsuariosLabel_IDNivel}"/>
+                    <p:inputText disabled="true" value="#{usuariosController.selected.IDNivel}" title="#{bundle.UsuariosTitle_IDNivel}"/>
+                    <p:outputLabel value="#{bundle.UsuariosLabel_IDZona}"/>
+                    <p:inputText disabled="true" value="#{usuariosController.selected.IDZona}" title="#{bundle.UsuariosTitle_IDZona}"/>
+                </h:panelGrid>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+
+</html>

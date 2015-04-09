@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.TipoDonTitle}"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.Create}"/>
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <p:panel header="Datos" style="border: 1px #000000 solid; display: block; margin-bottom: 0.25em">
+                <h:outputLabel value="#{bundle.TipoDonLabel_IDTipoDon}" for="IDTipoDon" >
+                    <p:inputText id="IDTipoDon" required="true" requiredMessage="#{bundle.TipoDonRequiredMessage_IDTipoDon}"
+                                 value="#{tipoDonController.selected.IDTipoDon}" title="#{bundle.TipoDonTitle_IDTipoDon}"
+                                 maxlength="8" validatorMessage="#{bundle.TipoDonValidatorMessage_IDTipoDon}"
+                                 style="text-transform: uppercase">
+                        <f:validateRegex pattern="[a-zA-ZÑñ\s]+[0-9a-zA-ZÑñ\s]*" />
+                    </p:inputText>
+                    <p:message id="idTipoDonIconMessage" for="IDTipoDon" display="icon"  />
+                </h:outputLabel>
+
+
+                <h:outputLabel value="#{bundle.TipoDonLabel_tipoDon}" for="tipoDon" >
+                    <p:inputText id="tipoDon"
+                                 value="#{tipoDonController.selected.tipoDon}"
+                                 title="#{bundle.TipoDonTitle_tipoDon}"
+                                 required="true"
+                                 requiredMessage="#{bundle.TipoDonRequiredMessage_TipoDon}"
+                                 maxlength="20"
+                                 validatorMessage="#{bundle.TipoDonValidatorMessage_TipoDon}"
+                                 style="text-transform: uppercase">
+                        <f:validateRegex pattern="[a-zA-ZñÑ\s]+[0-9a-zA-ZñÑ\s]*" />
+                    </p:inputText>
+                    <p:message id="tipoDonIconMessage" for="tipoDon" display="icon" />
+                </h:outputLabel>
+            </p:panel>
+        </ui:define>
+        
+        <ui:define name="tools">
+            <comp:createTools controller="#{tipoDonController}" />
+        </ui:define>
+        
+    </ui:composition>
+
+    <!--ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTipoDonTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTipoDonLabel_IDTipoDon}" for="IDTipoDon" />
+                    <h:inputText id="IDTipoDon" value="#{tipoDonController.selected.IDTipoDon}" title="#{bundle.CreateTipoDonTitle_IDTipoDon}" required="true" requiredMessage="#{bundle.CreateTipoDonRequiredMessage_IDTipoDon}"/>
+                    <h:outputLabel value="#{bundle.CreateTipoDonLabel_tipoDon}" for="tipoDon" />
+                    <h:inputText id="tipoDon" value="#{tipoDonController.selected.tipoDon}" title="#{bundle.CreateTipoDonTitle_tipoDon}" required="true" requiredMessage="#{bundle.CreateTipoDonRequiredMessage_tipoDon}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tipoDonController.create}" value="#{bundle.CreateTipoDonSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tipoDonController.prepareList}" value="#{bundle.CreateTipoDonShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateTipoDonIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition-->
+
+</html>

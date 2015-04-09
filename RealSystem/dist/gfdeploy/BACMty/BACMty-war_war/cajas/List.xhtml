@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCajasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListCajasEmpty}" rendered="#{cajasController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{cajasController.items.rowCount > 0}">
+                    <h:outputText value="#{cajasController.pagination.pageFirstItem + 1}..#{cajasController.pagination.pageLastItem + 1}/#{cajasController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{cajasController.previous}" value="#{bundle.Previous} #{cajasController.pagination.pageSize}" rendered="#{cajasController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{cajasController.next}" value="#{bundle.Next} #{cajasController.pagination.pageSize}" rendered="#{cajasController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{cajasController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_IDCaja}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDCaja}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_IDLote}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDLote}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_peso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.peso}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_fechaPesado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaPesado}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_asignado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.asignado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_status}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.status}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_IDFolio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_fechaSal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaSal}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_idArticuloCla}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idArticuloCla}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_costo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_IDVariedad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDVariedad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_IDPrograma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDPrograma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCajasTitle_idArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{cajasController.prepareView}" value="#{bundle.ListCajasViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{cajasController.prepareEdit}" value="#{bundle.ListCajasEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{cajasController.destroy}" value="#{bundle.ListCajasDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{cajasController.prepareCreate}" value="#{bundle.ListCajasCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListCajasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

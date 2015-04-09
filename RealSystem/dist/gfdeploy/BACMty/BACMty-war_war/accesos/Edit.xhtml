@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">#{bundle.AccesosTitle}</ui:define>
+        <ui:define name="actionTitle">#{bundle.AccesosTitle_ActionEdit}</ui:define>
+
+        <ui:define name="tools">
+            <c:homeLink />
+            <h:commandLink value="#{bundle.New}" title="#{bundle.AccesosTitle_New}"
+                           styleClass="btn-agregar"
+                           action="#{accesosController.prepareCreate()}"
+                           rendered="#{authorizationController.accesos.nuevo}" />
+            <h:commandLink value="#{bundle.Save}" title="#{bundle.Save}"
+                           styleClass="btn-guardar" 
+                           action="#{accesosController.ActualizarAcceso()}"
+                           rendered="#{accesosController.nivelSelected 
+                                       and authorizationController.accesos.editar}"/>
+        </ui:define>
+
+        <ui:define name="displayDataSection" >
+
+            <h:outputLabel value="#{bundle.AccesosLabel_Nivel}" for="nivel"/>
+            <p:selectOneMenu id="nivel" value="#{accesosController.selected.IDNivel}">
+                <f:selectItem itemLabel="Seleccione Uno" itemValue=" " />
+                <f:selectItems value="#{accesosController.itemsAvailableSelectNiveles}" />
+                <p:ajax event="change" listener="#{accesosController.CambiaNivelEdit()}" update="@form" />
+            </p:selectOneMenu>
+            
+            <p:separator style="margin: 2em 0em" />
+            
+        </ui:define>
+
+        <ui:define name="dataTableSection">
+            <h:panelGroup id="panel" rendered="#{accesosController.nivelSelected}">
+                <p:dataTable id="dataTable" var="item" value="#{accesosController.currentList}"
+                             emptyMessage="#{bundle.AccesosEmpty_Table}"
+                             rows="10" 
+                             rowsPerPageTemplate="5 10 20 #{accesosController.currentList.size() gt 20 ?
+                                                            accesosController.currentList.size() : ''}"
+                             paginator="true" 
+                             paginatorTemplate="#{bundle.paginatorTemplate}"
+                             lazy="true" style="width: 60%; margin: auto">
+                    <f:facet name="header">#{bundle.AccesosTitle}</f:facet>
+
+                    <p:column headerText="#{bundle.AccesosTitle_FormularioTable}"
+                              width="30%">
+                        <h:outputText value="#{item.IDForm.descripcion}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.AccesosTitle_subMenuTable}"
+                              footerText="#{bundle.AccesosTitle_subMenuTable}"
+                              style="font-weight: bold;"
+                              width="14%">
+                        <p:selectBooleanCheckbox value="#{item.subMenu}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.AccesosTitle_nuevoTable}"
+                              footerText="#{bundle.AccesosTitle_nuevoTable}"
+                              style="font-weight: bold;"
+                              width="14%">
+                        <p:selectBooleanCheckbox value="#{item.nuevo}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.AccesosTitle_editarTable}"
+                              footerText="#{bundle.AccesosTitle_editarTable}"
+                              style="font-weight: bold;"
+                              width="14%">
+                        <p:selectBooleanCheckbox value="#{item.editar}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.AccesosTitle_borrarTable}"
+                              footerText="#{bundle.AccesosTitle_borrarTable}"
+                              style="font-weight: bold;"
+                              width="14%">
+                        <p:selectBooleanCheckbox value="#{item.borrar}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.AccesosTitle_imprimirTable}"
+                              footerText="#{bundle.AccesosTitle_imprimirTable}"
+                              style="font-weight: bold;"
+                              width="14%">
+                        <p:selectBooleanCheckbox value="#{item.imprimir}" />
+                    </p:column>
+                    
+                </p:dataTable>
+            </h:panelGroup>
+        </ui:define>
+
+    </ui:composition>
+
+</html>

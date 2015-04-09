@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditRelacionRepVarTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditRelacionRepVarLabel_IDRelRepVar}" for="IDRelRepVar" />
+                    <h:inputText id="IDRelRepVar" value="#{relacionRepVarController.selected.IDRelRepVar}" title="#{bundle.EditRelacionRepVarTitle_IDRelRepVar}" required="true" requiredMessage="#{bundle.EditRelacionRepVarRequiredMessage_IDRelRepVar}"/>
+                    <h:outputLabel value="#{bundle.EditRelacionRepVarLabel_reporte}" for="reporte" />
+                    <h:inputText id="reporte" value="#{relacionRepVarController.selected.reporte}" title="#{bundle.EditRelacionRepVarTitle_reporte}" required="true" requiredMessage="#{bundle.EditRelacionRepVarRequiredMessage_reporte}"/>
+                    <h:outputLabel value="#{bundle.EditRelacionRepVarLabel_clase}" for="clase" />
+                    <h:inputText id="clase" value="#{relacionRepVarController.selected.clase}" title="#{bundle.EditRelacionRepVarTitle_clase}" required="true" requiredMessage="#{bundle.EditRelacionRepVarRequiredMessage_clase}"/>
+                    <h:outputLabel value="#{bundle.EditRelacionRepVarLabel_variedad}" for="variedad" />
+                    <h:selectOneMenu id="variedad" value="#{relacionRepVarController.selected.variedad}" title="#{bundle.EditRelacionRepVarTitle_variedad}" >
+                        <f:selectItems value="#{variedadController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{relacionRepVarController.update}" value="#{bundle.EditRelacionRepVarSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditRelacionRepVarViewLink}"/>
+                <br />
+                <h:commandLink action="#{relacionRepVarController.prepareList}" value="#{bundle.EditRelacionRepVarShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditRelacionRepVarIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

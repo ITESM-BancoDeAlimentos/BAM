@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListReciboDeducibleTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListReciboDeducibleEmpty}" rendered="#{reciboDeducibleController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{reciboDeducibleController.items.rowCount > 0}">
+                    <h:outputText value="#{reciboDeducibleController.pagination.pageFirstItem + 1}..#{reciboDeducibleController.pagination.pageLastItem + 1}/#{reciboDeducibleController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{reciboDeducibleController.previous}" value="#{bundle.Previous} #{reciboDeducibleController.pagination.pageSize}" rendered="#{reciboDeducibleController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{reciboDeducibleController.next}" value="#{bundle.Next} #{reciboDeducibleController.pagination.pageSize}" rendered="#{reciboDeducibleController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{reciboDeducibleController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_IDFolio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_cantidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_cantLetra}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantLetra}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_observacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.observacion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_piezas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.piezas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_kilos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kilos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDeducibleTitle_IDDonante}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDDonante}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{reciboDeducibleController.prepareView}" value="#{bundle.ListReciboDeducibleViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{reciboDeducibleController.prepareEdit}" value="#{bundle.ListReciboDeducibleEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{reciboDeducibleController.destroy}" value="#{bundle.ListReciboDeducibleDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{reciboDeducibleController.prepareCreate}" value="#{bundle.ListReciboDeducibleCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListReciboDeducibleIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

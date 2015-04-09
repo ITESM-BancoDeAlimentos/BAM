@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EncSocioNutriciaReporte}" />
+        </ui:define>
+
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.EncSocioNutriciaReporteLocalidad}" />
+        </ui:define>
+
+        <ui:define name="tools" >
+            <comp:homeLink />
+            <h:commandLink value="&nbsp;#{bundle.EncSocioNutriciaReporteZona}" title="#{bundle.EncSocioNutriciaReporteZona}"
+                           immediate="true" action="ImprimirZona.xhtml" styleClass="btn-show-all" />
+            <h:commandLink value="&nbsp;#{bundle.Print}" styleClass="btn-imprimir" title="#{bundle.Print}"
+                           immediate="true" action="#{encSocioNutriciaExpController.PDF}" target="_blank"/>
+            
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <h:panelGrid id="ReporteMensual" columns="4">
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_AreaGeo}" for="areaGeo" />
+                <p:selectOneRadio id="areaGeo" value="#{encSocioNutriciaExpController.selected.encSocioNutriciaPK.areaGeo}"
+                                  required="true" requiredMessage="#{bundle.EncSocioNutriciaRequired_AreaGeo}">
+                    <f:selectItem itemLabel="#{bundle.EncSocioNutriciaLabel_Urbana}"    itemValue="U" />
+                    <f:selectItem itemLabel="#{bundle.EncSocioNutriciaLabel_SubUrbana}" itemValue="S" />
+                    <f:selectItem itemLabel="#{bundle.EncSocioNutriciaLabel_Rural}"     itemValue="R" />
+                    <f:ajax event="change" render=":globalForm"
+                            listener="#{encSocioNutriciaExpController.limpiarReporte}"/>
+                </p:selectOneRadio>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaReporte_Localidad}" for="Localidad2">
+                    <p:selectOneMenu required="true" id="Localidad2" value="#{encSocioNutriciaExpController.localidad}"
+                                     filter="true" filterMatchMode="contains" style="width: 10em;" >
+                        <f:selectItems value="#{encSocioNutriciaExpController.itemsInstitutionByAreaSelectOne}" />
+                        <f:ajax event="change" render=":globalForm"
+                                listener="#{encSocioNutriciaExpController.reporteMensual}"/>
+                    </p:selectOneMenu>
+                </h:outputLabel>
+                <h:outputLabel value="#{bundle.EncSocioNutriciaReporte_Municipio}" for="Municipio">
+                    <p:inputText id="Municipio" value="#{encSocioNutriciaExpController.localidad.ciudad}"
+                                 style="width: 10em;" disabled="true" />
+
+                </h:outputLabel>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaReporte_Fecha}" for="fecha" />
+                <p:calendar id="fecha" value="#{encSocioNutriciaExpController.fechaReporte}"
+                            readonlyInput="true" effect="slideDown" locale="#{bundle.locale}"
+                            style="width: 10em;" required="true"
+                            pattern="#{bundle.DateFormat}"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaReporte_NoFamilias}" for="NoFamilias">
+                    <p:inputText id="NoFamilias" value="#{encSocioNutriciaExpController.noFamilias}"
+                                 style="width: 10em;" disabled="true">
+                    </p:inputText>
+                </h:outputLabel>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaReporte_NoPaquetes}" for="NoPaquetes">
+                    <p:inputText id="NoPaquetes" value="#{encSocioNutriciaExpController.noPaquetes}"
+                                 style="width: 10em;" disabled="true">
+                    </p:inputText>
+                </h:outputLabel>
+            </h:panelGrid>
+
+            <p:separator />
+        </ui:define>
+
+        <ui:define name="dataTableSection">
+            <p:dataTable id="dataTable" value="#{encSocioNutriciaExpController.datos}"
+                         emptyMessage="#{bundle.EncSocioNutriciaReporte_Empty}"
+                         var="item" rows="10" rowsPerPageTemplate="5,10,15,30"
+                         paginator="true" paginatorTemplate="#{bundle.paginatorTemplate}"
+                         paginatorPosition="bottom" editable="true" editMode="cell" lazy="true" >
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.EncSocioNutriciaReporte_PoblacionBeneficiada}" />
+                </f:facet>
+
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaReporte_NoExpediente}"/>
+                        <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaReporte_JefaFamilia}" />
+                        <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaReporte_Miembros}" />
+                        <p:column colspan="4" headerText="#{bundle.EncSocioNutriciaReporte_Mujeres}" />
+                        <p:column colspan="4" headerText="#{bundle.EncSocioNutriciaReporte_Hombres}" />
+                        <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaReporte_NoPaquetes}" />
+                        <p:column colspan="2" headerText="#{bundle.EncSocioNutriciaReporte_Firma}" />  
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_0a12}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_13a17}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_18a59}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_60}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_0a12}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_13a17}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_18a59}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_60}" />
+
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_PrimerQuincena}" />
+                        <p:column headerText="#{bundle.EncSocioNutriciaReporte_SegundaQuincena}" />
+                    </p:row>
+                </p:columnGroup>
+
+                <p:column>
+                    <h:outputText value="#{item.noExpediente}" />
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.jefeFamilia}" />
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.miembros}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadMujeres[0]}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadMujeres[1]}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadMujeres[2]}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadMujeres[3]}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadHombres[0]}" />
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadHombres[1]}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadHombres[2]}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{item.edadHombres[3]}"/>
+                </p:column>
+
+                <p:column id="cantidad">
+                    <p:cellEditor>
+                        <f:facet name="output">#{item.paquetes}</f:facet>
+                        <f:facet name="input">
+                            <p:spinner value="#{item.paquetes}" 
+                                       min="0" max="10000000" 
+                                       maxlength="8">
+                                <p:ajax event="blur" listener="#{encSocioNutriciaExpController.sumaPaquetes()}"
+                                        process="@this" update=":globalForm" global="false" />
+                            </p:spinner>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column>
+                </p:column>
+
+                <p:column>
+                </p:column>
+
+            </p:dataTable>
+        </ui:define>
+    </ui:composition>
+
+</html>

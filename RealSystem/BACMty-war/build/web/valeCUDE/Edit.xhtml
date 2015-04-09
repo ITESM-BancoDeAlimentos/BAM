@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditValeCUDETitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditValeCUDELabel_IDValeCUDE}" for="IDValeCUDE" />
+                    <h:inputText id="IDValeCUDE" value="#{valeCUDEController.selected.IDValeCUDE}" title="#{bundle.EditValeCUDETitle_IDValeCUDE}" required="true" requiredMessage="#{bundle.EditValeCUDERequiredMessage_IDValeCUDE}"/>
+                    <h:outputLabel value="#{bundle.EditValeCUDELabel_folio}" for="folio" />
+                    <h:inputText id="folio" value="#{valeCUDEController.selected.folio}" title="#{bundle.EditValeCUDETitle_folio}" required="true" requiredMessage="#{bundle.EditValeCUDERequiredMessage_folio}"/>
+                    <h:outputLabel value="#{bundle.EditValeCUDELabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{valeCUDEController.selected.fecha}" title="#{bundle.EditValeCUDETitle_fecha}" required="true" requiredMessage="#{bundle.EditValeCUDERequiredMessage_fecha}">
+                        <f:convertDateTime pattern="#{bundle.DateFormat}" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditValeCUDELabel_elabora}" for="elabora" />
+                    <h:inputText id="elabora" value="#{valeCUDEController.selected.elabora}" title="#{bundle.EditValeCUDETitle_elabora}" />
+                    <h:outputLabel value="#{bundle.EditValeCUDELabel_IDSucursales}" for="IDSucursales" />
+                    <h:selectOneMenu id="IDSucursales" value="#{valeCUDEController.selected.IDSucursales}" title="#{bundle.EditValeCUDETitle_IDSucursales}" >
+                        <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditValeCUDELabel_IDDonante}" for="IDDonante" />
+                    <h:selectOneMenu id="IDDonante" value="#{valeCUDEController.selected.IDDonante}" title="#{bundle.EditValeCUDETitle_IDDonante}" required="true" requiredMessage="#{bundle.EditValeCUDERequiredMessage_IDDonante}">
+                        <f:selectItems value="#{donantesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{valeCUDEController.update}" value="#{bundle.EditValeCUDESaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditValeCUDEViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{valeCUDEController.prepareList}" value="#{bundle.EditValeCUDEShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditValeCUDEIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

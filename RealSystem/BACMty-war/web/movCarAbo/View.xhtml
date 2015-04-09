@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewMovCarAboTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_tipoMov}"/>
+                    <h:outputText value="#{movCarAboController.selected.tipoMov}" title="#{bundle.ViewMovCarAboTitle_tipoMov}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_IDFolioCarAbo}"/>
+                    <h:outputText value="#{movCarAboController.selected.IDFolioCarAbo}" title="#{bundle.ViewMovCarAboTitle_IDFolioCarAbo}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_IDFolio}"/>
+                    <h:outputText value="#{movCarAboController.selected.IDFolio}" title="#{bundle.ViewMovCarAboTitle_IDFolio}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_fechaMov}"/>
+                    <h:outputText value="#{movCarAboController.selected.fechaMov}" title="#{bundle.ViewMovCarAboTitle_fechaMov}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_importe}"/>
+                    <h:outputText value="#{movCarAboController.selected.importe}" title="#{bundle.ViewMovCarAboTitle_importe}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_abono}"/>
+                    <h:outputText value="#{movCarAboController.selected.abono}" title="#{bundle.ViewMovCarAboTitle_abono}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_referencia}"/>
+                    <h:outputText value="#{movCarAboController.selected.referencia}" title="#{bundle.ViewMovCarAboTitle_referencia}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_status}"/>
+                    <h:outputText value="#{movCarAboController.selected.status}" title="#{bundle.ViewMovCarAboTitle_status}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_saldo}"/>
+                    <h:outputText value="#{movCarAboController.selected.saldo}" title="#{bundle.ViewMovCarAboTitle_saldo}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_bonificacion}"/>
+                    <h:outputText value="#{movCarAboController.selected.bonificacion}" title="#{bundle.ViewMovCarAboTitle_bonificacion}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_donativo}"/>
+                    <h:outputText value="#{movCarAboController.selected.donativo}" title="#{bundle.ViewMovCarAboTitle_donativo}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_incobrable}"/>
+                    <h:outputText value="#{movCarAboController.selected.incobrable}" title="#{bundle.ViewMovCarAboTitle_incobrable}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_IDMovCarAbo}"/>
+                    <h:outputText value="#{movCarAboController.selected.IDMovCarAbo}" title="#{bundle.ViewMovCarAboTitle_IDMovCarAbo}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_IDPrograma}"/>
+                    <h:outputText value="#{movCarAboController.selected.IDPrograma}" title="#{bundle.ViewMovCarAboTitle_IDPrograma}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_IDInstitucion}"/>
+                    <h:outputText value="#{movCarAboController.selected.IDInstitucion}" title="#{bundle.ViewMovCarAboTitle_IDInstitucion}"/>
+                    <h:outputText value="#{bundle.ViewMovCarAboLabel_IDArea}"/>
+                    <h:outputText value="#{movCarAboController.selected.IDArea}" title="#{bundle.ViewMovCarAboTitle_IDArea}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{movCarAboController.destroyAndView}" value="#{bundle.ViewMovCarAboDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewMovCarAboEditLink}"/>
+                <br />
+                <h:commandLink action="#{movCarAboController.prepareCreate}" value="#{bundle.ViewMovCarAboCreateLink}" />
+                <br />
+                <h:commandLink action="#{movCarAboController.prepareList}" value="#{bundle.ViewMovCarAboShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewMovCarAboIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

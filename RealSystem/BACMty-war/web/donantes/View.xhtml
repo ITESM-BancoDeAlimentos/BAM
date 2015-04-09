@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewParam name="selected" value="#{donantesController.selected}" />
+    </f:metadata>
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.DonantesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputLabel value="#{bundle.View}" />
+        </ui:define>
+        <ui:define name="dataTableSection">
+            <h:outputScript library="js" name="agregaPlaceholders.js" target="head"/>
+            <script>
+                $(addAttrToClass('input', '.ui-placeholder-seleccion', 'placeholder', 'Escriba y Seleccione'));
+            </script>
+            <p:outputLabel value="#{bundle.DonantesLabel_donante}" />
+            <p:autoComplete
+                id="selected" value="#{donantesController.selected}" 
+                var="item" itemValue="#{item}" itemLabel="#{item.donante}" completeMethod="#{donantesCompleter.complete}" 
+                title="Busque por nombre o por codigo" scrollHeight="180" dropdown="true" 
+                size="50" maxResults="#{parametersController.suggestionLength}" styleClass="ui-placeholder-seleccion" >
+                <p:ajax event="itemSelect" update="dataView" />
+            </p:autoComplete>
+            <h:panelGroup id="dataView">
+                <h:panelGrid columns="4" styleClass="center" rendered="#{donantesController.selected != null}">
+                    <p:outputLabel value="#{bundle.DonantesLabel_IDDonante}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.IDDonante}"
+                                 title="#{bundle.DonantesTitle_IDDonante}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_donante}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.donante}"
+                                 title="#{bundle.DonantesTitle_donante}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_nombre}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.nombre}"
+                                 title="#{bundle.DonantesTitle_nombre}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_direccion}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.direccion}"
+                                 title="#{bundle.DonantesTitle_direccion}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_colonia}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.colonia}"
+                                 title="#{bundle.DonantesTitle_colonia}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_ciudad}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.ciudad}"
+                                 title="#{bundle.DonantesTitle_ciudad}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_estado}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.estado}"
+                                 title="#{bundle.DonantesTitle_estado}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_telefono}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.telefono}"
+                                 title="#{bundle.DonantesTitle_telefono}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_fax}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.fax}"
+                                 title="#{bundle.DonantesTitle_fax}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_contacto}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.contacto}"
+                                 title="#{bundle.DonantesTitle_contacto}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_rfc}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.rfc}"
+                                 title="#{bundle.DonantesTitle_rfc}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_sucursales}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.sucursales
+                                          ? bundle.DonantesSucursales_true
+                                          : bundle.DonantesSucursales_false}" 
+                                 title="#{bundle.DonantesTitle_sucursales}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_fechaAlta}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.fechaAlta}"
+                                 title="#{bundle.DonantesTitle_fechaAlta}">
+                        <f:convertDateTime pattern="#{bundle.DateFormat}" />
+                    </p:inputText>
+                    <p:outputLabel value="#{bundle.DonantesLabel_frecuencia}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.frecuencia}"
+                                 title="#{bundle.DonantesTitle_frecuencia}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_mail}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.mail}"
+                                 title="#{bundle.DonantesTitle_mail}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_tipoDonante}" />
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.tipoDonante}"
+                                 title="#{bundle.DonantesTitle_tipoDonante}"/>
+                    <p:outputLabel value="#{bundle.DonantesLabel_usuarioAlta}"/>
+                    <p:inputText disabled="true"
+                                 size="50"
+                                 value="#{donantesController.selected.usuarioAlta}"
+                                 title="#{bundle.DonantesTitle_usuarioAlta}"/>
+                </h:panelGrid>
+            </h:panelGroup>
+        </ui:define>
+        <ui:define name="tools">
+            <comp:viewTools controller="#{donantesController}" />
+        </ui:define>
+
+    </ui:composition>
+
+</html>

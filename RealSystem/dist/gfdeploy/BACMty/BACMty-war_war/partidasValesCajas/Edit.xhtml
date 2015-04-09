@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPartidasValesCajasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPartidasValesCajasLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{partidasValesCajasController.selected.IDFolio}" title="#{bundle.EditPartidasValesCajasTitle_IDFolio}" />
+                    <h:outputLabel value="#{bundle.EditPartidasValesCajasLabel_peso}" for="peso" />
+                    <h:inputText id="peso" value="#{partidasValesCajasController.selected.peso}" title="#{bundle.EditPartidasValesCajasTitle_peso}" />
+                    <h:outputLabel value="#{bundle.EditPartidasValesCajasLabel_fechaPesado}" for="fechaPesado" />
+                    <h:inputText id="fechaPesado" value="#{partidasValesCajasController.selected.fechaPesado}" title="#{bundle.EditPartidasValesCajasTitle_fechaPesado}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditPartidasValesCajasLabel_costo}" for="costo" />
+                    <h:inputText id="costo" value="#{partidasValesCajasController.selected.costo}" title="#{bundle.EditPartidasValesCajasTitle_costo}" />
+                    <h:outputLabel value="#{bundle.EditPartidasValesCajasLabel_IDPartidasValesCajas}" for="IDPartidasValesCajas" />
+                    <h:inputText id="IDPartidasValesCajas" value="#{partidasValesCajasController.selected.IDPartidasValesCajas}" title="#{bundle.EditPartidasValesCajasTitle_IDPartidasValesCajas}" required="true" requiredMessage="#{bundle.EditPartidasValesCajasRequiredMessage_IDPartidasValesCajas}"/>
+                    <h:outputLabel value="#{bundle.EditPartidasValesCajasLabel_IDCaja}" for="IDCaja" />
+                    <h:selectOneMenu id="IDCaja" value="#{partidasValesCajasController.selected.IDCaja}" title="#{bundle.EditPartidasValesCajasTitle_IDCaja}" >
+                        <f:selectItems value="#{cajasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{partidasValesCajasController.update}" value="#{bundle.EditPartidasValesCajasSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditPartidasValesCajasViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{partidasValesCajasController.prepareList}" value="#{bundle.EditPartidasValesCajasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditPartidasValesCajasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

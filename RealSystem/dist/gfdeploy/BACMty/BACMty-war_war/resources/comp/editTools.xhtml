@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="controller" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <comp:homeLink />
+        <p:commandLink action="#{cc.attrs.controller.prepareCreate}" 
+                       styleClass="btn-agregar"
+                       value="#{bundle.New}"
+                       title="#{bundle.New}" 
+                       immediate="true"
+                       ajax="false"
+                       rendered="#{authorizationController.accesos.nuevo}"
+                       />
+        <h:link outcome="View" value="#{bundle.View}" styleClass="btn-ver" />
+        <p:commandLink action="#{cc.attrs.controller.prepareList}" 
+                       styleClass="btn-show-all" 
+                       value="#{bundle.ShowAll}" 
+                       title="#{bundle.ShowAll}" 
+                       immediate="true" 
+                       />  
+        <p:commandLink action="#{cc.attrs.controller.destroyNoRow}" 
+                       styleClass="btn-eliminar" 
+                       value="#{bundle.Destroy}" 
+                       title="#{bundle.Destroy}" 
+                       onclick="if (!confirm('#{bundle.ConfirmDestroy}'))
+                                   return false;" 
+                       immediate="true" 
+                       ajax="false"
+                       rendered="#{authorizationController.accesos.borrar}" 
+                       />
+        <p:commandLink action="#{cc.attrs.controller.update}" 
+                       styleClass="btn-guardar" 
+                       value="#{bundle.Save}" 
+                       title="#{bundle.Save}"
+                       ajax="false"
+                       rendered="#{authorizationController.accesos.editar}"
+                       />
+    </cc:implementation>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewMovtosDetTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_IDFolio}"/>
+                    <h:outputText value="#{movtosDetController.selected.IDFolio}" title="#{bundle.ViewMovtosDetTitle_IDFolio}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_tipoMov}"/>
+                    <h:outputText value="#{movtosDetController.selected.tipoMov}" title="#{bundle.ViewMovtosDetTitle_tipoMov}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_fechaCad}"/>
+                    <h:outputText value="#{movtosDetController.selected.fechaCad}" title="#{bundle.ViewMovtosDetTitle_fechaCad}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_cantidad}"/>
+                    <h:outputText value="#{movtosDetController.selected.cantidad}" title="#{bundle.ViewMovtosDetTitle_cantidad}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_peso}"/>
+                    <h:outputText value="#{movtosDetController.selected.peso}" title="#{bundle.ViewMovtosDetTitle_peso}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_merma}"/>
+                    <h:outputText value="#{movtosDetController.selected.merma}" title="#{bundle.ViewMovtosDetTitle_merma}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_costoBenef}"/>
+                    <h:outputText value="#{movtosDetController.selected.costoBenef}" title="#{bundle.ViewMovtosDetTitle_costoBenef}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_cuotaRecup}"/>
+                    <h:outputText value="#{movtosDetController.selected.cuotaRecup}" title="#{bundle.ViewMovtosDetTitle_cuotaRecup}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_IDMovtosDet}"/>
+                    <h:outputText value="#{movtosDetController.selected.IDMovtosDet}" title="#{bundle.ViewMovtosDetTitle_IDMovtosDet}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_IDPrograma}"/>
+                    <h:outputText value="#{movtosDetController.selected.IDPrograma}" title="#{bundle.ViewMovtosDetTitle_IDPrograma}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_IDArticulo}"/>
+                    <h:outputText value="#{movtosDetController.selected.IDArticulo}" title="#{bundle.ViewMovtosDetTitle_IDArticulo}"/>
+                    <h:outputText value="#{bundle.ViewMovtosDetLabel_IDArea}"/>
+                    <h:outputText value="#{movtosDetController.selected.IDArea}" title="#{bundle.ViewMovtosDetTitle_IDArea}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{movtosDetController.destroyAndView}" value="#{bundle.ViewMovtosDetDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewMovtosDetEditLink}"/>
+                <br />
+                <h:commandLink action="#{movtosDetController.prepareCreate}" value="#{bundle.ViewMovtosDetCreateLink}" />
+                <br />
+                <h:commandLink action="#{movtosDetController.prepareList}" value="#{bundle.ViewMovtosDetShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewMovtosDetIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMovtosDetTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListMovtosDetEmpty}" rendered="#{movtosDetController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{movtosDetController.items.rowCount > 0}">
+                    <h:outputText value="#{movtosDetController.pagination.pageFirstItem + 1}..#{movtosDetController.pagination.pageLastItem + 1}/#{movtosDetController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{movtosDetController.previous}" value="#{bundle.Previous} #{movtosDetController.pagination.pageSize}" rendered="#{movtosDetController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{movtosDetController.next}" value="#{bundle.Next} #{movtosDetController.pagination.pageSize}" rendered="#{movtosDetController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{movtosDetController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_IDFolio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_tipoMov}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoMov}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_fechaCad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaCad}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_cantidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_peso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.peso}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_merma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.merma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_costoBenef}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoBenef}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_cuotaRecup}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuotaRecup}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_IDMovtosDet}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDMovtosDet}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_IDPrograma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDPrograma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_IDArticulo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArticulo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovtosDetTitle_IDArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{movtosDetController.prepareView}" value="#{bundle.ListMovtosDetViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{movtosDetController.prepareEdit}" value="#{bundle.ListMovtosDetEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{movtosDetController.destroy}" value="#{bundle.ListMovtosDetDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{movtosDetController.prepareCreate}" value="#{bundle.ListMovtosDetCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListMovtosDetIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

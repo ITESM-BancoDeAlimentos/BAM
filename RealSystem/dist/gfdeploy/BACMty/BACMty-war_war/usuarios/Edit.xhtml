@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.UsuariosTitle}" />
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.Edit}" />
+        </ui:define>
+        <ui:define name="tools">
+            <comp:editTools controller="#{usuariosController}" />
+        </ui:define>
+        <ui:define name="dataTableSection">
+            <h:panelGroup id="selection">
+                <p:outputLabel value="Usuario:" />
+                <p:selectOneMenu value="#{usuariosController.selected}" required="true" requiredMessage="#{bundle.RequiredMessage_NullSelected_Key}">
+                    <f:selectItems value="#{usuariosController.itemsAvailableSelectOne}" />
+                    <p:ajax event="change" update="controls" />
+                </p:selectOneMenu>
+            </h:panelGroup>
+            <h:panelGroup id="controls">
+                <h:panelGrid columns="2" styleClass="center" rendered="#{usuariosController.selected != null}">
+                    <p:outputLabel value="#{bundle.UsuariosLabel_IDUsuario}"/>
+                    <p:inputText disabled="true" value="#{usuariosController.selected.IDUsuario}" title="#{bundle.UsuariosTitle_IDUsuario}"
+                                 size="20" maxlength="15" required="true" requiredMessage="#{bundle.UsuariosRequiredMessage_IDNivel}" />
+
+                    <p:outputLabel value="#{bundle.UsuariosLabel_password}"/>
+                    <p:password disabled="true" value="#{usuariosController.selected.password}" title="#{bundle.UsuariosTitle_password}" 
+                                size="20" maxlength="15" required="true" requiredMessage="#{bundle.UsuariosRequiredMessage_password}" />
+
+                    <p:outputLabel value="#{bundle.UsuariosLabel_nombre}" />
+                    <p:inputText value="#{usuariosController.selected.nombre}" title="#{bundle.UsuariosTitle_nombre}"
+                                 size="20" maxlength="50" required="true" requiredMessage="#{bundle.UsuariosRequiredMessage_nombre}"
+                                 onchange="$(this).val($(this).val().replace(/\b\w+/g, function(x, i) {
+                                             return x.length > 3 || i === 0 ? x[0].toUpperCase() + x.substr(1) : x;
+                                         }));" />
+
+                    <p:outputLabel value="#{bundle.UsuariosLabel_IDNivel}"/>
+                    <p:selectOneMenu value="#{usuariosController.selected.IDNivel}" 
+                                     required="true" requiredMessage="#{bundle.UsuariosRequiredMessage_IDNivel}">
+                        <f:selectItems value="#{nivelAccesoController.itemsAvailableSelectOne}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="#{bundle.UsuariosLabel_IDZona}"/>
+                    <p:inputText value="#{usuariosController.selected.IDZona}" title="#{bundle.UsuariosTitle_IDZona}" />
+
+                </h:panelGrid>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+
+</html>

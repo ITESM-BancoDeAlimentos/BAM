@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListSubAreasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListSubAreasEmpty}" rendered="#{subAreasController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{subAreasController.items.rowCount > 0}">
+                    <h:outputText value="#{subAreasController.pagination.pageFirstItem + 1}..#{subAreasController.pagination.pageLastItem + 1}/#{subAreasController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{subAreasController.previous}" value="#{bundle.Previous} #{subAreasController.pagination.pageSize}" rendered="#{subAreasController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{subAreasController.next}" value="#{bundle.Next} #{subAreasController.pagination.pageSize}" rendered="#{subAreasController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{subAreasController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSubAreasTitle_IDSubArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDSubArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSubAreasTitle_subArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.subArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSubAreasTitle_IDArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{subAreasController.prepareView}" value="#{bundle.ListSubAreasViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{subAreasController.prepareEdit}" value="#{bundle.ListSubAreasEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{subAreasController.destroy}" value="#{bundle.ListSubAreasDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{subAreasController.prepareCreate}" value="#{bundle.ListSubAreasCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListSubAreasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

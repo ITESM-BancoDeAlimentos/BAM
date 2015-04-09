@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ReciboTitle_AMBA}" />
+        </ui:define>
+
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.ReciboTitle_ActionNew}" rendered="#{!reciboController.editMode}" />
+        </ui:define>
+
+        <ui:define name="tools">
+            <h:link outcome="/index" styleClass="btn-home" value="&nbsp;#{bundle.Index}" />
+            <h:commandLink value="&nbsp;#{bundle.Edit}" styleClass="btn-editar" title="#{bundle.Edit}"
+                           immediate="true" action="#{reciboController.limpiaRecDonAMBAEdit()}"
+                           rendered="#{authorizationController.accesos.editar}"/>
+            <h:commandLink value="&nbsp;#{bundle.View}" styleClass="btn-ver" title="#{bundle.View}" 
+                           immediate="true" action="#{reciboController.limpiaRecDonAMBAView()}" />
+            <h:commandLink value="&nbsp;#{bundle.ReciboSaveNew}" styleClass="btn-guardar" title="#{bundle.ReciboSaveNew}" 
+                           action="#{reciboController.guardarRecibo()}"
+                           rendered="#{authorizationController.accesos.nuevo}"/>
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <h:panelGrid columns="4" style="margin: auto" columnClasses="rightAlign, leftAlign, rightAlign, leftAlign">
+                <h:outputLabel value="#{bundle.ReciboLabel_IDFolio}" for="folio" />
+                <p:inputText id="folio" value="#{reciboController.selected.IDFolio}" 
+                             onkeypress="if (event.keyCode === 13) {
+                                         return false};
+                                     }" maxlength="10" size="30" >
+                            <p:focus />
+                </p:inputText>
+                
+                <h:outputLabel value="#{bundle.ReciboLabel_fecha}" for="fecha" />
+                <p:calendar id="fecha" value="#{reciboController.fechaRecibo}" 
+                            readonlyInput="true" title="#{bundle.ReciboLabel_fecha}"
+                            size="12" navigator="true" maxdate="#{reciboController.getToday()}" 
+                            locale="#{bundle.locale}" />
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDArea}" for="area" />
+                <p:selectOneMenu id="area" value="#{reciboController.selected.IDArea.area}"
+                                 filter="true" filterMatchMode="contains" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{reciboController.itemsAvailableSelectAreas}" />
+                    <p:ajax event="change" update="@this,programa" process="@this,programa" 
+                            listener="#{reciboController.viewIDArea()}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDPrograma}" for="programa" />
+                <p:selectOneMenu id="programa" value="#{reciboController.selected.IDPrograma.programa}" 
+                                 filter="true"  filterMatchMode="contains"
+                                 disabled="#{!reciboController.areaSelected}" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{reciboController.itemsAvailableSelectProgramas}" />
+                    <p:ajax event="change" update="@this" process="@this"
+                            listener="#{reciboController.viewIDProgramas()}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDDonante}" for="donante" />
+                <p:selectOneMenu id="donante" value="#{reciboController.selected.IDDonante.donante}" 
+                                 filter="true" filterMatchMode="contains" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{reciboController.itemsAvailableSelectDonantesAMBA}" />
+                    <p:ajax event="change" update="@this,sucursal" process="@this,sucursal"
+                            listener="#{reciboController.viewIDDonantes()}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDSucursal}" for="sucursal" />
+                <p:selectOneMenu id="sucursal" value="#{reciboController.selected.IDSucursales.IDSucursal}"
+                                 filter="true" filterMatchMode="contains"
+                                 disabled="#{!reciboController.sucursalEnabled}" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{reciboController.itemsAvailableSelectSucursales}" />
+                    <p:ajax event="change" update="@this" process="@this" 
+                            listener="#{reciboController.viewIDSucursales(reciboController.selected.IDSucursales.IDSucursal)}" />
+                </p:selectOneMenu>
+                
+                <h:outputLabel value="#{bundle.ReciboLabel_folioDon}" for="folioDon" />
+                <p:inputText id="folioDon" value="#{reciboController.selected.folioDon}"
+                             onkeypress="if (event.keyCode === 13) {
+                                         return false;}"
+                             maxlength="10" size="30"  />
+
+            </h:panelGrid>
+
+            <p:separator style="margin: 2em 0em;" />
+        </ui:define>
+
+        <ui:define name="dataTableSection" >
+            <h:panelGroup id="panel">
+                <p:dataTable id="dataTable" var="item" value="#{reciboController.listaAImprimir}"
+                             emptyMessage="#{bundle.ReciboEmpty_Articulos}" editable="true" editMode="cell" lazy="true" >
+                    <f:facet name="header">#{bundle.ReciboTitle_Articulos}</f:facet>
+                    
+                    <p:focus context="panel" />
+                    
+                    <p:column id="clave">
+                        <f:facet name="header">#{bundle.ReciboTitle_Clave}</f:facet>
+                        <h:outputText value="#{item.clave}" />
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">#{bundle.ReciboTitle_Descripcion}</f:facet>
+                        <p:cellEditor id="desc">
+                            <f:facet name="output">#{item.descripcion}</f:facet>
+                            <f:facet name="input">
+                                <p:autoComplete dropdown="true" 
+                                                value="#{item.descripcion}" 
+                                                maxResults="20" queryDelay="50" 
+                                                completeMethod="#{reciboController.completeArts}" 
+                                                effect="fade" 
+                                                global="false" >
+                                    <p:ajax event="itemSelect" listener="#{reciboController.agregarArticulo(item)}"
+                                            process="@this" update=":globalForm:dataTable" />
+                                </p:autoComplete>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">#{bundle.ReciboTitle_UMed}</f:facet>
+                        <h:outputText id="umed" value="#{item.unidadMedida.unidad}" />
+                    </p:column>
+
+                    <p:column id="cantidad">
+                        <f:facet name="header">#{bundle.ReciboTitle_Cantidad}</f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">#{item.cantidad}</f:facet>
+                            <f:facet name="input">
+                                <p:spinner value="#{item.cantidad}" 
+                                           min="1" max="10000000" 
+                                           maxlength="8" 
+                                           stepFactor="0.5">
+                                    <p:ajax event="blur" listener="#{reciboController.actualizaArticulo(item)}"
+                                            process="@this" update=":globalForm:dataTable" global="false" />
+                                </p:spinner>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column id="pesoU">
+                        <f:facet name="header">#{bundle.ReciboTitle_PesoUni}</f:facet>
+                        <h:outputText value="#{item.pesoUnitario}" />
+                    </p:column>
+
+                    <p:column id="pesoT">
+                        <f:facet name="header">#{bundle.ReciboTitle_PesoTotal}</f:facet>
+                        <h:outputText value="#{item.pesoTotal}" />
+                    </p:column>
+
+                    <p:column id="costoE">
+                        <f:facet name="header">#{bundle.ReciboTitle_CostoEntrada}</f:facet>
+                        <h:outputText value="#{item.costoEntrada}" />
+                    </p:column>
+
+                    <p:column id="cad">
+                        <f:facet name="header">#{bundle.ReciboTitle_Caducidad}</f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">#{item.fechaCaducidadAImprimir}</f:facet>
+                            <f:facet name="input">
+                                <p:calendar id="fechaCad" value="#{item.fechaCaducidad}"
+                                            mindate="#{reciboController.fechaRecibo}" readonlyInput="true"
+                                            title="#{bundle.ReciboLabel_fecha}" size="12" navigator="true" 
+                                            locale="#{bundle.locale}" >
+                                    <p:ajax event="dateSelect" listener="#{reciboController.actualizaArticulo(item)}"
+                                            process="@this" update=":globalForm:dataTable" />
+                                </p:calendar>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column id="total">
+                        <f:facet name="header">#{bundle.ReciboTitle_Total}</f:facet>
+                        <h:outputText value="#{item.total}" />
+                    </p:column>
+                    
+                    <p:column id="cuotaRecup">
+                        <f:facet name="header">#{bundle.ReciboTitle_CuotaRecup}</f:facet>
+                        <h:outputText value="#{item.cuotaRecup}" />
+                    </p:column>
+
+                    <p:column id="elimina">
+                        <p:commandButton value="#{bundle.Eliminar}" immediate="true"
+                                         actionListener="#{reciboController.eliminarFila(item)}" update=":globalForm:dataTable" process="@this" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

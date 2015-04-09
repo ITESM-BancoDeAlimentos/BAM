@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <body>
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="title">
+                <h:outputText value="#{bundle.ValeCUDETitle}" />
+            </ui:define>
+
+            <ui:define name="actionTitle">
+            </ui:define>
+
+            <ui:define name="tools">
+                <comp:homeLink />
+                <h:commandLink 
+                    value="#{bundle.Export}"
+                    action="#{cudeController.export()}"
+                    styleClass="btn-guardar"
+                    />
+            </ui:define>
+
+            <ui:define name="displayDataSection">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Inicio" />
+                    <p:calendar 
+                        value="#{cudeController.start}" 
+                        locale="#{bundle.locale}"
+                        pattern="#{bundle.DateFormat}"
+                        />
+                    <p:outputLabel value="Final" />
+                    <p:calendar 
+                        value="#{cudeController.end}"
+                        locale="#{bundle.locale}"
+                        pattern="#{bundle.DateFormat}"
+                        />
+                </h:panelGrid>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

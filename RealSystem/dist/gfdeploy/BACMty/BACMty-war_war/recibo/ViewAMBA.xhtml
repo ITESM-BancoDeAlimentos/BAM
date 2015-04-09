@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ReciboTitle_AMBA}" />
+        </ui:define>
+
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.View}" />
+        </ui:define>
+
+        <ui:define name="tools">
+            <comp:homeLink />
+            <h:commandLink value="&nbsp;#{bundle.New}" styleClass="btn-agregar" title="#{bundle.New}" 
+                           immediate="true" action="#{reciboController.limpiaRecDonAMBACreate()}"
+                           rendered="#{authorizationController.accesos.nuevo}"/>
+            <h:commandLink value="&nbsp;#{bundle.Edit}" styleClass="btn-editar" title="#{bundle.Edit}"
+                           immediate="true" action="#{reciboController.limpiaRecDonAMBAEdit()}" 
+                           rendered="#{authorizationController.accesos.editar}"/>
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <h:panelGrid columns="4" style="margin: auto" columnClasses="rightAlign, leftAlign, rightAlign, leftAlign">
+                <h:outputLabel value="#{bundle.ReciboLabel_IDFolio}" for="folio" />
+                <p:autoComplete id="folio" value="#{reciboController.selected.IDFolio}"  maxResults="20" dropdown="true" queryDelay="50"
+                                completeMethod="#{reciboController.completeFolio}" effect="fade" global="false">
+                    <p:ajax event="blur" listener="#{reciboController.buscaPorFolio()}" process="@this"
+                            update="fecha, area, programa, donante, sucursal, :globalForm:dataTable" />
+                </p:autoComplete>
+
+                <h:outputLabel value="#{bundle.ReciboLabel_fecha}" for="fecha" />
+                <p:calendar id="fecha" value="#{reciboController.fechaRecibo}" 
+                            readonlyInput="true" title="#{bundle.ReciboTitle_fecha}"
+                            size="12" disabled="true" 
+                            locale="#{bundle.locale}" />
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDArea}" for="area" />
+                <p:inputText id="area" value="#{reciboController.selected.IDArea.area}" disabled="true" />
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDPrograma}" for="programa" />
+                <p:inputText id="programa" value="#{reciboController.selected.IDPrograma.programa}" disabled="true" />
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDDonante}" for="donante" />
+                <p:inputText id="donante" value="#{reciboController.selected.IDDonante.donante}" disabled="true" />
+
+                <h:outputLabel value="#{bundle.ReciboLabel_IDSucursal}" for="sucursal" />
+                <p:inputText id="sucursal" value="#{reciboController.selected.IDSucursales.IDSucursal}" disabled="true" />
+                
+                <h:outputLabel value="#{bundle.ReciboLabel_folioDon}" for="folioDon" />
+                <p:inputText id="folioDon" value="#{reciboController.selected.folioDon}" disabled="true"  />
+
+            </h:panelGrid>
+
+            <p:separator style="margin: 2em 0em;" />
+        </ui:define>
+
+        <ui:define name="dataTableSection" >
+            <h:panelGroup id="panel">
+                <p:dataTable id="dataTable" var="item" value="#{reciboController.listaAImprimir}"
+                             emptyMessage="#{bundle.ReciboEmpty_Articulos}" lazy="true" >
+                    <f:facet name="header">#{bundle.ReciboTitle_Articulos}</f:facet>
+                    
+                    <p:focus context="panel" />
+                    
+                    <p:column id="clave">
+                        <f:facet name="header">#{bundle.ReciboTitle_Clave}</f:facet>
+                        <h:outputText value="#{item.clave}" />
+                    </p:column>
+                    
+                    <p:column >
+                        <f:facet name="header">#{bundle.ReciboTitle_Descripcion}</f:facet>
+                        <h:outputText id="desc" value="#{item.descripcion}" />
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">#{bundle.ReciboTitle_UMed}</f:facet>
+                        <h:outputText id="umed" value="#{item.unidadMedida.unidad}" />
+                    </p:column>
+
+                    <p:column id="cantidad">
+                        <f:facet name="header">#{bundle.ReciboTitle_Cantidad}</f:facet>
+                        <h:outputText value="#{item.cantidad}" />
+                    </p:column>
+
+                    <p:column id="pesoU">
+                        <f:facet name="header">#{bundle.ReciboTitle_PesoUni}</f:facet>
+                        <h:outputText value="#{item.pesoUnitario}" />
+                    </p:column>
+
+                    <p:column id="pesoT">
+                        <f:facet name="header">#{bundle.ReciboTitle_PesoTotal}</f:facet>
+                        <h:outputText value="#{item.pesoTotal}" />
+                    </p:column>
+
+                    <p:column id="costoE">
+                        <f:facet name="header">#{bundle.ReciboTitle_CostoEntrada}</f:facet>
+                        <h:outputText value="#{item.costoEntrada}" />
+                    </p:column>
+
+                    <p:column id="cad">
+                        <f:facet name="header">#{bundle.ReciboTitle_Caducidad}</f:facet>
+                        <h:outputText value="#{item.fechaCaducidadAImprimir}" />
+                    </p:column>
+
+                    <p:column id="total">
+                        <f:facet name="header">#{bundle.ReciboTitle_Total}</f:facet>
+                        <h:outputText value="#{item.total}" />
+                    </p:column>
+
+                    <p:column id="cuotaRecup">
+                        <f:facet name="header">#{bundle.ReciboTitle_CuotaRecup}</f:facet>
+                        <h:outputText value="#{item.cuotaRecup}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+

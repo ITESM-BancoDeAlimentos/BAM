@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListReciboDetTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListReciboDetEmpty}" rendered="#{reciboDetController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{reciboDetController.items.rowCount > 0}">
+                    <h:outputText value="#{reciboDetController.pagination.pageFirstItem + 1}..#{reciboDetController.pagination.pageLastItem + 1}/#{reciboDetController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{reciboDetController.previous}" value="#{bundle.Previous} #{reciboDetController.pagination.pageSize}" rendered="#{reciboDetController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{reciboDetController.next}" value="#{bundle.Next} #{reciboDetController.pagination.pageSize}" rendered="#{reciboDetController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{reciboDetController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_IDFolio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_tipoMov}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoMov}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_fechaCad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaCad}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_cantidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_peso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.peso}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_merma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.merma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_costoBenef}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoBenef}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_cuotaRecup}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuotaRecup}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_IDReciboDet}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDReciboDet}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_IDPrograma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDPrograma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_IDArticulo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArticulo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListReciboDetTitle_IDArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{reciboDetController.prepareView}" value="#{bundle.ListReciboDetViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{reciboDetController.prepareEdit}" value="#{bundle.ListReciboDetEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{reciboDetController.destroy}" value="#{bundle.ListReciboDetDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{reciboDetController.prepareCreate}" value="#{bundle.ListReciboDetCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListReciboDetIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

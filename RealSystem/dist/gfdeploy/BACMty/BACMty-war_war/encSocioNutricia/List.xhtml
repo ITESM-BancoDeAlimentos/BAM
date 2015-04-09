@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EncSocioNutriciaTitle}" />
+        </ui:define>
+
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.EncSocioNutriciaActionTitle_List}" />
+        </ui:define>
+
+        <ui:define name="tools">
+            <comp:homeLink />
+            <h:commandLink value="#{bundle.Create}" action="#{encSocioNutriciaController.prepareCreate()}"
+                           styleClass="btn-agregar" immediate="true" 
+                           rendered="#{authorizationController.accesos.nuevo}" />
+            <h:commandLink value="#{bundle.View}" action="#{encSocioNutriciaController.prepareView()}"
+                           styleClass="btn-ver" immediate="true" />
+        </ui:define>
+
+        <ui:define name="dataTableSection">
+            <p:dataTable id="dataTable" value="#{encSocioNutriciaController.currentList}"
+                         var="item" rows="10" rowsPerPageTemplate="5,10,15,30"
+                         paginator="true" paginatorTemplate="#{bundle.paginatorTemplate}"
+                         paginatorPosition="bottom">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.EncSocioNutriciaTitle_Tabla}" />
+                </f:facet>
+
+                <p:column headerText="#{bundle.EncSocioNutriciaTitle_AreaGeo}">
+                    <h:outputText value="#{item.encSocioNutriciaPK.areaGeo}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.EncSocioNutriciaTitle_Expediente}">
+                    <h:outputText value="#{item.encSocioNutriciaPK.expediente}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.EncSocioNutriciaTitle_Familia}">
+                    <h:outputText value="#{item.jefeFamilia}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.EncSocioNutriciaTitle_FechaLev}">
+                    <p:calendar value="#{item.fechaLev}" pattern="dd/MMM/yyyy"
+                                locale="#{bundle.locale}" disabled="true" />
+                </p:column>
+
+                <p:column headerText="#{bundle.EncSocioNutriciaTitle_Municipio}">
+                    <h:outputText value="#{item.municipio}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.EncSocioNutriciaTitle_Estado}">
+                    <h:outputText value="#{item.estado}" />
+                </p:column>
+
+                <p:column headerText="&nbsp;">
+                    <h:commandLink value="#{bundle.View}" immediate="true" 
+                                   action="#{encSocioNutriciaController.prepareViewFromListRow(item)}"/>
+                    &nbsp;
+                    <h:commandLink value="#{bundle.Edit}" immediate="true" 
+                                   action="#{encSocioNutriciaController.prepareEditFromListRow(item)}"/>
+                    &nbsp;
+                    <h:commandLink value="#{bundle.Destroy}" immediate="true"
+                                   onclick="if (!confirm('#{bundle.ConfirmDestroy}'))
+                                               return false;"
+                                   action="#{encSocioNutriciaController.deactivateFromListRow(item)}"/>
+                </p:column>
+
+            </p:dataTable>
+        </ui:define>
+    </ui:composition>
+
+</html>

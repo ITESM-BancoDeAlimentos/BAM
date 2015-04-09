@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewMovimientosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDFolio}"/>
+                    <h:outputText value="#{movimientosController.selected.IDFolio}" title="#{bundle.ViewMovimientosTitle_IDFolio}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_tipoMov}"/>
+                    <h:outputText value="#{movimientosController.selected.tipoMov}" title="#{bundle.ViewMovimientosTitle_tipoMov}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_fechaMov}"/>
+                    <h:outputText value="#{movimientosController.selected.fechaMov}" title="#{bundle.ViewMovimientosTitle_fechaMov}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_folioDon}"/>
+                    <h:outputText value="#{movimientosController.selected.folioDon}" title="#{bundle.ViewMovimientosTitle_folioDon}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_factura}"/>
+                    <h:outputText value="#{movimientosController.selected.factura}" title="#{bundle.ViewMovimientosTitle_factura}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDSucursal}"/>
+                    <h:outputText value="#{movimientosController.selected.IDSucursal}" title="#{bundle.ViewMovimientosTitle_IDSucursal}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_origen}"/>
+                    <h:outputText value="#{movimientosController.selected.origen}" title="#{bundle.ViewMovimientosTitle_origen}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_statusMov}"/>
+                    <h:outputText value="#{movimientosController.selected.statusMov}" title="#{bundle.ViewMovimientosTitle_statusMov}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_familias}"/>
+                    <h:outputText value="#{movimientosController.selected.familias}" title="#{bundle.ViewMovimientosTitle_familias}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_integrantes}"/>
+                    <h:outputText value="#{movimientosController.selected.integrantes}" title="#{bundle.ViewMovimientosTitle_integrantes}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_folioEntrada}"/>
+                    <h:outputText value="#{movimientosController.selected.folioEntrada}" title="#{bundle.ViewMovimientosTitle_folioEntrada}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_descuento}"/>
+                    <h:outputText value="#{movimientosController.selected.descuento}" title="#{bundle.ViewMovimientosTitle_descuento}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_paquete}"/>
+                    <h:outputText value="#{movimientosController.selected.paquete}" title="#{bundle.ViewMovimientosTitle_paquete}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_fechaSist}"/>
+                    <h:outputText value="#{movimientosController.selected.fechaSist}" title="#{bundle.ViewMovimientosTitle_fechaSist}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDMovimientos}"/>
+                    <h:outputText value="#{movimientosController.selected.IDMovimientos}" title="#{bundle.ViewMovimientosTitle_IDMovimientos}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDUsuario}"/>
+                    <h:outputText value="#{movimientosController.selected.IDUsuario}" title="#{bundle.ViewMovimientosTitle_IDUsuario}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDProveedor}"/>
+                    <h:outputText value="#{movimientosController.selected.IDProveedor}" title="#{bundle.ViewMovimientosTitle_IDProveedor}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDPrograma}"/>
+                    <h:outputText value="#{movimientosController.selected.IDPrograma}" title="#{bundle.ViewMovimientosTitle_IDPrograma}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDInstitucion}"/>
+                    <h:outputText value="#{movimientosController.selected.IDInstitucion}" title="#{bundle.ViewMovimientosTitle_IDInstitucion}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDGrupoRef}"/>
+                    <h:outputText value="#{movimientosController.selected.IDGrupoRef}" title="#{bundle.ViewMovimientosTitle_IDGrupoRef}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDDonante}"/>
+                    <h:outputText value="#{movimientosController.selected.IDDonante}" title="#{bundle.ViewMovimientosTitle_IDDonante}"/>
+                    <h:outputText value="#{bundle.ViewMovimientosLabel_IDArea}"/>
+                    <h:outputText value="#{movimientosController.selected.IDArea}" title="#{bundle.ViewMovimientosTitle_IDArea}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{movimientosController.destroyAndView}" value="#{bundle.ViewMovimientosDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewMovimientosEditLink}"/>
+                <br />
+                <h:commandLink action="#{movimientosController.prepareCreate}" value="#{bundle.ViewMovimientosCreateLink}" />
+                <br />
+                <h:commandLink action="#{movimientosController.prepareList}" value="#{bundle.ViewMovimientosShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewMovimientosIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

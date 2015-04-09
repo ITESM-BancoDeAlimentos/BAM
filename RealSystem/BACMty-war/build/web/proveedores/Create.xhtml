@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateProveedoresTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_IDProveedor}" for="IDProveedor" />
+                    <h:inputText id="IDProveedor" value="#{proveedoresController.selected.IDProveedor}" title="#{bundle.CreateProveedoresTitle_IDProveedor}" required="true" requiredMessage="#{bundle.CreateProveedoresRequiredMessage_IDProveedor}"/>
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_proveedor}" for="proveedor" />
+                    <h:inputText id="proveedor" value="#{proveedoresController.selected.proveedor}" title="#{bundle.CreateProveedoresTitle_proveedor}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_direccion}" for="direccion" />
+                    <h:inputText id="direccion" value="#{proveedoresController.selected.direccion}" title="#{bundle.CreateProveedoresTitle_direccion}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_colonia}" for="colonia" />
+                    <h:inputText id="colonia" value="#{proveedoresController.selected.colonia}" title="#{bundle.CreateProveedoresTitle_colonia}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_ciudad}" for="ciudad" />
+                    <h:inputText id="ciudad" value="#{proveedoresController.selected.ciudad}" title="#{bundle.CreateProveedoresTitle_ciudad}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{proveedoresController.selected.estado}" title="#{bundle.CreateProveedoresTitle_estado}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_telefono}" for="telefono" />
+                    <h:inputText id="telefono" value="#{proveedoresController.selected.telefono}" title="#{bundle.CreateProveedoresTitle_telefono}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_fax}" for="fax" />
+                    <h:inputText id="fax" value="#{proveedoresController.selected.fax}" title="#{bundle.CreateProveedoresTitle_fax}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_contacto}" for="contacto" />
+                    <h:inputText id="contacto" value="#{proveedoresController.selected.contacto}" title="#{bundle.CreateProveedoresTitle_contacto}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_rfc}" for="rfc" />
+                    <h:inputText id="rfc" value="#{proveedoresController.selected.rfc}" title="#{bundle.CreateProveedoresTitle_rfc}" />
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_fechaAlta}" for="fechaAlta" />
+                    <h:inputText id="fechaAlta" value="#{proveedoresController.selected.fechaAlta}" title="#{bundle.CreateProveedoresTitle_fechaAlta}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateProveedoresLabel_mail}" for="mail" />
+                    <h:inputText id="mail" value="#{proveedoresController.selected.mail}" title="#{bundle.CreateProveedoresTitle_mail}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{proveedoresController.create}" value="#{bundle.CreateProveedoresSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{proveedoresController.prepareList}" value="#{bundle.CreateProveedoresShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateProveedoresIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

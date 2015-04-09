@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.MovimientosTitle_Inventario}" />
+        </ui:define>
+
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.MovimientosTitle_ActionNewAMBA}" />
+        </ui:define>
+
+        <ui:define name="tools">
+            <comp:homeLink />
+            <h:commandLink value="&nbsp;#{bundle.MovimientosTitle_View}" styleClass="btn-agregar" title="#{bundle.MovimientosTitle_View}" 
+                           immediate="true" action="#{movimientosController.limpiaAltaInvAMBACreate()}" />
+            <h:commandLink value="&nbsp;#{bundle.Save}" styleClass="btn-guardar" title="#{bundle.Save}" 
+                           action="#{movimientosController.altaInventario()}"
+                           rendered="#{authorizationController.accesos.nuevo}"/>
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <h:panelGrid columns="4" style="margin: auto" columnClasses="rightAlign, leftAlign, rightAlign, leftAlign">
+                <h:outputLabel value="#{bundle.MovimientosLabel_IDFolio}" for="folio" />
+                <p:inputText id="folio" value="#{movimientosController.selected.IDFolio}" 
+                             onkeypress="if (event.keyCode === 13) {
+                                         return false;
+                                     }" maxlength="10" size="30" >
+                    <p:focus />
+                </p:inputText>
+
+                <h:outputLabel value="#{bundle.MovimientosLabel_fecha}" for="fecha" />
+                <p:calendar id="fecha" value="#{movimientosController.fechaAlta}" 
+                            readonlyInput="true" title="#{bundle.MovimientosTitle_fecha}"
+                            size="12" navigator="true" locale="#{bundle.locale}" />
+
+                <h:outputLabel value="#{bundle.MovimientosLabel_IDArea}" for="area" />
+                <p:selectOneMenu id="area" value="#{movimientosController.selected.IDArea.area}" filter="true" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{movimientosController.itemsAvailableSelectAreas}" />
+                    <p:ajax event="change" update="@this,programa" process="@this,programa" 
+                            listener="#{movimientosController.viewIDArea()}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.MovimientosLabel_IDPrograma}" for="programa" />
+                <p:selectOneMenu id="programa" value="#{movimientosController.selected.IDPrograma.programa}" filter="true"
+                               disabled="#{!movimientosController.programaEnabled}">
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{movimientosController.itemsAvailableSelectProgramas}" />
+                    <p:ajax event="change" update="@this" process="@this"
+                            listener="#{movimientosController.viewIDProgramas()}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.MovimientosLabel_IDDonante}" for="donante" />
+                <p:selectOneMenu id="donante" value="#{movimientosController.selected.IDDonante.donante}" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{movimientosController.itemsAvailableSelectAllDonantes}" />
+                    <p:ajax event="change" update="@this,sucursal" process="@this,sucursal"
+                            listener="#{movimientosController.viewIDDonantes()}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.MovimientosLabel_IDSucursal}" for="sucursal" />
+                <p:selectOneMenu id="sucursal" value="#{movimientosController.selected.IDSucursales.IDSucursal}" filter="true"
+                                 disabled="#{!movimientosController.sucursalEnabled}">
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{movimientosController.itemsAvailableSelectSucursales}" />
+                    <p:ajax event="change" update="@this" process="@this" 
+                            listener="#{movimientosController.viewIDSucursales(movimientosController.selected.IDSucursales.IDSucursal)}" />
+                </p:selectOneMenu>
+                
+                <h:outputLabel value="#{bundle.ReciboLabel_folioDon}" for="folioDon" />
+                <p:inputText id="folioDon" value="#{movimientosController.selected.folioDon}"
+                             onkeypress="if (event.keyCode === 13) {
+                                         return false;}"
+                             maxlength="10" size="30"  />
+
+            </h:panelGrid>
+
+            <p:separator style="margin: 2em 0em;" />
+        </ui:define>
+
+        <ui:define name="dataTableSection" >
+            <h:panelGroup id="panel">
+                <p:dataTable id="dataTable" var="item" value="#{movimientosController.listaAImprimir}"
+                             emptyMessage="#{bundle.MovimientosEmpty_Articulos}" editable="true" editMode="cell" lazy="true" >
+                    <f:facet name="header">#{bundle.MovimientosTitle_Articulos}</f:facet>
+
+                    <p:focus context="panel" />
+
+                    <p:column id="clave">
+                        <f:facet name="header">#{bundle.MovimientosTitle_Clave}</f:facet>
+                        <h:outputText value="#{item.clave}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">#{bundle.MovimientosTitle_Descripcion}</f:facet>
+                        <p:cellEditor id="desc">
+                            <f:facet name="output">#{item.descripcion}</f:facet>
+                            <f:facet name="input">
+                                <p:autoComplete dropdown="true" 
+                                                value="#{item.descripcion}" 
+                                                forceSelection="true" 
+                                                maxResults="20" 
+                                                queryDelay="50"
+                                                completeMethod="#{movimientosController.completeArts}" 
+                                                effect="fade" 
+                                                global="false" >
+                                    <p:ajax event="itemSelect" listener="#{movimientosController.agregarArticulo(item)}"
+                                            process="@this" update=":globalForm:dataTable" />
+                                </p:autoComplete>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">#{bundle.MovimientosTitle_UMed}</f:facet>
+                        <h:outputText id="umed" value="#{item.unidadMedida.unidad}" />
+                    </p:column>
+
+                    <p:column id="cantidad">
+                        <f:facet name="header">#{bundle.MovimientosTitle_Cantidad}</f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">#{item.cantidad}</f:facet>
+                            <f:facet name="input">
+                                <p:spinner value="#{item.cantidad}" 
+                                           min="1" max="10000000"
+                                           maxlength="8"
+                                           stepFactor="0.5">
+                                    <p:ajax event="blur" listener="#{movimientosController.actualizaArticulo(item)}"
+                                            process="@this" update=":globalForm:dataTable" global="false" />
+                                </p:spinner>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column id="pesoU">
+                        <f:facet name="header">#{bundle.MovimientosTitle_PesoUni}</f:facet>
+                        <h:outputText value="#{item.pesoUnitario}" />
+                    </p:column>
+
+                    <p:column id="pesoT">
+                        <f:facet name="header">#{bundle.MovimientosTitle_PesoTotal}</f:facet>
+                        <h:outputText value="#{item.pesoTotal}" />
+                    </p:column>
+
+                    <p:column id="merma">
+                        <f:facet name="header">#{bundle.MovimientosTitle_Merma}</f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">#{item.merma}</f:facet>
+                            <f:facet name="input">
+                                <p:spinner value="#{item.merma}" 
+                                           min="0" max="10000000"
+                                           maxlength="8"
+                                           stepFactor="0.5"/>
+                            </f:facet>
+                        </p:cellEditor>
+                        
+                    </p:column>
+
+                    <p:column id="costoE">
+                        <f:facet name="header">#{bundle.MovimientosTitle_CostoEntrada}</f:facet>
+                        <h:outputText value="#{item.costoEntrada}" />
+                    </p:column>
+
+                    <p:column id="cad">
+                        <f:facet name="header">#{bundle.MovimientosTitle_Caducidad}</f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">#{item.fechaCaducidadAImprimir}</f:facet>
+                            <f:facet name="input">
+                                <p:calendar id="fechaCad" value="#{item.fechaCaducidad}"
+                                            mindate="#{movimientosController.fechaAlta}" readonlyInput="true"
+                                            title="#{bundle.MovimientosTitle_fecha}" size="12" navigator="true"
+                                            locale="#{bundle.locale}" >
+                                    <p:ajax event="dateSelect" listener="#{movimientosController.actualizaArticulo(item)}"
+                                            process="@this" update=":globalForm:dataTable" />
+                                </p:calendar>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column id="total">
+                        <f:facet name="header">#{bundle.MovimientosTitle_Total}</f:facet>
+                        <h:outputText value="#{item.total}" />
+                    </p:column>
+
+                    <p:column id="cuotaRecup">
+                        <f:facet name="header">#{bundle.MovimientosTitle_CuotaRecup}</f:facet>
+                        <h:outputText value="#{item.cuotaRecup}" />
+                    </p:column>
+                    
+                    <p:column id="elimina">
+                        <p:commandButton value="#{bundle.Eliminar}" immediate="true"
+                                         actionListener="#{movimientosController.eliminarFila(item)}" update=":globalForm:dataTable" process="@this" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

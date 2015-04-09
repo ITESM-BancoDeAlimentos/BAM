@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsf/composite/comp" >
+    <h:body>
+        <ui:composition template="/template.xhtml"> 
+            <ui:define name="messageShowSection">
+                <h:outputScript library="js" name="agregaPlaceholders.js" />
+                <h:outputScript target="body">
+                    $(addPlaceholders);
+                </h:outputScript>  
+            </ui:define>
+
+            <ui:define name="title">
+                <h:outputText value="#{bundle.MovimientosBusqueda_Title}" />
+            </ui:define>
+
+            <ui:define name="tools">
+                <c:homeLink />
+            </ui:define>
+
+            <ui:define name="displayDataSection">
+                <h:panelGrid id="filters" columns="4" styleClass="center">
+
+                    <p:outputLabel for="tipoMov">#{bundle.MovimientosLabel_tipoMov}</p:outputLabel>
+                    <h:panelGrid columns="4" class="center">
+                        <p:outputLabel for="tipoMov">#{bundle.MovimientosLabel_tipoMov}</p:outputLabel>
+                        <p:selectOneMenu
+                            id="tipoMov"
+                            value="#{movimientosBusqueda.filtroTipoMov}">
+                            <f:selectItem itemValue="#{null}" itemLabel="Todos" />
+                            <f:selectItem itemValue="ENT" itemLabel="#{bundle.TipoMov_ENT}" />
+                            <f:selectItem itemValue="SAL" itemLabel="#{bundle.TipoMov_SAL}" />
+                            <p:ajax update="origen :globalMessagePanelInfo :globalMessagePanelError"
+                                    oncomplete="addPlaceholders()"
+                                    listener="#{movimientosBusqueda.setFiltroOrigen(null)}"
+                                    />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="origen" value="#{bundle.MovimientosLabel_origen}"/>
+                        <p:autoComplete 
+                            id="origen" value="#{movimientosBusqueda.filtroOrigen}" 
+                            var="item" itemLabel="#{bundle['Origen_'.concat(item.codigo)]}" itemValue="#{item}"
+                            completeMethod="#{movimientosBusqueda.completeOrigen}"
+                            disabled="#{empty movimientosBusqueda.filtroTipoMov}"
+                            size="10"
+                            dropdown="true" styleClass="ui-placeholder-todos" />
+                    </h:panelGrid>
+
+                    <p:outputLabel for="fechas">#{bundle.MovimientosLabel_fechaMov}</p:outputLabel>
+                    <h:panelGrid id="fechas" columns="2">
+                        <h:panelGroup layout="block">
+                            <p:outputLabel for="inicio">Inicio</p:outputLabel>
+                            <p:calendar
+                                id="inicio" navigator="true" widgetVar="cal1"
+                                pattern="#{bundle.DateFormat}"
+                                value="#{movimientosBusqueda.filtroFechaInicial}"
+                                locale="#{bundle.locale}"
+                                />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:outputLabel for="final"> Final </p:outputLabel>
+                            <p:calendar 
+                                id="final" navigator="true"
+                                pattern="#{bundle.DateFormat}"
+                                value="#{movimientosBusqueda.filtroFechaFinal}"
+                                locale="#{bundle.locale}"
+                                />
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                    <p:outputLabel for="donante">#{bundle.MovimientosLabel_IDDonante}</p:outputLabel>
+                    <p:autoComplete
+                        id="donante" value="#{movimientosBusqueda.filtroDonantes}" 
+                        var="item" itemValue="#{item}" itemLabel="#{item.donante}"
+                        completeMethod="#{donantesCompleter.complete}" 
+                        minQueryLength="3" dropdown="true" forceSelection="true"
+                        title="Busque por nombre o por codigo"
+                        scrollHeight="180" size="50" styleClass="ui-placeholder-todos"
+                        global="false"
+                        maxResults="#{parametersController.suggestionLength}" >
+                        <p:ajax event="itemSelect" update="sucursal :globalMessagePanelInfo :globalMessagePanelError" />
+                    </p:autoComplete>
+
+                    <p:outputLabel for="sucursal">#{bundle.MovimientosLabel_IDSucursal}</p:outputLabel>
+                    <h:panelGroup id="sucursal">
+                        <p:selectOneMenu 
+                            value="#{movimientosBusqueda.filtroSucursales}"
+                            rendered="#{movimientosBusqueda.filtroDonantes.sucursalesCollection.size() > 1}">
+                            <f:selectItem
+                                noSelectionOption="true"
+                                itemValue="#{null}"
+                                itemLabel="Todos"
+                                />
+                            <f:selectItems
+                                value="#{movimientosBusqueda.filtroDonantes.sucursalesCollection}"
+                                var="item"
+                                itemValue="#{item}"
+                                itemLabel="#{item.IDSucursal}"
+                                />
+                        </p:selectOneMenu>
+                        <h:outputText
+                            value="#{movimientosBusqueda.getFirstSucursal(movimientosBusqueda.filtroDonantes)}"
+                            rendered="#{movimientosBusqueda.filtroDonantes.sucursalesCollection.size() == 1}"
+                            />
+                        <h:outputText 
+                            value="No se encontraron sucursales"
+                            rendered="#{empty movimientosBusqueda.filtroDonantes.sucursalesCollection}"
+                            />
+                    </h:panelGroup>
+
+                    <p:outputLabel for="institucion">#{bundle.MovimientosLabel_IDInstitucion}</p:outputLabel>
+                    <p:autoComplete
+                        id="institucion"
+                        value="#{movimientosBusqueda.filtroInstituciones}"
+                        var="item" itemValue="#{item}" itemLabel="#{item.institucion}"
+                        dropdown="true" forceSelection="true" scrollHeight="180"
+                        title="Busque por nombre o por codigo"  size="50" styleClass="ui-placeholder-todos"
+                        maxResults="#{parametersController.suggestionLength}"
+                        global="false"
+                        completeMethod="#{institucionesCompleter.completeInstituciones}" />
+
+                    <p:outputLabel for="proveedor">#{bundle.MovimientosLabel_IDProveedor}</p:outputLabel>
+                    <p:selectOneMenu
+                        id="proveedor"
+                        value="#{movimientosBusqueda.filtroProveedores}" >
+                        <f:selectItem
+                            noSelectionOption="true"
+                            itemValue="#{null}"
+                            itemLabel="Todos"
+                            />
+                        <f:selectItems value="#{proveedoresController.itemsAvailableSelectMany}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="area">#{bundle.MovimientosLabel_IDArea}</p:outputLabel>
+                    <p:selectOneMenu id="area" value="#{movimientosBusqueda.filtroAreas}">
+                        <f:selectItem
+                            noSelectionOption="true"
+                            itemValue="#{null}"
+                            itemLabel="Todos"
+                            />
+                        <f:selectItems value="#{areasController.itemsAvailableSelectMany}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="programa">#{bundle.MovimientosLabel_IDPrograma}</p:outputLabel>
+                    <p:autoComplete
+                        id="programa" value="#{movimientosBusqueda.filtroProgramas}" 
+                        var="item" itemValue="#{item}" itemLabel="#{item.programa}"
+                        completeMethod="#{programasCompleter.complete}" 
+                        minQueryLength="3" dropdown="true" forceSelection="true"
+                        title="Busque por nombre o por codigo"
+                        scrollHeight="180" size="50" styleClass="ui-placeholder-todos"
+                        global="false"
+                        maxResults="#{parametersController.suggestionLength}" />
+                    <f:facet name="footer">
+                        <p:commandButton 
+                            id="filter"
+                            value="#{bundle.Filter}" icon="ui-icon-check"
+                            update="table :globalMessagePanelInfo :globalMessagePanelError inicio final"
+                            actionListener="#{movimientosBusqueda.validateFilter()}"
+                            onstart="tableWidget.paginator.setPage(0);"
+                            />
+                        <p:commandButton
+                            value="Seleccionar Columnas"
+                            onclick="columnSelector.show();"
+                            icon="ui-icon-newwin"
+                            type="button"
+                            />
+                        <p:commandButton 
+                            value="Limpiar filtros" icon="ui-icon-close"
+                            action="#{movimientosBusqueda.cleanFilters()}"
+                            update="filters table :globalMessagePanelInfo :globalMessagePanelError"
+                            oncomplete="addPlaceholders();"
+                            />
+                    </f:facet>
+                </h:panelGrid>
+            </ui:define>
+
+            <ui:define name="dataTableSection">
+                <h:panelGroup rendered="#{movimientosBusqueda.tableRender}">
+                    <p:dataTable 
+                        widgetVar="tableWidget" id="table" var="item" 
+                        rows="5" draggableColumns="true" paginator="true" 
+                        paginatorPosition="top" rowsPerPageTemplate="5,10,15,30"
+                        paginatorTemplate="#{bundle.paginatorTemplate}"
+                        value="#{movimientosBusqueda.dataModel}" lazy="true" >
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.iDFolio}"      exportable="#{movimientosBusqueda.renderColumns.iDFolio}"     ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_IDFolio}"        /></f:facet><h:outputText value="#{item.IDFolio}"                               /></p:column> 
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.tipoMov}"      exportable="#{movimientosBusqueda.renderColumns.tipoMov}"     ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_tipoMov}"        /></f:facet><h:outputText value="#{bundle['TipoMov_'.concat(item.tipoMov)]}"    /></p:column> 
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.iDArea}"       exportable="#{movimientosBusqueda.renderColumns.iDArea}"      ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_IDArea}"         /></f:facet><h:outputText value="#{item.IDArea.area}"                           /></p:column> 
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.iDArticulo}"   exportable="#{movimientosBusqueda.renderColumns.iDArticulo}"  ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_IDArticulo}"     /></f:facet><h:outputText value="#{item.IDArticulo.articulo}"                   /></p:column> 
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.cantidad}"     exportable="#{movimientosBusqueda.renderColumns.cantidad}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_cantidad}"       /></f:facet><h:outputText value="#{item.cantidad}"                              /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.peso}"         exportable="#{movimientosBusqueda.renderColumns.peso}"        ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_peso}"           /></f:facet><h:outputText value="#{item.peso}"                                  /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.merma}"        exportable="#{movimientosBusqueda.renderColumns.merma}"       ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_merma}"          /></f:facet><h:outputText value="#{item.merma}"                                 /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.costoBenef}"   exportable="#{movimientosBusqueda.renderColumns.costoBenef}"  ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_costoBenef}"     /></f:facet><h:outputText value="#{item.costoBenef}"                            /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.cuotaRecup}"   exportable="#{movimientosBusqueda.renderColumns.cuotaRecup}"  ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_cuotaRecup}"     /></f:facet><h:outputText value="#{item.cuotaRecup}"                            /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.iDMovtosDet}"  exportable="#{movimientosBusqueda.renderColumns.iDMovtosDet}" ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_IDMovtosDet}"    /></f:facet><h:outputText value="#{item.IDMovtosDet}"                           /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.area}"         exportable="#{movimientosBusqueda.renderColumns.area}"        ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDArea}"       /></f:facet><h:outputText value="#{item.movimientos.IDArea.area}"               /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.programa}"     exportable="#{movimientosBusqueda.renderColumns.programa}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDPrograma}"   /></f:facet><h:outputText value="#{item.movimientos.IDPrograma.programa}"       /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.donante}"      exportable="#{movimientosBusqueda.renderColumns.donante}"     ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDDonante}"    /></f:facet><h:outputText value="#{item.movimientos.IDDonante.donante}"         /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.sucursal}"     exportable="#{movimientosBusqueda.renderColumns.sucursal}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDSucursal}"   /></f:facet><h:outputText value="#{item.movimientos.IDSucursal}"                /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.institucion}"  exportable="#{movimientosBusqueda.renderColumns.institucion}" ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDInstitucion}"/></f:facet><h:outputText value="#{item.movimientos.IDInstitucion.institucion}" /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.proveedor}"    exportable="#{movimientosBusqueda.renderColumns.proveedor}"   ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDProveedor}"  /></f:facet><h:outputText value="#{item.movimientos.IDProveedor.proveedor}"     /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.grupoRef}"     exportable="#{movimientosBusqueda.renderColumns.grupoRef}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_IDGrupoRef}"   /></f:facet><h:outputText value="#{item.movimientos.IDGrupoRef.grupoRef}"       /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.folioDon}"     exportable="#{movimientosBusqueda.renderColumns.folioDon}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_folioDon}"     /></f:facet><h:outputText value="#{item.movimientos.folioDon}"                  /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.factura}"      exportable="#{movimientosBusqueda.renderColumns.factura}"     ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_factura}"      /></f:facet><h:outputText value="#{item.movimientos.factura}"                   /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.origen}"       exportable="#{movimientosBusqueda.renderColumns.origen}"      ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_origen}"       /></f:facet><h:outputText value="#{bundle['Origen_'.concat(item.movimientos.origen)]}" /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.statusMov}"    exportable="#{movimientosBusqueda.renderColumns.statusMov}"   ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_statusMov}"    /></f:facet><h:outputText value="#{item.movimientos.statusMov}"                 /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.familias}"     exportable="#{movimientosBusqueda.renderColumns.familias}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_familias}"     /></f:facet><h:outputText value="#{item.movimientos.familias}"                  /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.integrantes}"  exportable="#{movimientosBusqueda.renderColumns.integrantes}" ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_integrantes}"  /></f:facet><h:outputText value="#{item.movimientos.integrantes}"               /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.folioEntrada}" exportable="#{movimientosBusqueda.renderColumns.folioEntrada}"><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_folioEntrada}" /></f:facet><h:outputText value="#{item.movimientos.folioEntrada}"              /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.descuento}"    exportable="#{movimientosBusqueda.renderColumns.descuento}"   ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_descuento}"    /></f:facet><h:outputText value="#{item.movimientos.descuento}"                 /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.paquete}"      exportable="#{movimientosBusqueda.renderColumns.paquete}"     ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_paquete}"      /></f:facet><h:outputText value="#{item.movimientos.paquete}"                   /></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.fechaCad}"     exportable="#{movimientosBusqueda.renderColumns.fechaCad}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovtosDetTitle_fechaCad}"       /></f:facet><h:outputText value="#{item.fechaCad}">             <f:convertDateTime locale="#{bundle.locale}" dateStyle="long"    /></h:outputText></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.fechaMov}"     exportable="#{movimientosBusqueda.renderColumns.fechaMov}"    ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_fechaMov}"     /></f:facet><h:outputText value="#{item.movimientos.fechaMov}" ><f:convertDateTime locale="#{bundle.locale}" dateStyle="long"    /></h:outputText></p:column>
+                        <p:column rendered="#{movimientosBusqueda.renderColumns.fechaSist}"    exportable="#{movimientosBusqueda.renderColumns.fechaSist}"   ><f:facet name="header"> <h:outputText value="#{bundle.MovimientosTitle_fechaSist}"    /></f:facet><h:outputText value="#{item.movimientos.fechaSist}"><f:convertDateTime locale="#{bundle.locale}" dateStyle="long"    /></h:outputText></p:column>
+                        <f:facet name="footer">
+                            <div>
+                                <h:outputText value="(#{bundle.RowsTotal}: #{movimientosBusqueda.dataModel.rowCount})" />
+                            </div>
+                            <p:commandButton icon="ui-icon-print" value="Excel" ajax="false"
+                                             rendered="#{authorizationController.accesos.imprimir}">
+                                <p:dataExporter type="csv" target="table" fileName="#{movimientosBusqueda.filename}"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                </h:panelGroup>
+
+                <p:dialog widgetVar="columnSelector" resizable="false"
+                          header="Selector de columnas" closeOnEscape="true" >
+                    <h:panelGrid id="columnsSelector" columns="8">
+                        <h:outputText value="#{bundle.MovtosDetLabel_IDFolio}"        /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.iDFolio}"    />
+                        <h:outputText value="#{bundle.MovtosDetLabel_tipoMov}"        /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.tipoMov}"    />
+                        <h:outputText value="#{bundle.MovtosDetLabel_IDArea}"         /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.iDArea}"     />
+                        <h:outputText value="#{bundle.MovtosDetLabel_IDArticulo}"     /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.iDArticulo}" />
+                        <h:outputText value="#{bundle.MovtosDetLabel_cantidad}"       /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.cantidad}"   />
+                        <h:outputText value="#{bundle.MovtosDetLabel_peso}"           /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.peso}"       />
+                        <h:outputText value="#{bundle.MovtosDetLabel_merma}"          /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.merma}"      />
+                        <h:outputText value="#{bundle.MovtosDetLabel_costoBenef}"     /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.costoBenef}" />
+                        <h:outputText value="#{bundle.MovtosDetLabel_cuotaRecup}"     /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.cuotaRecup}" />
+                        <h:outputText value="#{bundle.MovtosDetLabel_fechaCad}"       /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.fechaCad}"   />
+                        <h:outputText value="#{bundle.MovtosDetLabel_IDMovtosDet}"    /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.iDMovtosDet}"/>
+                        <h:panelGroup styleClass="PanelGrid-PlaceHolder"/>
+                        <h:panelGroup styleClass="PanelGrid-PlaceHolder"/>
+                        <p:separator/> <p:separator/> <p:separator/> <p:separator/>
+                        <p:separator/> <p:separator/> <p:separator/> <p:separator/>
+                        <h:outputText value="#{bundle.MovimientosLabel_IDArea}"       /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.area}"         />
+                        <h:outputText value="#{bundle.MovimientosLabel_IDPrograma}"   /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.programa}"     />
+                        <h:outputText value="#{bundle.MovimientosLabel_IDDonante}"    /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.donante}"      />
+                        <h:outputText value="#{bundle.MovimientosLabel_IDSucursal}"   /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.sucursal}"     />
+                        <h:outputText value="#{bundle.MovimientosLabel_IDInstitucion}"/> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.institucion}"  />
+                        <h:outputText value="#{bundle.MovimientosLabel_IDProveedor}"  /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.proveedor}"    />
+                        <h:outputText value="#{bundle.MovimientosLabel_IDGrupoRef}"   /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.grupoRef}"     />
+                        <h:outputText value="#{bundle.MovimientosLabel_folioDon}"     /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.folioDon}"     />
+                        <h:outputText value="#{bundle.MovimientosLabel_factura}"      /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.factura}"      />
+                        <h:outputText value="#{bundle.MovimientosLabel_origen}"       /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.origen}"       />
+                        <h:outputText value="#{bundle.MovimientosLabel_statusMov}"    /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.statusMov}"    />
+                        <h:outputText value="#{bundle.MovimientosLabel_familias}"     /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.familias}"     />
+                        <h:outputText value="#{bundle.MovimientosLabel_integrantes}"  /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.integrantes}"  />
+                        <h:outputText value="#{bundle.MovimientosLabel_folioEntrada}" /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.folioEntrada}" />
+                        <h:outputText value="#{bundle.MovimientosLabel_descuento}"    /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.descuento}"    />
+                        <h:outputText value="#{bundle.MovimientosLabel_paquete}"      /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.paquete}"      />
+                        <h:outputText value="#{bundle.MovimientosLabel_fechaMov}"     /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.fechaMov}"     />
+                        <h:outputText value="#{bundle.MovimientosLabel_fechaSist}"    /> <p:selectBooleanCheckbox value="#{movimientosBusqueda.renderColumns.fechaSist}"    />
+                        <f:facet name="footer">
+                            <h:panelGroup>
+                                <p:commandButton
+                                    value="Aplicar"
+                                    icon="ui-icon-check"
+                                    update="table :globalMessagePanelInfo :globalMessagePanelError"
+                                    process="columnsSelector"
+                                    />
+                                <p:commandButton
+                                    value="Cerrar"
+                                    onclick="columnSelector.hide();"
+                                    style="float:right;"
+                                    icon='ui-icon-close'
+                                    type="button"
+                                    />
+                            </h:panelGroup>
+                        </f:facet>
+                    </h:panelGrid>
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

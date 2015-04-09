@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewReciboDetTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_IDFolio}"/>
+                    <h:outputText value="#{reciboDetController.selected.IDFolio}" title="#{bundle.ViewReciboDetTitle_IDFolio}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_tipoMov}"/>
+                    <h:outputText value="#{reciboDetController.selected.tipoMov}" title="#{bundle.ViewReciboDetTitle_tipoMov}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_fechaCad}"/>
+                    <h:outputText value="#{reciboDetController.selected.fechaCad}" title="#{bundle.ViewReciboDetTitle_fechaCad}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_cantidad}"/>
+                    <h:outputText value="#{reciboDetController.selected.cantidad}" title="#{bundle.ViewReciboDetTitle_cantidad}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_peso}"/>
+                    <h:outputText value="#{reciboDetController.selected.peso}" title="#{bundle.ViewReciboDetTitle_peso}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_merma}"/>
+                    <h:outputText value="#{reciboDetController.selected.merma}" title="#{bundle.ViewReciboDetTitle_merma}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_costoBenef}"/>
+                    <h:outputText value="#{reciboDetController.selected.costoBenef}" title="#{bundle.ViewReciboDetTitle_costoBenef}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_cuotaRecup}"/>
+                    <h:outputText value="#{reciboDetController.selected.cuotaRecup}" title="#{bundle.ViewReciboDetTitle_cuotaRecup}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_IDReciboDet}"/>
+                    <h:outputText value="#{reciboDetController.selected.IDReciboDet}" title="#{bundle.ViewReciboDetTitle_IDReciboDet}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_IDPrograma}"/>
+                    <h:outputText value="#{reciboDetController.selected.IDPrograma}" title="#{bundle.ViewReciboDetTitle_IDPrograma}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_IDArticulo}"/>
+                    <h:outputText value="#{reciboDetController.selected.IDArticulo}" title="#{bundle.ViewReciboDetTitle_IDArticulo}"/>
+                    <h:outputText value="#{bundle.ViewReciboDetLabel_IDArea}"/>
+                    <h:outputText value="#{reciboDetController.selected.IDArea}" title="#{bundle.ViewReciboDetTitle_IDArea}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{reciboDetController.destroyAndView}" value="#{bundle.ViewReciboDetDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewReciboDetEditLink}"/>
+                <br />
+                <h:commandLink action="#{reciboDetController.prepareCreate}" value="#{bundle.ViewReciboDetCreateLink}" />
+                <br />
+                <h:commandLink action="#{reciboDetController.prepareList}" value="#{bundle.ViewReciboDetShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewReciboDetIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

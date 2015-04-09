@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePartidasValesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{partidasValesController.selected.IDFolio}" title="#{bundle.CreatePartidasValesTitle_IDFolio}" required="true" requiredMessage="#{bundle.CreatePartidasValesRequiredMessage_IDFolio}"/>
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_fechaCad}" for="fechaCad" />
+                    <h:inputText id="fechaCad" value="#{partidasValesController.selected.fechaCad}" title="#{bundle.CreatePartidasValesTitle_fechaCad}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_cantidad}" for="cantidad" />
+                    <h:inputText id="cantidad" value="#{partidasValesController.selected.cantidad}" title="#{bundle.CreatePartidasValesTitle_cantidad}" />
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_costoBenef}" for="costoBenef" />
+                    <h:inputText id="costoBenef" value="#{partidasValesController.selected.costoBenef}" title="#{bundle.CreatePartidasValesTitle_costoBenef}" />
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_cuotaRecup}" for="cuotaRecup" />
+                    <h:inputText id="cuotaRecup" value="#{partidasValesController.selected.cuotaRecup}" title="#{bundle.CreatePartidasValesTitle_cuotaRecup}" />
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{partidasValesController.selected.status}" title="#{bundle.CreatePartidasValesTitle_status}" />
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_IDPartidasVales}" for="IDPartidasVales" />
+                    <h:inputText id="IDPartidasVales" value="#{partidasValesController.selected.IDPartidasVales}" title="#{bundle.CreatePartidasValesTitle_IDPartidasVales}" required="true" requiredMessage="#{bundle.CreatePartidasValesRequiredMessage_IDPartidasVales}"/>
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_IDCaja}" for="IDCaja" />
+                    <h:selectOneMenu id="IDCaja" value="#{partidasValesController.selected.IDCaja}" title="#{bundle.CreatePartidasValesTitle_IDCaja}" >
+                        <f:selectItems value="#{cajasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreatePartidasValesLabel_IDArticulo}" for="IDArticulo" />
+                    <h:selectOneMenu id="IDArticulo" value="#{partidasValesController.selected.IDArticulo}" title="#{bundle.CreatePartidasValesTitle_IDArticulo}" >
+                        <f:selectItems value="#{articulosController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{partidasValesController.create}" value="#{bundle.CreatePartidasValesSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{partidasValesController.prepareList}" value="#{bundle.CreatePartidasValesShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreatePartidasValesIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

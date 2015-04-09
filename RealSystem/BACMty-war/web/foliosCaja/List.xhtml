@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFoliosCajaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListFoliosCajaEmpty}" rendered="#{foliosCajaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{foliosCajaController.items.rowCount > 0}">
+                    <h:outputText value="#{foliosCajaController.pagination.pageFirstItem + 1}..#{foliosCajaController.pagination.pageLastItem + 1}/#{foliosCajaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{foliosCajaController.previous}" value="#{bundle.Previous} #{foliosCajaController.pagination.pageSize}" rendered="#{foliosCajaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{foliosCajaController.next}" value="#{bundle.Next} #{foliosCajaController.pagination.pageSize}" rendered="#{foliosCajaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{foliosCajaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFoliosCajaTitle_folioCaja}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.folioCaja}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{foliosCajaController.prepareView}" value="#{bundle.ListFoliosCajaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{foliosCajaController.prepareEdit}" value="#{bundle.ListFoliosCajaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{foliosCajaController.destroy}" value="#{bundle.ListFoliosCajaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{foliosCajaController.prepareCreate}" value="#{bundle.ListFoliosCajaCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListFoliosCajaIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

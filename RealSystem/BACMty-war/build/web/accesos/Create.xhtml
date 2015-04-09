@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsf/composite/comp" >
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">#{bundle.AccesosTitle}</ui:define>
+        <ui:define name="actionTitle">#{bundle.AccesosTitle_ActionCreate}</ui:define>
+
+        <ui:define name="tools">
+            <c:homeLink />
+            <h:commandLink value="#{bundle.Edit}" title="#{bundle.AccesosTitle_Edit}"
+                           styleClass="btn-editar"
+                           action="#{accesosController.prepareEdit()}" 
+                           rendered="#{authorizationController.accesos.editar}"/>
+            <h:commandLink value="#{bundle.Save}" title="#{bundle.Save}"
+                           styleClass="btn-guardar" 
+                           action="#{accesosController.GuardarAcceso()}"
+                           rendered="#{accesosController.nivelSelected 
+                                       and accesosController.formaSelected 
+                                       and authorizationController.accesos.nuevo}"
+                           />
+        </ui:define>
+
+        <ui:define name="displayDataSection" >
+
+            <h:panelGrid columns="2" columnClasses="rightAlign leftAlign" >
+                <h:outputLabel value="#{bundle.AccesosLabel_Nivel}" for="nivel"/>
+                <p:selectOneMenu id="nivel" value="#{accesosController.selected.IDNivel}">
+                    <f:selectItem itemLabel="Seleccione Uno" itemValue=" " />
+                    <f:selectItems value="#{accesosController.itemsAvailableSelectNiveles}" />
+                    <p:ajax event="change" listener="#{accesosController.CambiaNivelCreate()}" update="@form" />
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{bundle.AccesosLabel_Formulario}" for="formulario" />
+                <p:selectOneMenu id="formulario" value="#{accesosController.selected.IDForm}"
+                                 disabled="#{!accesosController.nivelSelected or accesosController.formasNull}" >
+                    <f:selectItem itemLabel="Seleccione Uno" itemValue=" " />
+                    <f:selectItems value="#{accesosController.itemsAvailableSelectFormulariosWeb}" />
+                    <p:ajax event="change" listener="#{accesosController.CambiaFormulario()}" update="@form" />
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+        </ui:define>
+
+        <ui:define name="dataTableSection">
+            <h:panelGroup rendered="#{accesosController.nivelSelected}">
+                <h:panelGroup id="panelEmpty" rendered="#{accesosController.formasNull}">
+                    <h:outputText value="#{bundle.AccesosEmpty_Formularios}" />
+                </h:panelGroup>
+
+                <h:panelGroup id="panel" rendered="#{!accesosController.formasNull and accesosController.formaSelected}">
+                    <h:panelGrid columns="2" columnClasses="rightAlign centerAlign"
+                                 styleClass="center">
+                        <h:outputLabel value="#{bundle.AccesosLabel_subMenu}" for="submenu" />
+                        <p:selectBooleanCheckbox id="submenu" value="#{accesosController.selected.subMenu}" />
+
+                        <h:outputLabel value="#{bundle.AccesosLabel_nuevo}" for="nuevo" />
+                        <p:selectBooleanCheckbox id="nuevo" value="#{accesosController.selected.nuevo}" />
+
+                        <h:outputLabel value="#{bundle.AccesosLabel_editar}" for="editar" />
+                        <p:selectBooleanCheckbox id="editar" value="#{accesosController.selected.editar}" />
+
+                        <h:outputLabel value="#{bundle.AccesosLabel_borrar}" for="borrar" />
+                        <p:selectBooleanCheckbox id="borrar" value="#{accesosController.selected.borrar}" />
+
+                        <h:outputLabel value="#{bundle.AccesosLabel_imprimir}" for="imprimir" />
+                        <p:selectBooleanCheckbox id="imprimir" value="#{accesosController.selected.imprimir}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGroup>
+        </ui:define>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewValesCajasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_IDFolio}"/>
+                    <h:outputText value="#{valesCajasController.selected.IDFolio}" title="#{bundle.ViewValesCajasTitle_IDFolio}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_fecha}"/>
+                    <h:outputText value="#{valesCajasController.selected.fecha}" title="#{bundle.ViewValesCajasTitle_fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_paquetes}"/>
+                    <h:outputText value="#{valesCajasController.selected.paquetes}" title="#{bundle.ViewValesCajasTitle_paquetes}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_precioPaq}"/>
+                    <h:outputText value="#{valesCajasController.selected.precioPaq}" title="#{bundle.ViewValesCajasTitle_precioPaq}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_otrosCargos}"/>
+                    <h:outputText value="#{valesCajasController.selected.otrosCargos}" title="#{bundle.ViewValesCajasTitle_otrosCargos}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_status}"/>
+                    <h:outputText value="#{valesCajasController.selected.status}" title="#{bundle.ViewValesCajasTitle_status}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_folioMov}"/>
+                    <h:outputText value="#{valesCajasController.selected.folioMov}" title="#{bundle.ViewValesCajasTitle_folioMov}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_flete}"/>
+                    <h:outputText value="#{valesCajasController.selected.flete}" title="#{bundle.ViewValesCajasTitle_flete}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_total}"/>
+                    <h:outputText value="#{valesCajasController.selected.total}" title="#{bundle.ViewValesCajasTitle_total}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_saldo}"/>
+                    <h:outputText value="#{valesCajasController.selected.saldo}" title="#{bundle.ViewValesCajasTitle_saldo}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_personas}"/>
+                    <h:outputText value="#{valesCajasController.selected.personas}" title="#{bundle.ViewValesCajasTitle_personas}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_tipo}"/>
+                    <h:outputText value="#{valesCajasController.selected.tipo}" title="#{bundle.ViewValesCajasTitle_tipo}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_observacion}"/>
+                    <h:outputText value="#{valesCajasController.selected.observacion}" title="#{bundle.ViewValesCajasTitle_observacion}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_familia}"/>
+                    <h:outputText value="#{valesCajasController.selected.familia}" title="#{bundle.ViewValesCajasTitle_familia}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_fleteCom}"/>
+                    <h:outputText value="#{valesCajasController.selected.fleteCom}" title="#{bundle.ViewValesCajasTitle_fleteCom}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_descuento}"/>
+                    <h:outputText value="#{valesCajasController.selected.descuento}" title="#{bundle.ViewValesCajasTitle_descuento}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_fechaSistema}"/>
+                    <h:outputText value="#{valesCajasController.selected.fechaSistema}" title="#{bundle.ViewValesCajasTitle_fechaSistema}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_IDPrograma}"/>
+                    <h:outputText value="#{valesCajasController.selected.IDPrograma}" title="#{bundle.ViewValesCajasTitle_IDPrograma}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_idInstitucion}"/>
+                    <h:outputText value="#{valesCajasController.selected.idInstitucion}" title="#{bundle.ViewValesCajasTitle_idInstitucion}"/>
+                    <h:outputText value="#{bundle.ViewValesCajasLabel_idArea}"/>
+                    <h:outputText value="#{valesCajasController.selected.idArea}" title="#{bundle.ViewValesCajasTitle_idArea}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{valesCajasController.destroyAndView}" value="#{bundle.ViewValesCajasDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewValesCajasEditLink}"/>
+                <br />
+                <h:commandLink action="#{valesCajasController.prepareCreate}" value="#{bundle.ViewValesCajasCreateLink}" />
+                <br />
+                <h:commandLink action="#{valesCajasController.prepareList}" value="#{bundle.ViewValesCajasShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewValesCajasIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

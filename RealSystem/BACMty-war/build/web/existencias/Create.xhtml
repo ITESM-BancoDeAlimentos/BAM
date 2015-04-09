@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateExistenciasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_fechaCad}" for="fechaCad" />
+                    <h:inputText id="fechaCad" value="#{existenciasController.selected.fechaCad}" title="#{bundle.CreateExistenciasTitle_fechaCad}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_existencia}" for="existencia" />
+                    <h:inputText id="existencia" value="#{existenciasController.selected.existencia}" title="#{bundle.CreateExistenciasTitle_existencia}" />
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_asignado}" for="asignado" />
+                    <h:inputText id="asignado" value="#{existenciasController.selected.asignado}" title="#{bundle.CreateExistenciasTitle_asignado}" />
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_canPedido}" for="canPedido" />
+                    <h:inputText id="canPedido" value="#{existenciasController.selected.canPedido}" title="#{bundle.CreateExistenciasTitle_canPedido}" />
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_merma}" for="merma" />
+                    <h:inputText id="merma" value="#{existenciasController.selected.merma}" title="#{bundle.CreateExistenciasTitle_merma}" />
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_entrada}" for="entrada" />
+                    <h:inputText id="entrada" value="#{existenciasController.selected.entrada}" title="#{bundle.CreateExistenciasTitle_entrada}" />
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_salida}" for="salida" />
+                    <h:inputText id="salida" value="#{existenciasController.selected.salida}" title="#{bundle.CreateExistenciasTitle_salida}" />
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_IDExistencias}" for="IDExistencias" />
+                    <h:inputText id="IDExistencias" value="#{existenciasController.selected.IDExistencias}" title="#{bundle.CreateExistenciasTitle_IDExistencias}" required="true" requiredMessage="#{bundle.CreateExistenciasRequiredMessage_IDExistencias}"/>
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_IDPrograma}" for="IDPrograma" />
+                    <h:selectOneMenu id="IDPrograma" value="#{existenciasController.selected.IDPrograma}" title="#{bundle.CreateExistenciasTitle_IDPrograma}" >
+                        <f:selectItems value="#{programasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_IDArticulo}" for="IDArticulo" />
+                    <h:selectOneMenu id="IDArticulo" value="#{existenciasController.selected.IDArticulo}" title="#{bundle.CreateExistenciasTitle_IDArticulo}" >
+                        <f:selectItems value="#{articulosController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateExistenciasLabel_IDArea}" for="IDArea" />
+                    <h:selectOneMenu id="IDArea" value="#{existenciasController.selected.IDArea}" title="#{bundle.CreateExistenciasTitle_IDArea}" >
+                        <f:selectItems value="#{areasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{existenciasController.create}" value="#{bundle.CreateExistenciasSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{existenciasController.prepareList}" value="#{bundle.CreateExistenciasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateExistenciasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

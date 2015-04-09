@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.SucursalesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.View}" />
+        </ui:define>
+        <ui:define name="displayDataSection">
+            <p:selectOneMenu 
+                id="selected" value="#{sucursalesController.selected}"
+                filter="true" filterMatchMode="contains" >
+                <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}" />
+                <p:ajax event="change" update="dataView" immediate="true" />
+            </p:selectOneMenu>
+            <h:panelGroup id="dataView">
+                <h:panelGrid rendered="#{sucursalesController.selected!=null}" columns="4" styleClass="center">
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_IDDonante}" for="IDDonante" />
+                    <h:panelGroup>
+                        <p:inputText 
+                            id="IDDonante" 
+                            size="50"
+                            value="#{sucursalesController.selected.IDDonante.donante}" 
+                            required="true" 
+                            requiredMessage="#{bundle.ViewDonantesRequiredMessage_IDTipoDon}"  
+                            disabled="true"
+                            />
+                        <p:message display="icon" for="IDDonante" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_IDSucursal}" for="IDSucursal" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="IDSucursal" 
+                            value="#{sucursalesController.selected.IDSucursal}" 
+                            required="true"
+                            requiredMessage="#{bundle.ViewSucursalesRequiredMessage_IDSucursales}"
+                            />
+                        <p:message display="icon"
+                                   for="IDSucursal" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_direccion}" for="direccion" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="direccion"
+                            value="#{sucursalesController.selected.direccion}"
+                            maxlength="50"
+                            />
+                        <p:message
+                            display="icon"
+                            for="direccion"
+                            />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_colonia}" for="colonia" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="colonia"
+                            value="#{sucursalesController.selected.colonia}"
+                            maxlength="30"
+                            />
+                        <p:message display="icon" for="colonia" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_ciudad}" for="ciudad" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="ciudad"
+                            value="#{sucursalesController.selected.ciudad}"
+                            maxlength="20"
+                            />
+                        <p:message display="icon" for="ciudad" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_estado}" for="estado" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="estado"
+                            value="#{sucursalesController.selected.estado}"
+                            maxlength="10"
+                            />
+                        <p:message display="icon" for="estado" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_telefono}" for="telefono" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="telefono"
+                            value="#{sucursalesController.selected.telefono}"
+                            maxlength="15"
+                            />
+                        <p:message display="icon" for="telefono" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_fax}" for="fax" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="fax"
+                            value="#{sucursalesController.selected.fax}"
+                            maxlength="15"
+                            />
+                        <p:message display="icon" for="fax" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_contacto}" for="contacto" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="contacto"
+                            value="#{sucursalesController.selected.contacto}"
+                            maxlength="50"
+                            />
+                        <p:message display="icon" for="contacto" />
+                    </h:panelGroup>
+                    <p:outputLabel value="#{bundle.ViewSucursalesLabel_mail}" for="mail" />
+                    <h:panelGroup>
+                        <p:inputText
+                            size="50"
+                            disabled="true"
+                            id="mail"
+                            value="#{sucursalesController.selected.mail}"
+                            maxlength="30"
+                            />
+                        <p:message display="icon" for="mail" />
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:panelGroup>
+        </ui:define>
+        <ui:define name="tools">
+            <comp:viewTools controller="#{sucursalesController}" />
+        </ui:define>
+    </ui:composition>
+
+</html>

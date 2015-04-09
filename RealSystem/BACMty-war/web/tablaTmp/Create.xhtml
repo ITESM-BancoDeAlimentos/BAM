@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTablaTmpTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTablaTmpLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{tablaTmpController.selected.IDFolio}" title="#{bundle.CreateTablaTmpTitle_IDFolio}" required="true" requiredMessage="#{bundle.CreateTablaTmpRequiredMessage_IDFolio}"/>
+                    <h:outputLabel value="#{bundle.CreateTablaTmpLabel_total}" for="total" />
+                    <h:inputText id="total" value="#{tablaTmpController.selected.total}" title="#{bundle.CreateTablaTmpTitle_total}" required="true" requiredMessage="#{bundle.CreateTablaTmpRequiredMessage_total}"/>
+                    <h:outputLabel value="#{bundle.CreateTablaTmpLabel_totalCDescto}" for="totalCDescto" />
+                    <h:inputText id="totalCDescto" value="#{tablaTmpController.selected.totalCDescto}" title="#{bundle.CreateTablaTmpTitle_totalCDescto}" required="true" requiredMessage="#{bundle.CreateTablaTmpRequiredMessage_totalCDescto}"/>
+                    <h:outputLabel value="#{bundle.CreateTablaTmpLabel_porcDescto}" for="porcDescto" />
+                    <h:inputText id="porcDescto" value="#{tablaTmpController.selected.porcDescto}" title="#{bundle.CreateTablaTmpTitle_porcDescto}" required="true" requiredMessage="#{bundle.CreateTablaTmpRequiredMessage_porcDescto}"/>
+                    <h:outputLabel value="#{bundle.CreateTablaTmpLabel_IDInstitucion}" for="IDInstitucion" />
+                    <h:selectOneMenu id="IDInstitucion" value="#{tablaTmpController.selected.IDInstitucion}" title="#{bundle.CreateTablaTmpTitle_IDInstitucion}" required="true" requiredMessage="#{bundle.CreateTablaTmpRequiredMessage_IDInstitucion}">
+                        <f:selectItems value="#{institucionesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tablaTmpController.create}" value="#{bundle.CreateTablaTmpSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tablaTmpController.prepareList}" value="#{bundle.CreateTablaTmpShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateTablaTmpIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

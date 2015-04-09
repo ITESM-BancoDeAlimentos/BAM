@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTmpMovtoArtTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_tipoMov}" for="tipoMov" />
+                    <h:inputText id="tipoMov" value="#{tmpMovtoArtController.selected.tipoMov}" title="#{bundle.EditTmpMovtoArtTitle_tipoMov}" />
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_fechaMov}" for="fechaMov" />
+                    <h:inputText id="fechaMov" value="#{tmpMovtoArtController.selected.fechaMov}" title="#{bundle.EditTmpMovtoArtTitle_fechaMov}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{tmpMovtoArtController.selected.IDFolio}" title="#{bundle.EditTmpMovtoArtTitle_IDFolio}" />
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_cantidad}" for="cantidad" />
+                    <h:inputText id="cantidad" value="#{tmpMovtoArtController.selected.cantidad}" title="#{bundle.EditTmpMovtoArtTitle_cantidad}" />
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_fechaCad}" for="fechaCad" />
+                    <h:inputText id="fechaCad" value="#{tmpMovtoArtController.selected.fechaCad}" title="#{bundle.EditTmpMovtoArtTitle_fechaCad}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_mov}" for="mov" />
+                    <h:inputText id="mov" value="#{tmpMovtoArtController.selected.mov}" title="#{bundle.EditTmpMovtoArtTitle_mov}" />
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_existencia}" for="existencia" />
+                    <h:inputText id="existencia" value="#{tmpMovtoArtController.selected.existencia}" title="#{bundle.EditTmpMovtoArtTitle_existencia}" />
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_IDTmpMovtoArt}" for="IDTmpMovtoArt" />
+                    <h:inputText id="IDTmpMovtoArt" value="#{tmpMovtoArtController.selected.IDTmpMovtoArt}" title="#{bundle.EditTmpMovtoArtTitle_IDTmpMovtoArt}" required="true" requiredMessage="#{bundle.EditTmpMovtoArtRequiredMessage_IDTmpMovtoArt}"/>
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_IDUsuario}" for="IDUsuario" />
+                    <h:selectOneMenu id="IDUsuario" value="#{tmpMovtoArtController.selected.IDUsuario}" title="#{bundle.EditTmpMovtoArtTitle_IDUsuario}" >
+                        <f:selectItems value="#{usuariosController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_IDPrograma}" for="IDPrograma" />
+                    <h:selectOneMenu id="IDPrograma" value="#{tmpMovtoArtController.selected.IDPrograma}" title="#{bundle.EditTmpMovtoArtTitle_IDPrograma}" >
+                        <f:selectItems value="#{programasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_IDArticulo}" for="IDArticulo" />
+                    <h:selectOneMenu id="IDArticulo" value="#{tmpMovtoArtController.selected.IDArticulo}" title="#{bundle.EditTmpMovtoArtTitle_IDArticulo}" >
+                        <f:selectItems value="#{articulosController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditTmpMovtoArtLabel_IDArea}" for="IDArea" />
+                    <h:selectOneMenu id="IDArea" value="#{tmpMovtoArtController.selected.IDArea}" title="#{bundle.EditTmpMovtoArtTitle_IDArea}" >
+                        <f:selectItems value="#{areasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{tmpMovtoArtController.update}" value="#{bundle.EditTmpMovtoArtSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditTmpMovtoArtViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{tmpMovtoArtController.prepareList}" value="#{bundle.EditTmpMovtoArtShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditTmpMovtoArtIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

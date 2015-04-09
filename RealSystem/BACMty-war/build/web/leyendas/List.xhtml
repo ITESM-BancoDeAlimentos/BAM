@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListLeyendasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListLeyendasEmpty}" rendered="#{leyendasController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{leyendasController.items.rowCount > 0}">
+                    <h:outputText value="#{leyendasController.pagination.pageFirstItem + 1}..#{leyendasController.pagination.pageLastItem + 1}/#{leyendasController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{leyendasController.previous}" value="#{bundle.Previous} #{leyendasController.pagination.pageSize}" rendered="#{leyendasController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{leyendasController.next}" value="#{bundle.Next} #{leyendasController.pagination.pageSize}" rendered="#{leyendasController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{leyendasController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLeyendasTitle_leyenda1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.leyenda1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLeyendasTitle_leyenda2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.leyenda2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLeyendasTitle_leyenda3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.leyenda3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLeyendasTitle_IDLeyenda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDLeyenda}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{leyendasController.prepareView}" value="#{bundle.ListLeyendasViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{leyendasController.prepareEdit}" value="#{bundle.ListLeyendasEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{leyendasController.destroy}" value="#{bundle.ListLeyendasDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{leyendasController.prepareCreate}" value="#{bundle.ListLeyendasCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListLeyendasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

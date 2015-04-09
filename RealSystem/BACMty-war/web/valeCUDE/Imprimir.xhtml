@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ValeCUDETitle}" />
+        </ui:define>
+        
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.ValeCUDE_Imprimir_Title}" />
+        </ui:define>
+        
+        <ui:define name="tools">
+            <comp:homeLink />
+            <h:commandLink value="&nbsp;#{bundle.ValeCUDE_View_Title}" styleClass="btn-ver" title="#{bundle.ValeCUDE_View_TitleHint}"
+                           immediate="true" action="#{valeCUDEController.limpiaView()}"/>
+            <h:commandLink value="&nbsp;#{bundle.Print}" styleClass="btn-imprimir" title="#{bundle.Print}"
+                           immediate="true" action="#{valeCUDEController.Imprimir()}" target="_blank"
+                           rendered="#{authorizationController.accesos.imprimir}"/>
+                           
+        </ui:define>
+        
+        <ui:define name="displayDataSection">
+            <h:outputLabel value="#{bundle.ValeCUDELabel_folio}" for="folio" style="text-align: right !important" >
+                <p:inputText id="folio" value="#{valeCUDEController.selected.folio}"
+                             onkeypress="if (event.keyCode === 13) {return false;}"
+                             maxlength="10" size="30" >
+                </p:inputText>
+            </h:outputLabel>
+            
+            <h:panelGrid class="ImprimeVale_Datos" columns="4" columnClasses="rightAlign, leftAlign, rightAlign, leftAlign" >
+                
+                <h:outputLabel value="#{bundle.DonantesLabel_IDDonante}" for="IDDonante" />
+                <p:inputText id="IDDonante" value="#{valeCUDEController.selected.IDDonante.IDDonante}"
+                             disabled="true" required="true" requiredMessage="#{bundle.DonantesRequiredMessage_Donante}" size="12">
+                </p:inputText>
+                
+                <h:outputLabel value="#{bundle.DonantesLabel_donante}" for="Donantes" />
+                <p:selectOneMenu id="Donantes" value="#{valeCUDEController.selected.IDDonante.donante}"
+                                 filter="true" filterMatchMode="contains" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{valeCUDEController.itemsAvailableSelectDonantes}" />
+                    <p:ajax event="change" update="@this,IDSucursal,IDDonante,agregar,direccionPanel"
+                            process="@this,IDSucursal,IDDonante,agregar,direccionPanel" listener="#{valeCUDEController.viewIDDonante()}" />
+                </p:selectOneMenu>
+                
+                <h:outputLabel value="#{bundle.CreateSucursalesLabel_IDSucursales}" for="IDSucursales" />
+                <p:inputText id="IDSucursales" value="#{valeCUDEController.selected.IDSucursales.IDSucursales}" disabled="true" size="12" />
+                
+                <h:outputLabel value="#{bundle.CreateSucursalesLabel_IDSucursal}" for="IDSucursal" />
+                <p:selectOneMenu id="IDSucursal" value="#{valeCUDEController.selected.IDSucursales.IDSucursal}"
+                                 filter="true" filterMatchMode="contains"
+                                 disabled="#{!valeCUDEController.sucursalEnabled}" >
+                    <f:selectItem itemLabel="Seleccione uno" itemValue=" " />
+                    <f:selectItems value="#{valeCUDEController.itemsAvailableSelectSucursales}" />
+                    <p:ajax event="change" update="@this,IDSucursales,agregar,direccionPanel" process="@this,IDSucursales,agregar,direccionPanel" 
+                            listener="#{valeCUDEController.viewIDSucursal(valeCUDEController.selected.IDSucursales.IDSucursal)}" />
+                </p:selectOneMenu>
+                
+                <h:outputLabel value="#{bundle.ValeCUDELabel_fecha}" for="fecha" />
+                <p:calendar id="fecha" value="#{valeCUDEController.fecha}" 
+                            readonlyInput="true" title="#{bundle.ValeCUDETitle_fecha}" 
+                            size="12" locale="#{bundle.locale}" />
+                
+                <h:outputLabel value="#{bundle.ValeCUDELabel_AddDir}" for="DireccionChkBx" />
+                <p:selectBooleanCheckbox id="DireccionChkBx" value="#{valeCUDEController.direccionEnabled}" >
+                    
+                </p:selectBooleanCheckbox>
+                
+            </h:panelGrid>
+            
+            <p:separator id="separador" rendered="true" />
+            
+            <h:panelGrid id="direccionPanel" class="ImprimeVale_Datos" columns="4" columnClasses="leftAlign rightAlign leftAlign rightAlign"
+                         rendered="true">
+                
+                <h:outputLabel value="Direccion: " for="direccion" />
+                <p:inputText id="direccion" value="#{valeCUDEController.direccion}" disabled="true" size="55" />
+                
+                <h:outputLabel value="Colonia: " for="colonia" />
+                <p:inputText id="colonia" value="#{valeCUDEController.colonia}" disabled="true" size="55" />
+                
+                <h:outputLabel value="Ciudad: " for="ciudad" />
+                <p:inputText id="ciudad" value="#{valeCUDEController.ciudad}" disabled="true" size="55" />
+                
+            </h:panelGrid>
+            
+            <p:commandButton id="agregar" value="#{bundle.ValeCUDEAdd}" actionListener="#{valeCUDEController.agregarFila}"
+                             rendered="#{authorizationController.accesos.nuevo}"
+                             update="@form" disabled="#{!valeCUDEController.agregarEnabled}" ajax="false" />
+            <p:separator />
+            
+        </ui:define>
+        <ui:define name="dataTableSection" >
+            <h:panelGroup>
+                <p:dataTable id="dataTable" value="#{valeCUDEController.listaAImprimir}"
+                             var="item" emptyMessage="#{bundle.ValeCUDEEmpty}"
+                             paginatorTemplate="#{bundle.paginatorTemplate}"
+                             paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20" rows="10">
+                    <f:facet name="header">Registros a imprimir</f:facet>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            #{bundle.ValeCUDETitle_folio}
+                        </f:facet>
+                        <h:outputText value="#{item.folioAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            #{bundle.DonantesTitle_donante}
+                        </f:facet>
+                        <h:outputText value="#{item.donanteAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            Sucursal
+                        </f:facet>
+                        <h:outputText value="#{item.sucursalAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            #{bundle.ValeCUDETitle_fecha}
+                        </f:facet>
+                        <h:outputText value="#{item.fechaAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            #{bundle.DonantesTitle_direccion}
+                        </f:facet>
+                        <h:outputText value="#{item.direccionAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            #{bundle.DonantesTitle_colonia}
+                        </f:facet>
+                        <h:outputText value="#{item.coloniaAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            #{bundle.DonantesTitle_ciudad}
+                        </f:facet>
+                        <h:outputText value="#{item.ciudadAImprimir}" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{bundle.Eliminar}" update="@form" process="@form" immediate="true"
+                                         actionListener="#{valeCUDEController.eliminarFila(item)}" />
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+    
+</html>

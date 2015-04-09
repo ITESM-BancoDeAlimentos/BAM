@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMovCarAboTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListMovCarAboEmpty}" rendered="#{movCarAboController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{movCarAboController.items.rowCount > 0}">
+                    <h:outputText value="#{movCarAboController.pagination.pageFirstItem + 1}..#{movCarAboController.pagination.pageLastItem + 1}/#{movCarAboController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{movCarAboController.previous}" value="#{bundle.Previous} #{movCarAboController.pagination.pageSize}" rendered="#{movCarAboController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{movCarAboController.next}" value="#{bundle.Next} #{movCarAboController.pagination.pageSize}" rendered="#{movCarAboController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{movCarAboController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_tipoMov}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoMov}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_IDFolioCarAbo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolioCarAbo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_IDFolio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_fechaMov}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaMov}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_importe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.importe}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_abono}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.abono}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_referencia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.referencia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_status}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.status}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_saldo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_bonificacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bonificacion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_donativo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.donativo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_incobrable}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.incobrable}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_IDMovCarAbo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDMovCarAbo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_IDPrograma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDPrograma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_IDInstitucion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDInstitucion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovCarAboTitle_IDArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{movCarAboController.prepareView}" value="#{bundle.ListMovCarAboViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{movCarAboController.prepareEdit}" value="#{bundle.ListMovCarAboEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{movCarAboController.destroy}" value="#{bundle.ListMovCarAboDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{movCarAboController.prepareCreate}" value="#{bundle.ListMovCarAboCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListMovCarAboIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

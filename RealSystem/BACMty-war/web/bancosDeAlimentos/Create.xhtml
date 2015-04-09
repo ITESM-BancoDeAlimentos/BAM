@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.BancosDeAlimentosTitle}" />
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.Create}" />
+        </ui:define>
+        <ui:define name="tools">
+            <comp:createTools controller="#{bancosDeAlimentosController}" />
+        </ui:define>
+        <ui:define name="dataTableSection">
+            <h:panelGrid
+                columns="2" rendered="#{bancosDeAlimentosController.selected!=null}"
+                class="center" columnClasses="label,value" >
+                <p:outputLabel value="#{bundle.BancosDeAlimentosLabel_nombre}" for="nombre" />
+                <p:inputText
+                    id="nombre"
+                    value="#{bancosDeAlimentosController.selected.nombre}"
+                    title="#{bundle.BancosDeAlimentosTitle_nombre}"
+                    required="true"
+                    size="30"
+                    maxlength="30"
+                    requiredMessage="#{bundle.BancosDeAlimentosRequiredMessage_nombre}"/>
+                <p:outputLabel value="#{bundle.BancosDeAlimentosLabel_poblacion}" for="poblacion" />
+                <p:spinner
+                    id="poblacion"
+                    value="#{bancosDeAlimentosController.selected.poblacion}"
+                    title="#{bundle.BancosDeAlimentosTitle_poblacion}"
+                    required="true"
+                    size="10"
+                    maxlength="10"
+                    requiredMessage="#{bundle.BancosDeAlimentosRequiredMessage_poblacion}"/>
+            </h:panelGrid>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,114 @@
+# Estructura el menu de sistema. 
+# Submenu   {name, label,   forms,     subs, separator}
+# Item      {name, label, outcome, disabled, separator}
+# name: un IDForm de la tabla Accesos. La entrada debe de tener Sub = true.
+# label: texto que se muestra. Formato "{texto}" para usar un valor del bundle.
+# outcome: el viewId al que enlaza
+# forms/subs: los submenus o los enlaces que tiene un submenu
+# separtor: true/false
+
+-   !Submenu
+    label: "{mnuProcesos}"
+    subs:
+        -   !Submenu
+            label: "{mnuProcuracion}"
+            forms:
+                -   name: webTipoDon
+                    label: "{TipoDonTitle}"
+                    outcome: /tipoDon/List.xhtml
+                -   name: webDonantes
+                    label: "{DonantesTitle}"
+                    outcome: /donantes/List.xhtml
+                -   name: webSucursales
+                    label: "{SucursalesTitle}"
+                    outcome: /sucursales/List.xhtml
+                -   separator: true
+                #------------------
+                -   name: webValeCude
+                    label: "{ValeCUDE_Imprimir_Title}"
+                    outcome: /valeCUDE/Imprimir.xhtml
+                -   name: webValesEntrega 
+                    label: "{ValeCUDE_List_Title}"
+                    outcome: /valeCUDE/List.xhtml
+                -   name: webDistAmba
+                    label: "{DistribucionAMBATitle}"
+                    outcome: /distribucionAMBA/DistribucionAMBA.xhtml
+                -   name: webBancosAlim
+                    label: "{BancosDeAlimentosTitle}"
+                    outcome: /bancosDeAlimentos/List.xhtml
+                -   separator: true
+                #------------------
+                -   name: webResumenTie
+                    label: "{InformeTiendasTitle}"
+                    outcome: /movimientos/InformeTiendas.xhtml
+        -   !Submenu
+            label: "{mnuCalidad}"
+            forms: 
+                -   label: "{ReporteHebSorianaTitle}"
+                    name: webRptHEB
+                    outcome: /movimientos/ReporteHebSoriana.xhtml
+                -   label: "{ReporteWalMartSamsAurTitle}"
+                    name: webRptWalM
+                    outcome: /movimientos/ReporteWalMartSamsAur.xhtml
+                -   separator: true
+                #------------------
+                -   label: "{MovimientosTitle_ActionAltaRecibo_Tie}"
+                    name: webAltaInvTie
+                    outcome: /movimientos/AltaInvTie.xhtml
+                -   label: "{MovimientosTitle_ActionAltaRecibo_AMBA}" 
+                    name: webAltaInvAmba
+                    outcome: /movimientos/AltaInvAMBA.xhtml         
+        -   !Submenu
+            label: "{mnuRecibo}"
+            forms:
+                -   label: "{ReciboTitle_Tiendas}"
+                    name: webRecDonTie
+                    outcome: /recibo/RecDonTie.xhtml
+                -   label: "{ReciboTitle_AMBA}"
+                    name: webRecDonAmba
+                    outcome: /recibo/RecDonAMBA.xhtml
+        -   !Submenu
+            label: "{mnuNutricion}"
+            forms:
+                -   name: webEncSocioNutricia
+                    label: "{EncSocioNutriciaTitle}"
+                    outcome: /encSocioNutricia/Create.xhtml
+                -   name: webEncSocioNutricia
+                    label: "Impresion de Credencial"
+                    outcome: /imprimir.xhtml
+        -   !Submenu
+            label: "{mnuOperaciones}"
+            forms:
+                -   name: webRptMovs
+                    label: "{MovimientosBusqueda_Title}"
+                    outcome: /movimientos/Buscar.xhtml
+-   !Submenu
+    label: "{mnuAdministracion}"
+    forms:
+        -   name: webParametros
+            label: "{ParametrosTitle}"
+            outcome: /parametros/List.xhtml
+        -   name: webRelRepClaseVar
+            label: "{RelacionRepVarTitle}"
+            outcome: /relacionRepVar/List.xhtml
+        -   separator: true
+        -   name: webUsuarios
+            label: "{UsuariosTitle}"
+            outcome: /usuarios/List.xhtml
+        -   name: webAccesos
+            label: "{AccesosTitle}"
+            outcome: /accesos/Edit.xhtml
+        -   name: webNivelAcceso
+            label: "{NivelAccesoTitle}"
+            outcome: /nivelAcceso/List.xhtml
+        -   separator: true
+        -   name: webArticulos
+            label: "{ArticulosTitle}"
+            outcome: /articulos/List.xhtml
+        -   name: webPreguntas
+            label: "{PreguntasTitle}"
+            outcome: /preguntas/List.xhtml
+        -   name: webRespuestas
+            label: "{RespuestasTitle}"
+            outcome: /respuestas/List.xhtml
+        

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ArticulosTitle}" /> 
+        </ui:define>
+
+        <ui:define name="actionTitle" >
+            <h:outputText value="#{bundle.View}" />
+        </ui:define>
+
+        <ui:define name="tools">
+            <comp:viewTools controller="#{articulosController}" />
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <h:panelGroup>
+                <p:outputLabel value="#{bundle.ArticulosLabel_articulo}" for="selected" />
+                <p:autoComplete
+                    completeMethod="#{articulosCompleter.complete}"
+                    value="#{articulosController.selected}" itemLabel="#{item.articulo}"
+                    id="selected" var="item" itemValue="#{item}" 
+                    dropdown="true" forceSelection="true" title="Busque por nombre o por codigo"
+                    scrollHeight="180" size="40" maxlength="100" global="false"
+                    maxResults="#{parametersController.suggestionLength}" >
+                    <p:ajax event="itemSelect" update="controls" />
+                </p:autoComplete>
+            </h:panelGroup>
+            <h:panelGroup id="controls">
+                <h:panelGroup rendered="#{articulosController.selected != null}">
+                    <p:panelGrid columns="4" styleClass="center">
+                        <p:outputLabel value="#{bundle.ArticulosLabel_IDArticulo}" />
+                        <p:inputText disabled="true" value="#{articulosController.selected.IDArticulo}" />
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_articulo}" />
+                        <p:inputText disabled="true" size="50" value="#{articulosController.selected.articulo}" />
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_IDGrupoAlim}"/>
+                        <p:inputText disabled="true" size="50" value="#{articulosController.selected.IDGrupoAlim.grupoAlim}" />
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_IDVariedad}"/>
+                        <p:inputText disabled="true" size="50" value="#{articulosController.selected.IDVariedad.variedad}" title="#{bundle.ArticulosTitle_IDVariedad}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_IDDonante}"/>
+                        <p:inputText disabled="true" size="50" value="#{articulosController.selected.IDDonante.donante}" title="#{bundle.ArticulosTitle_IDDonante}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_IDGrupoRef}"/>
+                        <p:inputText disabled="true" size="50" value="#{articulosController.selected.IDGrupoRef.grupoRef}" title="#{bundle.ArticulosTitle_IDGrupoRef}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_localizacion}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.localizacion}" title="#{bundle.ArticulosTitle_localizacion}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_almacen}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.almacen}" title="#{bundle.ArticulosTitle_almacen}"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="6" styleClass="center">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{bundle.ArticulosLabel_unidadMed1}"/>
+                            <p:inputText disabled="true" value="#{articulosController.selected.unidadMed1}" title="#{bundle.ArticulosTitle_unidadMed1}"/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_costoBenef1}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.costoBenef1}" title="#{bundle.ArticulosTitle_costoBenef1}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_cuotaRecup1}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.cuotaRecup1}" title="#{bundle.ArticulosTitle_cuotaRecup1}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_reorden1}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.reorden1}" title="#{bundle.ArticulosTitle_reorden1}"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="6" styleClass="center">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{bundle.ArticulosLabel_unidadMed2}"/>
+                            <p:inputText disabled="true" value="#{articulosController.selected.unidadMed2}" title="#{bundle.ArticulosTitle_unidadMed2}"/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_costoBenef2}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.costoBenef2}" title="#{bundle.ArticulosTitle_costoBenef2}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_cuotaRecup2}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.cuotaRecup2}" title="#{bundle.ArticulosTitle_cuotaRecup2}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_reorden2}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.reorden2}" title="#{bundle.ArticulosTitle_reorden2}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_cantidadUni}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.cantidadUni}" title="#{bundle.ArticulosTitle_cantidadUni}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_peso}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.peso}" title="#{bundle.ArticulosTitle_peso}"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="6" styleClass="center">
+                        <p:outputLabel value="#{bundle.ArticulosLabel_factor}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.factor}" title="#{bundle.ArticulosTitle_factor}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_PMercado1}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.PMercado1}" title="#{bundle.ArticulosTitle_PMercado1}"/>
+
+                        <p:outputLabel value="#{bundle.ArticulosLabel_PMercado2}"/>
+                        <p:inputText disabled="true" value="#{articulosController.selected.PMercado2}" title="#{bundle.ArticulosTitle_PMercado2}"/>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+
+</html>

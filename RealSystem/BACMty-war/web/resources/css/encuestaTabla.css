@@ -1,0 +1,19 @@
+table.pregFam {
+    height: 100%;
+    margin-bottom: 1.2em;
+}
+
+table.pregFam tbody {
+    height: 100%;
+}
+
+table.pregFam tr {
+    height: 100%;
+}
+
+table.pregFam td {
+    height: 100%;
+    margin-top: .6em;
+    margin-bottom: .6em;
+}
+

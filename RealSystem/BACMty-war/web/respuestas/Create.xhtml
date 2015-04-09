@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.RespuestasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.Create}" />
+        </ui:define>
+        <ui:define name="displayDataSection">
+            <h:panelGrid id="dataView" columns="3" styleClass="center" >
+                <p:outputLabel value="#{bundle.RespuestasLabel_Pregunta}" for="pregunta" />
+                <p:selectOneMenu id="pregunta" value ="#{respuestasController.selected.preguntas}"
+                                 required="true">
+                    <f:selectItems value="#{preguntasController.itemsAvailableSelectOne}" 
+                                   var="item" />
+                </p:selectOneMenu>
+                <p:message display="icon" for="pregunta" />
+                <p:outputLabel value="#{bundle.RespuestasLabel_IDRespuesta}" for="IDRespuesta" />
+                <p:inputText
+                    id="IDRespuesta"
+                    value="#{respuestasController.selected.respuestasPK.IDRespuesta}"
+                    title="#{bundle.RespuestasTitle_IDRespuesta}"
+                    size="40" maxlength="3"
+                    required="true"
+                    requiredMessage="#{bundle.RespuestasRequiredMessage_Description}"
+                    disabled="false"
+                    />
+                <p:message display="icon" for="IDRespuesta" />
+                <p:outputLabel value="#{bundle.RespuestasLabel_Description}" for="descRespuesta" />
+                <p:inputText
+                    id="descRespuesta"
+                    value="#{respuestasController.selected.descripcion}"
+                    title="#{bundle.RespuestasTitle_Description}"
+                    size="40" maxlength="100"
+                    required="true"
+                    requiredMessage="#{bundle.RespuestasRequiredMessage_Description}"
+                    disabled="false"
+                    />
+                <p:message display="icon" for="descRespuesta" />
+            </h:panelGrid>
+        </ui:define>
+        <ui:define name="tools">
+            <comp:createTools controller="#{respuestasController}" />
+        </ui:define>
+    </ui:composition>
+        
+</html>

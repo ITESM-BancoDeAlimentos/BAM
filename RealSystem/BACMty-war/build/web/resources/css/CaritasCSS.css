@@ -1,0 +1,245 @@
+#Cabecera_Caritas>img {
+    height: 115px;
+}
+
+#Cabecera_Caritas_Login {
+    margin: auto;
+}
+
+#Cabecera_Caritas {
+    margin-top: 3.25em;
+}
+
+
+#topLogin, #middleLogin, #infoLogin {
+    display: inline-block;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    text-align: center;
+    font-size: .75em;
+    font-family: Verdana,Arial,sans-serif;
+}
+
+#middleLogin {
+    top: .1em;
+    z-index: 5;
+    /*background: none;
+    border: none;
+    height: 6.55em;*/
+}
+
+#middleLogin > * {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1em;
+    left: 0em;
+    right: 0em;
+    /*color: #709302 !important;*/
+}
+
+#middleLogin > #titleLogin{
+    font-size: 1.25em;
+    padding: 1em 0em 0.25em 0em;
+}
+
+#middleLogin > #actionsLogin {
+    font-size: 1em;
+    padding: 0.1em 0em 1em 0em;
+}
+
+#infoLogin {
+    left: 0em;
+    background: #EEEEEE;
+    overflow:auto;
+    padding-top: .25em;
+    min-height: 30em;
+}
+
+.ImprimeVale_Datos {
+    margin: auto;
+}
+
+.ImprimeVale_Datos > label {
+    vertical-align: super;
+}
+
+.barra .view
+{
+    display: inline-block;
+    height: 19px;
+    width: 15px;
+    background: url("../images/file.png") repeat-x 0 0;
+    margin-right:4px;
+}
+.barra .edit
+{
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    background: url("../images/pencil.png") repeat-x 0 0;
+    margin-right:4px;
+}
+.barra .destroy
+{
+    /*display: inline-block;*/
+    height: 21px;
+    width: 15px;
+    background: url('../images/eliminiar.png') repeat-x 0 0;
+}
+
+.enlaces{
+    display: inline-block;
+    margin: 0 auto;
+    list-style: none;
+    overflow: hidden;
+}
+.enlaces li{
+    padding: 0;
+    margin: 0;
+    padding-right: 10px;
+    border-right: solid 1px blue;
+    margin-right: 3px;
+    margin-top: 12px;
+    display: inline-block;
+}
+.enlaces li a{
+    color:blue;
+    font-weight: normal;
+}
+.enlaces li a:hover{
+    /*cursor: pointer;*/
+    text-decoration: underline;
+    font-weight: normal;
+}
+
+dir
+{	
+    margin-left:30px;
+    margin-bottom:3px;
+    margin-top:1px;	
+}
+
+li
+{
+    margin-left:11px;	
+}
+
+.txtcuerpo
+{	
+    font-family:sans-serif,Tahoma, Arial;
+    font-size:12px;
+    color:#5e6a71;	
+}
+
+.txtcuerpodir
+{	
+    font-family:sans-serif,Tahoma, Arial;
+    font-size:11px;
+    color:#5e6a71;	
+}
+
+.txtcuerpobold
+{	
+    font-family:sans-serif,Tahoma, Arial;
+    font-size:12px;
+    font-weight:bold;
+    color:#5e6a71;	
+}
+
+.txttemacuerpo
+{	
+    font-family:sans-serif,Tahoma, Arial;
+    font-size:12px;
+    color:#5b97b1;
+    font-weight:bolder;	
+}
+
+.txttemahome
+{	
+    font-family:sans-serif,Tahoma, Arial;
+    font-size:14px;
+    color:#5b97b1;
+    font-weight:bolder;	
+}
+
+.txtdireccion
+{	
+    font-family:sans-serif,Tahoma, Arial;
+    font-size:10px;
+    color:#5e6a71;	
+}
+
+.boton
+{
+    font-weight: bolder;
+
+    font-size: 12px;
+
+    width: 140px;
+
+    cursor: pointer;
+
+    font-family: Verdana,Tahoma,Arial;    
+
+    color:#626469;        
+
+    background-color: #99b7e7;
+
+    border-color:#626469;
+
+    border-style: double;
+
+    border-width: medium;		
+
+    letter-spacing: normal;		
+
+}
+
+td.label {
+    text-align: right;
+}
+
+td.value {
+    text-align: left;
+}
+
+.ui-menuitem-text {
+    text-align: left;
+}
+
+.ui-autocomplete-input {
+    text-align: center;
+}
+
+.ui-column-dnd-bottom {
+    display: none;
+    position: absolute;
+}
+
+.ui-panelgrid {
+    border-collapse: separate !important;
+    /*border: solid thin gray   !important;*/
+}
+
+.ui-panelgrid td {
+    border: none !important;
+}
+
+#info>* {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+::-webkit-input-placeholder	{ color: black; text-align: center; }
+input:-moz-placeholder      { color: black; text-align: center; }
+input:-ms-placeholder       { color: black; text-align: center; }
+::-ms-input-placeholder	    { color: black; text-align: center; }
+:-ms-input-placeholder	    { color: black; text-align: center; }
+
+.ui-message-error.ui-widget.ui-corner-all.ui-message-icon-only.ui-helper-clearfix {
+    display: inline-block;
+}
+.ui-selectonemenu.ui-widget {
+    vertical-align: bottom;
+}

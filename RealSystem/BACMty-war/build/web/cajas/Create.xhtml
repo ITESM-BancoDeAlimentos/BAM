@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCajasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_IDCaja}" for="IDCaja" />
+                    <h:inputText id="IDCaja" value="#{cajasController.selected.IDCaja}" title="#{bundle.CreateCajasTitle_IDCaja}" required="true" requiredMessage="#{bundle.CreateCajasRequiredMessage_IDCaja}"/>
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_IDLote}" for="IDLote" />
+                    <h:inputText id="IDLote" value="#{cajasController.selected.IDLote}" title="#{bundle.CreateCajasTitle_IDLote}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_peso}" for="peso" />
+                    <h:inputText id="peso" value="#{cajasController.selected.peso}" title="#{bundle.CreateCajasTitle_peso}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_fechaPesado}" for="fechaPesado" />
+                    <h:inputText id="fechaPesado" value="#{cajasController.selected.fechaPesado}" title="#{bundle.CreateCajasTitle_fechaPesado}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_asignado}" for="asignado" />
+                    <h:inputText id="asignado" value="#{cajasController.selected.asignado}" title="#{bundle.CreateCajasTitle_asignado}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{cajasController.selected.status}" title="#{bundle.CreateCajasTitle_status}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{cajasController.selected.IDFolio}" title="#{bundle.CreateCajasTitle_IDFolio}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_fechaSal}" for="fechaSal" />
+                    <h:inputText id="fechaSal" value="#{cajasController.selected.fechaSal}" title="#{bundle.CreateCajasTitle_fechaSal}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_idArticuloCla}" for="idArticuloCla" />
+                    <h:inputText id="idArticuloCla" value="#{cajasController.selected.idArticuloCla}" title="#{bundle.CreateCajasTitle_idArticuloCla}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_costo}" for="costo" />
+                    <h:inputText id="costo" value="#{cajasController.selected.costo}" title="#{bundle.CreateCajasTitle_costo}" />
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_IDVariedad}" for="IDVariedad" />
+                    <h:selectOneMenu id="IDVariedad" value="#{cajasController.selected.IDVariedad}" title="#{bundle.CreateCajasTitle_IDVariedad}" >
+                        <f:selectItems value="#{variedadController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_IDPrograma}" for="IDPrograma" />
+                    <h:selectOneMenu id="IDPrograma" value="#{cajasController.selected.IDPrograma}" title="#{bundle.CreateCajasTitle_IDPrograma}" >
+                        <f:selectItems value="#{programasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateCajasLabel_idArea}" for="idArea" />
+                    <h:selectOneMenu id="idArea" value="#{cajasController.selected.idArea}" title="#{bundle.CreateCajasTitle_idArea}" >
+                        <f:selectItems value="#{areasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{cajasController.create}" value="#{bundle.CreateCajasSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{cajasController.prepareList}" value="#{bundle.CreateCajasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateCajasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

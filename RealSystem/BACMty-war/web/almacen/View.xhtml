@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewAlmacenTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_IDAlmacen}"/>
+                    <h:outputText value="#{almacenController.selected.IDAlmacen}" title="#{bundle.ViewAlmacenTitle_IDAlmacen}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_nombre}"/>
+                    <h:outputText value="#{almacenController.selected.nombre}" title="#{bundle.ViewAlmacenTitle_nombre}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_direccion}"/>
+                    <h:outputText value="#{almacenController.selected.direccion}" title="#{bundle.ViewAlmacenTitle_direccion}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_telefono}"/>
+                    <h:outputText value="#{almacenController.selected.telefono}" title="#{bundle.ViewAlmacenTitle_telefono}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_fax}"/>
+                    <h:outputText value="#{almacenController.selected.fax}" title="#{bundle.ViewAlmacenTitle_fax}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_rfc}"/>
+                    <h:outputText value="#{almacenController.selected.rfc}" title="#{bundle.ViewAlmacenTitle_rfc}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_EMail}"/>
+                    <h:outputText value="#{almacenController.selected.EMail}" title="#{bundle.ViewAlmacenTitle_EMail}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_folioValesSal}"/>
+                    <h:outputText value="#{almacenController.selected.folioValesSal}" title="#{bundle.ViewAlmacenTitle_folioValesSal}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_folioMovAlm}"/>
+                    <h:outputText value="#{almacenController.selected.folioMovAlm}" title="#{bundle.ViewAlmacenTitle_folioMovAlm}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_localizacion}"/>
+                    <h:outputText value="#{almacenController.selected.localizacion}" title="#{bundle.ViewAlmacenTitle_localizacion}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_costeo}"/>
+                    <h:outputText value="#{almacenController.selected.costeo}" title="#{bundle.ViewAlmacenTitle_costeo}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_folioCap}"/>
+                    <h:outputText value="#{almacenController.selected.folioCap}" title="#{bundle.ViewAlmacenTitle_folioCap}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_folioCaja}"/>
+                    <h:outputText value="#{almacenController.selected.folioCaja}" title="#{bundle.ViewAlmacenTitle_folioCaja}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_folioMovCla}"/>
+                    <h:outputText value="#{almacenController.selected.folioMovCla}" title="#{bundle.ViewAlmacenTitle_folioMovCla}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_fechaIni}"/>
+                    <h:outputText value="#{almacenController.selected.fechaIni}" title="#{bundle.ViewAlmacenTitle_fechaIni}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_fechaFin}"/>
+                    <h:outputText value="#{almacenController.selected.fechaFin}" title="#{bundle.ViewAlmacenTitle_fechaFin}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_folioTxt}"/>
+                    <h:outputText value="#{almacenController.selected.folioTxt}" title="#{bundle.ViewAlmacenTitle_folioTxt}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_desc40}"/>
+                    <h:outputText value="#{almacenController.selected.desc40}" title="#{bundle.ViewAlmacenTitle_desc40}"/>
+                    <h:outputText value="#{bundle.ViewAlmacenLabel_fechaTablaTmp}"/>
+                    <h:outputText value="#{almacenController.selected.fechaTablaTmp}" title="#{bundle.ViewAlmacenTitle_fechaTablaTmp}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{almacenController.destroyAndView}" value="#{bundle.ViewAlmacenDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewAlmacenEditLink}"/>
+                <br />
+                <h:commandLink action="#{almacenController.prepareCreate}" value="#{bundle.ViewAlmacenCreateLink}" />
+                <br />
+                <h:commandLink action="#{almacenController.prepareList}" value="#{bundle.ViewAlmacenShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewAlmacenIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

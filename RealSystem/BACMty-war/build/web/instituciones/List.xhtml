@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListInstitucionesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListInstitucionesEmpty}" rendered="#{institucionesController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{institucionesController.items.rowCount > 0}">
+                    <h:outputText value="#{institucionesController.pagination.pageFirstItem + 1}..#{institucionesController.pagination.pageLastItem + 1}/#{institucionesController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{institucionesController.previous}" value="#{bundle.Previous} #{institucionesController.pagination.pageSize}" rendered="#{institucionesController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{institucionesController.next}" value="#{bundle.Next} #{institucionesController.pagination.pageSize}" rendered="#{institucionesController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{institucionesController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_IDInstitucion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDInstitucion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_institucion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.institucion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_direccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.direccion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_colonia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.colonia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_ciudad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ciudad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_telefono}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telefono}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_fax}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fax}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_contacto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.contacto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_fechaAlta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaAlta}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_tipoInstitucion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoInstitucion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_mail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.mail}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_saldo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_horario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_observacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.observacion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_familia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.familia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_director}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.director}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_direccionFis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.direccionFis}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_coloniaFis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.coloniaFis}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_ciudadFis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ciudadFis}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_estadoFis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estadoFis}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_rfc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rfc}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_personas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.personas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_razonFis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.razonFis}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_activo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.activo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_descuento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descuento}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_saldoPermitido}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldoPermitido}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_donativoPermitido}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.donativoPermitido}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_IDSubArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDSubArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInstitucionesTitle_IDGrupoInst}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDGrupoInst}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{institucionesController.prepareView}" value="#{bundle.ListInstitucionesViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{institucionesController.prepareEdit}" value="#{bundle.ListInstitucionesEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{institucionesController.destroy}" value="#{bundle.ListInstitucionesDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{institucionesController.prepareCreate}" value="#{bundle.ListInstitucionesCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListInstitucionesIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsf/composite/comp" >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EncSocioNutriciaTitle}" />
+        </ui:define>
+
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.EncSocioNutriciaActionTitle_Reactivar}" />
+        </ui:define>
+
+        <ui:define name="tools" >
+            <c:homeLink />
+            <h:commandLink value="#{bundle.Create}" title="#{bundle.Create}" 
+                           action="#{encSocioNutriciaController.prepareCreate()}"
+                           styleClass="btn-agregar" immediate="true"
+                           rendered="#{authorizationController.accesos.nuevo}"/>
+            <h:commandLink value="#{bundle.ShowAll}" title="#{bundle.ShowAll}"
+                           action="#{encSocioNutriciaController.prepareList()}"
+                           styleClass="btn-show-all" immediate="true"/>
+            <h:commandLink value="#{bundle.EncSocioNutriciaActionTitle_Reactivar}" 
+                           title="#{bundle.EncSocioNutriciaActionTitle_Reactivar}"
+                           action="#{encSocioNutriciaController.reactivarEncuesta()}"
+                           styleClass="btn-agregar"
+                           rendered="#{encSocioNutriciaController.idSelected}" />
+        </ui:define>
+
+        <ui:define name="displayDataSection">
+            <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_AreaGeo}" for="areaGeo" />
+            <p:selectOneRadio id="areaGeo" value="#{encSocioNutriciaController.selected.encSocioNutriciaPK.areaGeo}">
+                <f:selectItem itemLabel="#{bundle.EncSocioNutriciaLabel_Urbana}"    itemValue="U" />
+                <f:selectItem itemLabel="#{bundle.EncSocioNutriciaLabel_SubUrbana}" itemValue="S" />
+                <f:selectItem itemLabel="#{bundle.EncSocioNutriciaLabel_Rural}"     itemValue="R" />
+                <p:ajax update="@form" listener="#{encSocioNutriciaController.areaViewChanged()}" />
+            </p:selectOneRadio>
+
+            <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Expediente}" for="expediente" >
+                <p:autoComplete id="expediente" value="#{encSocioNutriciaController.selected.encSocioNutriciaPK.expediente}"
+                                disabled="#{!encSocioNutriciaController.areaGeoSelected}"
+                                completeMethod="#{encSocioNutriciaController.completeExpedienteDesactivado}"
+                                maxResults="10" queryDelay="20" global="false" 
+                                onkeypress="if (event.keyCode === 13)
+                                       return false;"
+                                validatorMessage="#{bundle.EncSocioNutriciaError_ExpedienteNumber}" >
+                    <p:ajax listener="#{encSocioNutriciaController.viewSelectId(false)}" update="@form"/>
+                </p:autoComplete>
+                <p:message for="expediente" display="icon" />
+            </h:outputLabel>
+
+            <h:panelGrid id="encuestaPanel" columns="6" columnClasses="rightAlign, leftAlign, rightAlign, leftAlign, rightAlign, leftAlign" 
+                         rendered="#{encSocioNutriciaController.idSelected}">
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_IdEnc}" for="identificador" />
+                <p:inputText value="#{usuariosAuth.loggedUser.nombre}" disabled="true" readonly="true" />
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Domicilio}" for="domicilio" />
+                <p:inputText id="domicilio" value="#{encSocioNutriciaController.selected.domicilio}"
+                             disabled="true" />
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Localidad}" for="localidad" />
+                <p:inputText id="localidad" value="#{encSocioNutriciaController.selected.localidad}" 
+                             disabled="true"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_MunDel}" for="municipio" />
+                <p:inputText id="municipio" value="#{encSocioNutriciaController.selected.municipio}"
+                             disabled="true"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Estado}" for="estado" />
+                <p:inputText id="estado" value="#{encSocioNutriciaController.selected.estado}"
+                             disabled="true"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Unidad}" for="unidad" />
+                <p:inputText id="unidad" value="#{encSocioNutriciaController.selected.unidad}"
+                             disabled="true"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Familia}" for="familia" />
+                <p:inputText id="familia" value="#{encSocioNutriciaController.selected.jefeFamilia}"
+                             disabled="true"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_Entrevistado}" for="entrevistado" />
+                <p:inputText id="entrevistado" value="#{encSocioNutriciaController.selected.entrevistado}"
+                             disabled="true"/>
+
+                <h:outputLabel value="#{bundle.EncSocioNutriciaLabel_FechaLev}" for="fechaLev" />
+                <p:calendar id="fechaLev" value="#{encSocioNutriciaController.selected.fechaLev}"
+                            disabled="true"/>
+            </h:panelGrid>
+
+            <p:commandButton id="mostrarIntegrantes" value="#{bundle.EncSocioNutriciaButton_VerIntegrantes}"
+                             onclick="integrantesTabla.show();" global="false"
+                             update="dataTable" process="@this"
+                             rendered="#{encSocioNutriciaController.idSelected}"/>
+
+            <p:dialog id="tablaIntegrantes" widgetVar="integrantesTabla" resizable="false"
+                      closeOnEscape="true" modal="true" position="top center"
+                      draggable="false" style="width: 100% !important;"
+                      rendered="#{encSocioNutriciaController.idSelected}">
+                <p:dataTable id="dataTable" var="integrante" 
+                             emptyMessage="#{bundle.EncSocioNutriciaEmpty_tablaIntegrantes}"
+                             value="#{encSocioNutriciaController.integrantes}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.EncSocioNutriciaTitle_IntegrantesTabla}" />
+                    </f:facet>
+
+                    <p:columnGroup type="header" rendered="#{encSocioNutriciaController.integrantes.size() > 0}" >
+                        <p:row>
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Nombre}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Parentesco}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Curp}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_FechaNacimiento}" />
+                            <p:column colspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Edad}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Genero}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Peso}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Talla}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_ECivil}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Escolaridad}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_CLaboral}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_RamaActividad}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_Salario}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_SSocial}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_ProbSalud}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_AyudaAlim}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_EtapaEdoFis}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_SemEmbarazo}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_PesoPreg}" />
+                            <p:column rowspan="2" headerText="#{bundle.EncSocioNutriciaIndTitle_GpoEtnico}" />
+                        </p:row>
+                        <p:row>
+                            <p:column headerText="#{bundle.EncSocioNutriciaIndTitle_Anios}" />
+                            <p:column headerText="#{bundle.EncSocioNutriciaIndTitle_Meses}" />
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.encSocioNutriciaIndPK.nombre}" />
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.parentesco}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.curp}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:calendar value="#{integrante.fechaNacimiento}"
+                                    pattern="dd/MMM/yyyy" locale="#{bundle.locale}"
+                                    disabled="true" />
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{encSocioNutriciaController.getAnios(integrante)}" />
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{encSocioNutriciaController.getMeses(integrante)}" />
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.genero}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.peso}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.talla}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.estadoCivil}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.escolaridad}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.condLaboral}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.ramaActiv}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.salario}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.seguroSocial}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.probSalud}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.ayudaAlim}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.etapaEstFis}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.semEmbarazo}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.pesoPreg}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{integrante.grupoEtnico}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:dialog>
+
+            <h:outputStylesheet library="css" name="encuestaTabla.css" />
+
+            <h:panelGrid id="pregFam" columns="4" styleClass="pregFam" columnClasses="panelColumn, panelColumn, panelColumn, panelColumn"
+                         rendered="#{encSocioNutriciaController.idSelected}">
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Techo}">
+                    <h:panelGrid columns="1">
+                        <h4> #{encSocioNutriciaController.getPregunta(1)} </h4>
+                        <p:selectOneRadio id="preg1" layout="custom" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p1R}" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg1" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(1, 1)}" />
+
+                            <p:radioButton for="preg1" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(1, 2)}" />
+
+                            <p:radioButton for="preg1" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(1, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Paredes}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg2" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(2)} </h4>
+                        <p:selectOneRadio id="preg2" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p2R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg2" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(2, 1)}" />
+
+                            <p:radioButton for="preg2" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(2, 2)}" />
+
+                            <p:radioButton for="preg2" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(2, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Pisos}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg3" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(3)} </h4>
+                        <p:selectOneRadio id="preg3" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p3R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg3" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(3, 1)}" />
+
+                            <p:radioButton for="preg3" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(3, 2)}" />
+
+                            <p:radioButton for="preg3" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(3, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_NoCuartos}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg4" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(4)} </h4>
+                        <p:spinner id="preg4" maxlength="2" size="3" min="0" 
+                                   disabled="true"
+                                   value="#{encSocioNutriciaController.pregRespFamiliares.p4NumCuartos}" />
+                        <p:separator />
+                        <p:message for="preg5" display="icon" />
+                        <h:outputText value="#{encSocioNutriciaController.getPregunta(5)}" />
+                        <p:selectOneRadio id="preg5" validatorMessage="#{bundle.EncSocioNutriciaFamRequired_Respuesta}"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p5R}" layout="custom"
+                                          disabled="true">
+                            <f:selectItem itemValue="#{true}" />
+                            <f:selectItem itemValue="#{false}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg5" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(0, 1)}" />
+
+                            <p:radioButton for="preg5" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(0, 2)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Agua}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg6" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(6)}</h4>
+                        <p:selectOneRadio id="preg6" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p6R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg6" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(6, 1)}" />
+
+                            <p:radioButton for="preg6" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(6, 2)}" />
+
+                            <p:radioButton for="preg6" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(6, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_DispExcretas}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg7" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(7)}</h4>
+                        <p:selectOneRadio id="preg7" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p7R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg7" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(7, 1)}" />
+
+                            <p:radioButton for="preg7" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(7, 2)}" />
+
+                            <p:radioButton for="preg7" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(7, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_MetodosConservacion}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg8" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(8)} </h4>
+                        <p:selectOneRadio id="preg8" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p8R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg8" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(8, 1)}" />
+
+                            <p:radioButton for="preg8" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(8, 2)}" />
+
+                            <p:radioButton for="preg8" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(8, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="panelPreg9" styleClass="panel" header="&nbsp;">
+                    <h:panelGrid columns="1" rendered="#{encSocioNutriciaController.renderPreg9()}">
+                        <p:message for="preg9" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(9)}</h4>
+                        <p:selectOneRadio id="preg9" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p9R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                            <f:selectItem itemValue="#{4}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg9" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(9, 1)}" />
+
+                            <p:radioButton for="preg9" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(9, 2)}" />
+
+                            <p:radioButton for="preg9" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(9, 3)}" />
+
+                            <p:radioButton for="preg9" itemIndex="3" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(9, 4)}" />
+                        </h:panelGrid>
+                        <p:inputText id="otroPreg9" value="#{encSocioNutriciaController.pregRespFamiliares.p9Otro}"
+                                     disabled="true"
+                                     maxlength="30" size="20" />
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Iluminacion}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg10" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(10)}</h4>
+                        <p:selectOneRadio id="preg10" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p10R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                            <f:selectItem itemValue="#{4}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg10" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(10, 1)}" />
+
+                            <p:radioButton for="preg10" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(10, 2)}" />
+
+                            <p:radioButton for="preg10" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(10, 3)}" />
+
+                            <p:radioButton for="preg10" itemIndex="3" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(10, 4)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Estufa}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg11" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(11)}</h4>
+                        <p:selectOneRadio id="preg11" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p11R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg11" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(11, 1)}" />
+
+                            <p:radioButton for="preg11" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(11, 2)}" />
+
+                            <p:radioButton for="preg11" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(11, 3)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="preg12Si" styleClass="panel" header="&nbsp;">
+                    <h:panelGrid columns="1" rendered="#{encSocioNutriciaController.renderPreg12()}">
+                        <p:message for="preg12" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(12)}</h4>
+                        <p:selectOneRadio id="preg12" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p12R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                            <f:selectItem itemValue="#{4}" />
+                            <f:selectItem itemValue="#{5}" />
+                            <f:selectItem itemValue="#{6}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg12" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(12, 1)}" />
+
+                            <p:radioButton for="preg12" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(12, 2)}" />
+
+                            <p:radioButton for="preg12" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(12, 3)}" />
+
+                            <p:radioButton for="preg12" itemIndex="3" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(12, 4)}" />
+
+                            <p:radioButton for="preg12" itemIndex="4" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(12, 5)}" />
+
+                            <p:radioButton for="preg12" itemIndex="5" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(12, 6)}" />
+                        </h:panelGrid>
+                        <p:inputText id="otroPreg12" value="#{encSocioNutriciaController.pregRespFamiliares.p12Otro}"
+                                     disabled="true" maxlength="30" size="20" />
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Vivienda}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg13" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(13)}</h4>
+                        <p:selectOneRadio id="preg13" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p13R}" layout="custom" >
+                            <f:selectItem itemValue="#{1}" />
+                            <f:selectItem itemValue="#{2}" />
+                            <f:selectItem itemValue="#{3}" />
+                            <f:selectItem itemValue="#{4}" />
+                            <f:selectItem itemValue="#{5}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg13" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(13, 1)}" />
+
+                            <p:radioButton for="preg13" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(13, 2)}" />
+
+                            <p:radioButton for="preg13" itemIndex="2" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(13, 3)}" />
+
+                            <p:radioButton for="preg13" itemIndex="3" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(13, 4)}" />
+
+                            <p:radioButton for="preg13" itemIndex="4" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(13, 5)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="panelpreg14" styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_OtrosIngresos}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg14" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(14)}</h4>
+                        <p:selectOneRadio id="preg14" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p14R}">
+                            <f:selectItem itemValue="#{true}" itemLabel="#{encSocioNutriciaController.getRespuesta(0, 1)}" />
+                            <f:selectItem itemValue="#{false}" itemLabel="#{encSocioNutriciaController.getRespuesta(0, 2)}" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" rendered="#{encSocioNutriciaController.preg14Si()}" >
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(15)}" for="preg15" />
+                        <p:spinner id="preg15" value="#{encSocioNutriciaController.pregRespFamiliares.p15ComercioInformal}"
+                                   disabled="true"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$"/>
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(16)}" for="preg16" />
+                        <p:spinner id="preg16" value="#{encSocioNutriciaController.pregRespFamiliares.p16ServDomesticos}"
+                                   disabled="true"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" />
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(17)}" for="preg17" />
+                        <p:spinner id="preg17" value="#{encSocioNutriciaController.pregRespFamiliares.p17ApoyoFederal}"
+                                   disabled="true"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" />
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(18)}" for="preg18" />
+                        <p:inputText value="#{encSocioNutriciaController.pregRespFamiliares.p18OtrosString}" maxlength="30" size="20" 
+                                     disabled="true"/>
+                        &nbsp;
+                        <p:spinner id="preg18" value="#{encSocioNutriciaController.pregRespFamiliares.p18Otros}"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" 
+                                   disabled="true"/>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="panelEgresos" styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_Egresos}">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(19)}" for="preg19" />
+                        <p:spinner id="preg19" value="#{encSocioNutriciaController.pregRespFamiliares.p19Alimentacion}"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" disabled="true">
+                        </p:spinner>
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(20)}" for="preg20" />
+                        <p:spinner id="preg20" value="#{encSocioNutriciaController.pregRespFamiliares.p20Luz}"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" disabled="true">
+                        </p:spinner>
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(21)}" for="preg21" />
+                        <p:spinner id="preg21" value="#{encSocioNutriciaController.pregRespFamiliares.p21Agua}"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" disabled="true">
+                        </p:spinner>
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(22)}" for="preg22" />
+                        <p:spinner id="preg22" value="#{encSocioNutriciaController.pregRespFamiliares.p22Gas}"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" disabled="true">
+                        </p:spinner>
+
+                        <h:outputLabel value="#{encSocioNutriciaController.getPregunta(23)}" for="preg23" />
+                        <p:spinner id="preg23" value="#{encSocioNutriciaController.pregRespFamiliares.p23Otros}"
+                                   stepFactor=".5" maxlength="15" size="10" min="0" prefix="$" disabled="true">
+                        </p:spinner>
+
+                        <h:outputLabel value="#{bundle.EncSocioNutriciaFamEgresos_Total}" for="totalEgresos" />
+                        <p:inputText id="totalEgresos" value="#{encSocioNutriciaController.totalEgresos}" 
+                                     disabled="true" size="10" />
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="panelPreg24" styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_ActAgricola}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg24" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(24)}</h4>
+                        <p:selectOneRadio id="preg24" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p24R}" layout="custom" >
+                            <f:selectItem itemValue="#{true}" />
+                            <f:selectItem itemValue="#{false}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg24" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(0, 1)}" />
+
+                            <p:radioButton for="preg24" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(0, 2)}" />
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" rendered="#{encSocioNutriciaController.preg24Si()}">
+                            <h:panelGrid columns="1">
+                                <h3> #{bundle.EncSocioNutriciaFamTitle_ActAgricola_Cultivo} </h3>
+                                <h4> #{encSocioNutriciaController.getPregunta(25)} </h4>
+                                <p:selectOneRadio id="preg25"
+                                                  value="#{encSocioNutriciaController.pregRespFamiliares.p25R}"
+                                                  disabled="true">
+                                    <f:selectItem itemValue="#{1}" itemLabel="#{encSocioNutriciaController.getRespuesta(25, 1)}" />
+                                    <f:selectItem itemValue="#{2}" itemLabel="#{encSocioNutriciaController.getRespuesta(25, 2)}" />
+                                    <f:selectItem itemValue="#{3}" itemLabel="#{encSocioNutriciaController.getRespuesta(25, 3)}" />
+                                </p:selectOneRadio>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{encSocioNutriciaController.getPregunta(26)}" for="noBasicos" />
+                                <p:inputText id="noBasicos" value="#{encSocioNutriciaController.pregRespFamiliares.p26NoBasicos}"
+                                             maxlength="30" size="30" disabled="true"/>
+
+                                <h:outputLabel value="#{encSocioNutriciaController.getPregunta(27)}" for="noConsHumano" />
+                                <p:inputText id="noConsHumano" value="#{encSocioNutriciaController.pregRespFamiliares.p27NoConsHumano}"
+                                             maxlength="30" size="30" disabled="true"/>
+                            </h:panelGrid>
+
+                            <h4> #{encSocioNutriciaController.getPregunta(28)} </h4>
+                            <p:selectOneRadio id="preg28"
+                                              value="#{encSocioNutriciaController.pregRespFamiliares.p28DestinoAgricola}"
+                                              disabled="true">
+                                <f:selectItem itemValue="#{1}" itemLabel="#{encSocioNutriciaController.getRespuesta(28, 1)}" />
+                                <f:selectItem itemValue="#{2}" itemLabel="#{encSocioNutriciaController.getRespuesta(28, 2)}" />
+                                <f:selectItem itemValue="#{3}" itemLabel="#{encSocioNutriciaController.getRespuesta(28, 3)}" />
+                            </p:selectOneRadio>
+
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="panelPreg29" styleClass="panel" header="#{bundle.EncSocioNutriciaFamTitle_CriaAnimales}">
+                    <h:panelGrid columns="1">
+                        <p:message for="preg29" display="icon" />
+                        <h4> #{encSocioNutriciaController.getPregunta(29)} </h4>
+                        <p:selectOneRadio id="preg29" disabled="true"
+                                          value="#{encSocioNutriciaController.pregRespFamiliares.p29R}" layout="custom" >
+                            <f:selectItem itemValue="#{true}" />
+                            <f:selectItem itemValue="#{false}" />
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="2">
+                            <p:radioButton for="preg29" itemIndex="0" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(0, 1)}" />
+
+                            <p:radioButton for="preg29" itemIndex="1" />
+                            <h:outputText value="#{encSocioNutriciaController.getRespuesta(0, 2)}" />
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1" rendered="#{encSocioNutriciaController.preg29Si()}" >
+                            <p:selectOneRadio id="preg30"
+                                              value="#{encSocioNutriciaController.pregRespFamiliares.p30Ganado}" layout="custom"
+                                              disabled="true">
+                                <f:selectItem itemValue="#{1}" />
+                                <f:selectItem itemValue="#{2}" />
+                                <f:selectItem itemValue="#{3}" />
+                            </p:selectOneRadio>
+
+                            <h:panelGrid columns="2">
+                                <p:radioButton for="preg30" itemIndex="0" />
+                                <h:outputText value="#{encSocioNutriciaController.getRespuesta(30, 1)}" />
+
+                                <p:radioButton for="preg30" itemIndex="1" />
+                                <h:outputText value="#{encSocioNutriciaController.getRespuesta(30, 2)}" />
+
+                                <p:radioButton for="preg30" itemIndex="2" />
+                                <h:outputText value="#{encSocioNutriciaController.getRespuesta(30, 3)}" />
+                                &nbsp;
+                                <p:inputText value="#{encSocioNutriciaController.pregRespFamiliares.p30GanadoOtro}"
+                                             disabled="true" maxlength="30" size="20" />
+                            </h:panelGrid>
+
+                            <h4> #{encSocioNutriciaController.getPregunta(31)} </h4>
+                            <p:selectOneRadio id="preg31"
+                                              value="#{encSocioNutriciaController.pregRespFamiliares.p31DestinoGanado}"
+                                              disabled="true">
+                                <f:selectItem itemValue="#{1}" itemLabel="#{encSocioNutriciaController.getRespuesta(31, 1)}" />
+                                <f:selectItem itemValue="#{2}" itemLabel="#{encSocioNutriciaController.getRespuesta(31, 2)}" />
+                                <f:selectItem itemValue="#{3}" itemLabel="#{encSocioNutriciaController.getRespuesta(31, 3)}" />
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+
+            </h:panelGrid>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

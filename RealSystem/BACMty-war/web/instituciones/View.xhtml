@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewInstitucionesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_IDInstitucion}"/>
+                    <h:outputText value="#{institucionesController.selected.IDInstitucion}" title="#{bundle.ViewInstitucionesTitle_IDInstitucion}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_institucion}"/>
+                    <h:outputText value="#{institucionesController.selected.institucion}" title="#{bundle.ViewInstitucionesTitle_institucion}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_direccion}"/>
+                    <h:outputText value="#{institucionesController.selected.direccion}" title="#{bundle.ViewInstitucionesTitle_direccion}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_colonia}"/>
+                    <h:outputText value="#{institucionesController.selected.colonia}" title="#{bundle.ViewInstitucionesTitle_colonia}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_ciudad}"/>
+                    <h:outputText value="#{institucionesController.selected.ciudad}" title="#{bundle.ViewInstitucionesTitle_ciudad}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_estado}"/>
+                    <h:outputText value="#{institucionesController.selected.estado}" title="#{bundle.ViewInstitucionesTitle_estado}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_telefono}"/>
+                    <h:outputText value="#{institucionesController.selected.telefono}" title="#{bundle.ViewInstitucionesTitle_telefono}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_fax}"/>
+                    <h:outputText value="#{institucionesController.selected.fax}" title="#{bundle.ViewInstitucionesTitle_fax}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_contacto}"/>
+                    <h:outputText value="#{institucionesController.selected.contacto}" title="#{bundle.ViewInstitucionesTitle_contacto}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_fechaAlta}"/>
+                    <h:outputText value="#{institucionesController.selected.fechaAlta}" title="#{bundle.ViewInstitucionesTitle_fechaAlta}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_tipoInstitucion}"/>
+                    <h:outputText value="#{institucionesController.selected.tipoInstitucion}" title="#{bundle.ViewInstitucionesTitle_tipoInstitucion}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_mail}"/>
+                    <h:outputText value="#{institucionesController.selected.mail}" title="#{bundle.ViewInstitucionesTitle_mail}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_saldo}"/>
+                    <h:outputText value="#{institucionesController.selected.saldo}" title="#{bundle.ViewInstitucionesTitle_saldo}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_horario}"/>
+                    <h:outputText value="#{institucionesController.selected.horario}" title="#{bundle.ViewInstitucionesTitle_horario}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_observacion}"/>
+                    <h:outputText value="#{institucionesController.selected.observacion}" title="#{bundle.ViewInstitucionesTitle_observacion}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_familia}"/>
+                    <h:outputText value="#{institucionesController.selected.familia}" title="#{bundle.ViewInstitucionesTitle_familia}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_director}"/>
+                    <h:outputText value="#{institucionesController.selected.director}" title="#{bundle.ViewInstitucionesTitle_director}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_direccionFis}"/>
+                    <h:outputText value="#{institucionesController.selected.direccionFis}" title="#{bundle.ViewInstitucionesTitle_direccionFis}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_coloniaFis}"/>
+                    <h:outputText value="#{institucionesController.selected.coloniaFis}" title="#{bundle.ViewInstitucionesTitle_coloniaFis}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_ciudadFis}"/>
+                    <h:outputText value="#{institucionesController.selected.ciudadFis}" title="#{bundle.ViewInstitucionesTitle_ciudadFis}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_estadoFis}"/>
+                    <h:outputText value="#{institucionesController.selected.estadoFis}" title="#{bundle.ViewInstitucionesTitle_estadoFis}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_rfc}"/>
+                    <h:outputText value="#{institucionesController.selected.rfc}" title="#{bundle.ViewInstitucionesTitle_rfc}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_personas}"/>
+                    <h:outputText value="#{institucionesController.selected.personas}" title="#{bundle.ViewInstitucionesTitle_personas}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_razonFis}"/>
+                    <h:outputText value="#{institucionesController.selected.razonFis}" title="#{bundle.ViewInstitucionesTitle_razonFis}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_activo}"/>
+                    <h:outputText value="#{institucionesController.selected.activo}" title="#{bundle.ViewInstitucionesTitle_activo}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_descuento}"/>
+                    <h:outputText value="#{institucionesController.selected.descuento}" title="#{bundle.ViewInstitucionesTitle_descuento}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_saldoPermitido}"/>
+                    <h:outputText value="#{institucionesController.selected.saldoPermitido}" title="#{bundle.ViewInstitucionesTitle_saldoPermitido}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_donativoPermitido}"/>
+                    <h:outputText value="#{institucionesController.selected.donativoPermitido}" title="#{bundle.ViewInstitucionesTitle_donativoPermitido}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_IDSubArea}"/>
+                    <h:outputText value="#{institucionesController.selected.IDSubArea}" title="#{bundle.ViewInstitucionesTitle_IDSubArea}"/>
+                    <h:outputText value="#{bundle.ViewInstitucionesLabel_IDGrupoInst}"/>
+                    <h:outputText value="#{institucionesController.selected.IDGrupoInst}" title="#{bundle.ViewInstitucionesTitle_IDGrupoInst}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{institucionesController.destroyAndView}" value="#{bundle.ViewInstitucionesDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewInstitucionesEditLink}"/>
+                <br />
+                <h:commandLink action="#{institucionesController.prepareCreate}" value="#{bundle.ViewInstitucionesCreateLink}" />
+                <br />
+                <h:commandLink action="#{institucionesController.prepareList}" value="#{bundle.ViewInstitucionesShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewInstitucionesIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

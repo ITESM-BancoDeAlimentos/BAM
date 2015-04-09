@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateMovtoCajasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateMovtoCajasLabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{movtoCajasController.selected.fecha}" title="#{bundle.CreateMovtoCajasTitle_fecha}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateMovtoCajasLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{movtoCajasController.selected.status}" title="#{bundle.CreateMovtoCajasTitle_status}" />
+                    <h:outputLabel value="#{bundle.CreateMovtoCajasLabel_IDMovtoCajas}" for="IDMovtoCajas" />
+                    <h:inputText id="IDMovtoCajas" value="#{movtoCajasController.selected.IDMovtoCajas}" title="#{bundle.CreateMovtoCajasTitle_IDMovtoCajas}" required="true" requiredMessage="#{bundle.CreateMovtoCajasRequiredMessage_IDMovtoCajas}"/>
+                    <h:outputLabel value="#{bundle.CreateMovtoCajasLabel_IDCaja}" for="IDCaja" />
+                    <h:selectOneMenu id="IDCaja" value="#{movtoCajasController.selected.IDCaja}" title="#{bundle.CreateMovtoCajasTitle_IDCaja}" >
+                        <f:selectItems value="#{cajasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{movtoCajasController.create}" value="#{bundle.CreateMovtoCajasSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{movtoCajasController.prepareList}" value="#{bundle.CreateMovtoCajasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateMovtoCajasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

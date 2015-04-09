@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDistribucionTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateDistribucionLabel_distribucion}" for="distribucion" />
+                    <h:inputText id="distribucion" value="#{distribucionController.selected.distribucion}" title="#{bundle.CreateDistribucionTitle_distribucion}" />
+                    <h:outputLabel value="#{bundle.CreateDistribucionLabel_IDDistribucion}" for="IDDistribucion" />
+                    <h:inputText id="IDDistribucion" value="#{distribucionController.selected.IDDistribucion}" title="#{bundle.CreateDistribucionTitle_IDDistribucion}" required="true" requiredMessage="#{bundle.CreateDistribucionRequiredMessage_IDDistribucion}"/>
+                    <h:outputLabel value="#{bundle.CreateDistribucionLabel_idPrograma}" for="idPrograma" />
+                    <h:selectOneMenu id="idPrograma" value="#{distribucionController.selected.idPrograma}" title="#{bundle.CreateDistribucionTitle_idPrograma}" >
+                        <f:selectItems value="#{programasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateDistribucionLabel_idArea}" for="idArea" />
+                    <h:selectOneMenu id="idArea" value="#{distribucionController.selected.idArea}" title="#{bundle.CreateDistribucionTitle_idArea}" >
+                        <f:selectItems value="#{areasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{distribucionController.create}" value="#{bundle.CreateDistribucionSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{distribucionController.prepareList}" value="#{bundle.CreateDistribucionShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateDistribucionIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

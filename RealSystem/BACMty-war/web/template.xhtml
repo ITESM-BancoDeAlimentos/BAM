@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title><h:outputText value="#{bundle.Title}" /></title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}" />
+        <h:outputStylesheet name="css/cssLayout.css" />
+        <h:outputStylesheet name="css/base.css" />
+        <h:outputStylesheet name="css/CaritasCSS.css" />
+        <h:outputScript name="validation.js" library="js" target="body" />
+        <h:outputScript name="ValidaInput.js" library="js" target="body" />
+        <h:outputScript name="jsf.js" library="javax.faces" target="body" />
+        <h:outputScript name="history.js" library="js" target="head" />
+        <script type="text/javascript">
+            fixHistory('', '#{request.contextPath}#{facesContext.externalContext.requestServletPath}#{view.viewId}');
+        </script>
+    </h:head>
+
+    <h:body>
+        <div id="top">
+            <div id="userOptions">
+                <ui:insert name="userOptions">
+                    <h:form>
+                        <p:menubar>
+                            <p:submenu label="Bienvenido, #{usuariosAuth.loggedUser.nombre}">
+                                <p:menuitem>
+                                    <p:clock pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </p:menuitem>
+                            </p:submenu>
+                            <p:menuitem 
+                                immediate="true"
+                                value="#{bundle.Logout}"
+                                icon="ui-icon-close"
+                                action="#{usuariosAuth.logOut()}"
+                                ajax="false"/>
+                        </p:menubar>
+                    </h:form>
+                </ui:insert>
+            </div>
+
+            <div id="systemOptions">
+                <ui:insert name="systemOptions">
+                    <h:form>
+                        <p:menubar model="#{usuariosAuth.systemMenu}" />
+                    </h:form>
+                </ui:insert>
+            </div>
+
+            <div id="Cabecera_Caritas" >
+                <h:graphicImage value="#{resource['images/sorteoCM.jpg']}"        />
+                <h:graphicImage value="#{resource['images/balimentos_logo.jpg']}" />
+            </div>
+        </div>
+
+        <div id="middle" class="ui-widget-header">
+            <div id="title">
+                <ui:insert name="title" />
+            </div>
+            <div id="actions">
+                <ui:insert name="actionTitle" />
+            </div>
+        </div>
+
+        <h:form id="globalForm">
+            <div id="toolsBar" class="ui-widget-header">
+                <ui:insert name="tools">
+                    <comp:homeLink />
+                </ui:insert>
+            </div>
+            <div id="info" class="ui-widget-content">
+                <ui:insert name="displayDataSection" />
+                <ui:insert name="dataTableSection" />
+            </div>
+            <ui:insert name="messageShowSection" />
+        </h:form>
+
+        <h:panelGroup id="messages">
+            <p:growl id="globalMessagePanelInfo" severity="info" life="10000"/>
+            <p:growl id="globalMessagePanelError" severity="error fatal" life="10000"/>
+        </h:panelGroup>
+
+        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
+        <p:idleMonitor timeout="1799999" onidle="invalidateSession();dialogoInactivo.show();" />
+
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false"
+                  closable="false" resizable="false">  
+            <h:outputLabel value="Cargando..."/>  
+        </p:dialog>
+
+        <p:dialog header="#{bundle.Idle_Title}" resizable="false"
+                  closeOnEscape="true" closable="true"
+                  widgetVar="dialogoInactivo" modal="true" width="400"
+                  style="margin: auto" >
+            <h:outputText value="#{bundle.Idle_Text}" /> <br />
+            <p:button value="#{bundle.OK}" outcome="/index.xhtml" />
+        </p:dialog>
+        
+        <ui:insert name="NonForm">
+        </ui:insert>
+
+        <h:form>
+            <p:remoteCommand
+                actionListener="#{facesContext.externalContext.invalidateSession()}"
+                name="invalidateSession"
+                />
+        </h:form>
+    </h:body>
+
+</html>

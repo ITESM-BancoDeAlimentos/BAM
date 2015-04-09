@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFoliosCarAboTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListFoliosCarAboEmpty}" rendered="#{foliosCarAboController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{foliosCarAboController.items.rowCount > 0}">
+                    <h:outputText value="#{foliosCarAboController.pagination.pageFirstItem + 1}..#{foliosCarAboController.pagination.pageLastItem + 1}/#{foliosCarAboController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{foliosCarAboController.previous}" value="#{bundle.Previous} #{foliosCarAboController.pagination.pageSize}" rendered="#{foliosCarAboController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{foliosCarAboController.next}" value="#{bundle.Next} #{foliosCarAboController.pagination.pageSize}" rendered="#{foliosCarAboController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{foliosCarAboController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFoliosCarAboTitle_folioCarAbo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.folioCarAbo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{foliosCarAboController.prepareView}" value="#{bundle.ListFoliosCarAboViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{foliosCarAboController.prepareEdit}" value="#{bundle.ListFoliosCarAboEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{foliosCarAboController.destroy}" value="#{bundle.ListFoliosCarAboDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{foliosCarAboController.prepareCreate}" value="#{bundle.ListFoliosCarAboCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListFoliosCarAboIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

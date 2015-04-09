@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTablaTmpTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTablaTmpLabel_IDFolio}"/>
+                    <h:outputText value="#{tablaTmpController.selected.IDFolio}" title="#{bundle.ViewTablaTmpTitle_IDFolio}"/>
+                    <h:outputText value="#{bundle.ViewTablaTmpLabel_total}"/>
+                    <h:outputText value="#{tablaTmpController.selected.total}" title="#{bundle.ViewTablaTmpTitle_total}"/>
+                    <h:outputText value="#{bundle.ViewTablaTmpLabel_totalCDescto}"/>
+                    <h:outputText value="#{tablaTmpController.selected.totalCDescto}" title="#{bundle.ViewTablaTmpTitle_totalCDescto}"/>
+                    <h:outputText value="#{bundle.ViewTablaTmpLabel_porcDescto}"/>
+                    <h:outputText value="#{tablaTmpController.selected.porcDescto}" title="#{bundle.ViewTablaTmpTitle_porcDescto}"/>
+                    <h:outputText value="#{bundle.ViewTablaTmpLabel_IDInstitucion}"/>
+                    <h:outputText value="#{tablaTmpController.selected.IDInstitucion}" title="#{bundle.ViewTablaTmpTitle_IDInstitucion}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tablaTmpController.destroyAndView}" value="#{bundle.ViewTablaTmpDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewTablaTmpEditLink}"/>
+                <br />
+                <h:commandLink action="#{tablaTmpController.prepareCreate}" value="#{bundle.ViewTablaTmpCreateLink}" />
+                <br />
+                <h:commandLink action="#{tablaTmpController.prepareList}" value="#{bundle.ViewTablaTmpShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewTablaTmpIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

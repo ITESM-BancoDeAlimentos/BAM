@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFoliosSalidaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListFoliosSalidaEmpty}" rendered="#{foliosSalidaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{foliosSalidaController.items.rowCount > 0}">
+                    <h:outputText value="#{foliosSalidaController.pagination.pageFirstItem + 1}..#{foliosSalidaController.pagination.pageLastItem + 1}/#{foliosSalidaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{foliosSalidaController.previous}" value="#{bundle.Previous} #{foliosSalidaController.pagination.pageSize}" rendered="#{foliosSalidaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{foliosSalidaController.next}" value="#{bundle.Next} #{foliosSalidaController.pagination.pageSize}" rendered="#{foliosSalidaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{foliosSalidaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFoliosSalidaTitle_folioSalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.folioSalida}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{foliosSalidaController.prepareView}" value="#{bundle.ListFoliosSalidaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{foliosSalidaController.prepareEdit}" value="#{bundle.ListFoliosSalidaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{foliosSalidaController.destroy}" value="#{bundle.ListFoliosSalidaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{foliosSalidaController.prepareCreate}" value="#{bundle.ListFoliosSalidaCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListFoliosSalidaIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

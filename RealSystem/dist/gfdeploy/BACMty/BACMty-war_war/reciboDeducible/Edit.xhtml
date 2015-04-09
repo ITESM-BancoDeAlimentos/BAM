@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditReciboDeducibleTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{reciboDeducibleController.selected.IDFolio}" title="#{bundle.EditReciboDeducibleTitle_IDFolio}" required="true" requiredMessage="#{bundle.EditReciboDeducibleRequiredMessage_IDFolio}"/>
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{reciboDeducibleController.selected.fecha}" title="#{bundle.EditReciboDeducibleTitle_fecha}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_cantidad}" for="cantidad" />
+                    <h:inputText id="cantidad" value="#{reciboDeducibleController.selected.cantidad}" title="#{bundle.EditReciboDeducibleTitle_cantidad}" />
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_cantLetra}" for="cantLetra" />
+                    <h:inputText id="cantLetra" value="#{reciboDeducibleController.selected.cantLetra}" title="#{bundle.EditReciboDeducibleTitle_cantLetra}" />
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_observacion}" for="observacion" />
+                    <h:inputText id="observacion" value="#{reciboDeducibleController.selected.observacion}" title="#{bundle.EditReciboDeducibleTitle_observacion}" />
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_piezas}" for="piezas" />
+                    <h:inputText id="piezas" value="#{reciboDeducibleController.selected.piezas}" title="#{bundle.EditReciboDeducibleTitle_piezas}" />
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_kilos}" for="kilos" />
+                    <h:inputText id="kilos" value="#{reciboDeducibleController.selected.kilos}" title="#{bundle.EditReciboDeducibleTitle_kilos}" />
+                    <h:outputLabel value="#{bundle.EditReciboDeducibleLabel_IDDonante}" for="IDDonante" />
+                    <h:selectOneMenu id="IDDonante" value="#{reciboDeducibleController.selected.IDDonante}" title="#{bundle.EditReciboDeducibleTitle_IDDonante}" >
+                        <f:selectItems value="#{donantesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{reciboDeducibleController.update}" value="#{bundle.EditReciboDeducibleSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditReciboDeducibleViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{reciboDeducibleController.prepareList}" value="#{bundle.EditReciboDeducibleShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditReciboDeducibleIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

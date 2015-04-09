@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDonativoEspTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{donativoEspController.selected.IDFolio}" title="#{bundle.CreateDonativoEspTitle_IDFolio}" required="true" requiredMessage="#{bundle.CreateDonativoEspRequiredMessage_IDFolio}"/>
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{donativoEspController.selected.fecha}" title="#{bundle.CreateDonativoEspTitle_fecha}" required="true" requiredMessage="#{bundle.CreateDonativoEspRequiredMessage_fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_IDSucursal}" for="IDSucursal" />
+                    <h:inputText id="IDSucursal" value="#{donativoEspController.selected.IDSucursal}" title="#{bundle.CreateDonativoEspTitle_IDSucursal}" />
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_contacto}" for="contacto" />
+                    <h:inputText id="contacto" value="#{donativoEspController.selected.contacto}" title="#{bundle.CreateDonativoEspTitle_contacto}" />
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_horarioAcopio}" for="horarioAcopio" />
+                    <h:inputText id="horarioAcopio" value="#{donativoEspController.selected.horarioAcopio}" title="#{bundle.CreateDonativoEspTitle_horarioAcopio}" />
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_horarioDescanso}" for="horarioDescanso" />
+                    <h:inputText id="horarioDescanso" value="#{donativoEspController.selected.horarioDescanso}" title="#{bundle.CreateDonativoEspTitle_horarioDescanso}" />
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_observaciones}" for="observaciones" />
+                    <h:inputText id="observaciones" value="#{donativoEspController.selected.observaciones}" title="#{bundle.CreateDonativoEspTitle_observaciones}" />
+                    <h:outputLabel value="#{bundle.CreateDonativoEspLabel_IDDonante}" for="IDDonante" />
+                    <h:selectOneMenu id="IDDonante" value="#{donativoEspController.selected.IDDonante}" title="#{bundle.CreateDonativoEspTitle_IDDonante}" required="true" requiredMessage="#{bundle.CreateDonativoEspRequiredMessage_IDDonante}">
+                        <f:selectItems value="#{donantesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{donativoEspController.create}" value="#{bundle.CreateDonativoEspSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{donativoEspController.prepareList}" value="#{bundle.CreateDonativoEspShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.CreateDonativoEspIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

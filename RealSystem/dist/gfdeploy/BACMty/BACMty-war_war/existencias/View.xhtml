@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewExistenciasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_fechaCad}"/>
+                    <h:outputText value="#{existenciasController.selected.fechaCad}" title="#{bundle.ViewExistenciasTitle_fechaCad}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_existencia}"/>
+                    <h:outputText value="#{existenciasController.selected.existencia}" title="#{bundle.ViewExistenciasTitle_existencia}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_asignado}"/>
+                    <h:outputText value="#{existenciasController.selected.asignado}" title="#{bundle.ViewExistenciasTitle_asignado}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_canPedido}"/>
+                    <h:outputText value="#{existenciasController.selected.canPedido}" title="#{bundle.ViewExistenciasTitle_canPedido}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_merma}"/>
+                    <h:outputText value="#{existenciasController.selected.merma}" title="#{bundle.ViewExistenciasTitle_merma}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_entrada}"/>
+                    <h:outputText value="#{existenciasController.selected.entrada}" title="#{bundle.ViewExistenciasTitle_entrada}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_salida}"/>
+                    <h:outputText value="#{existenciasController.selected.salida}" title="#{bundle.ViewExistenciasTitle_salida}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_IDExistencias}"/>
+                    <h:outputText value="#{existenciasController.selected.IDExistencias}" title="#{bundle.ViewExistenciasTitle_IDExistencias}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_IDPrograma}"/>
+                    <h:outputText value="#{existenciasController.selected.IDPrograma}" title="#{bundle.ViewExistenciasTitle_IDPrograma}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_IDArticulo}"/>
+                    <h:outputText value="#{existenciasController.selected.IDArticulo}" title="#{bundle.ViewExistenciasTitle_IDArticulo}"/>
+                    <h:outputText value="#{bundle.ViewExistenciasLabel_IDArea}"/>
+                    <h:outputText value="#{existenciasController.selected.IDArea}" title="#{bundle.ViewExistenciasTitle_IDArea}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{existenciasController.destroyAndView}" value="#{bundle.ViewExistenciasDestroyLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="Edit" value="#{bundle.ViewExistenciasEditLink}"/>
+                <br />
+                <h:commandLink action="#{existenciasController.prepareCreate}" value="#{bundle.ViewExistenciasCreateLink}" />
+                <br />
+                <h:commandLink action="#{existenciasController.prepareList}" value="#{bundle.ViewExistenciasShowAllLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ViewExistenciasIndexLink}" action="/index" immediate="true" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

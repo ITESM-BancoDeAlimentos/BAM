@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditLeyendasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditLeyendasLabel_leyenda1}" for="leyenda1" />
+                    <h:inputText id="leyenda1" value="#{leyendasController.selected.leyenda1}" title="#{bundle.EditLeyendasTitle_leyenda1}" />
+                    <h:outputLabel value="#{bundle.EditLeyendasLabel_leyenda2}" for="leyenda2" />
+                    <h:inputText id="leyenda2" value="#{leyendasController.selected.leyenda2}" title="#{bundle.EditLeyendasTitle_leyenda2}" />
+                    <h:outputLabel value="#{bundle.EditLeyendasLabel_leyenda3}" for="leyenda3" />
+                    <h:inputText id="leyenda3" value="#{leyendasController.selected.leyenda3}" title="#{bundle.EditLeyendasTitle_leyenda3}" />
+                    <h:outputLabel value="#{bundle.EditLeyendasLabel_IDLeyenda}" for="IDLeyenda" />
+                    <h:inputText id="IDLeyenda" value="#{leyendasController.selected.IDLeyenda}" title="#{bundle.EditLeyendasTitle_IDLeyenda}" required="true" requiredMessage="#{bundle.EditLeyendasRequiredMessage_IDLeyenda}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{leyendasController.update}" value="#{bundle.EditLeyendasSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditLeyendasViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{leyendasController.prepareList}" value="#{bundle.EditLeyendasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditLeyendasIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.BancosDeAlimentosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="tools">
+            <comp:listTools controller="#{bancosDeAlimentosController}" />
+        </ui:define>
+
+        <ui:define name="dataTableSection">
+            <p:dataTable 
+                id="table" value="#{bancosDeAlimentosController.items}" emptyMessage="#{bundle.BancosDeAlimentosEmpty}"
+                var="item" widgetVar="tableWidget" rows="5" lazy="true"
+                draggableColumns="true" paginator="true" paginatorPosition="bottom"
+                paginatorTemplate="#{bundle.paginatorTemplate}"
+                rowsPerPageTemplate="5,10,15,30" >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.BancosDeAlimentosTitle_IDBancoDeAlimentos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.IDBancoDeAlimentos}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.BancosDeAlimentosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.BancosDeAlimentosTitle_poblacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.poblacion}"/>
+                </p:column>
+                <p:column>
+                    <comp:listRowTools controller="#{bancosDeAlimentosController}" />
+                </p:column>
+            </p:dataTable>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListAccesoProgramaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListAccesoProgramaEmpty}" rendered="#{accesoProgramaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{accesoProgramaController.items.rowCount > 0}">
+                    <h:outputText value="#{accesoProgramaController.pagination.pageFirstItem + 1}..#{accesoProgramaController.pagination.pageLastItem + 1}/#{accesoProgramaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{accesoProgramaController.previous}" value="#{bundle.Previous} #{accesoProgramaController.pagination.pageSize}" rendered="#{accesoProgramaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{accesoProgramaController.next}" value="#{bundle.Next} #{accesoProgramaController.pagination.pageSize}" rendered="#{accesoProgramaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{accesoProgramaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAccesoProgramaTitle_IDAccesoPrograma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDAccesoPrograma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAccesoProgramaTitle_IDUsuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDUsuario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAccesoProgramaTitle_IDPrograma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDPrograma}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAccesoProgramaTitle_IDArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDArea}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{accesoProgramaController.prepareView}" value="#{bundle.ListAccesoProgramaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{accesoProgramaController.prepareEdit}" value="#{bundle.ListAccesoProgramaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{accesoProgramaController.destroy}" value="#{bundle.ListAccesoProgramaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{accesoProgramaController.prepareCreate}" value="#{bundle.ListAccesoProgramaCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListAccesoProgramaIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

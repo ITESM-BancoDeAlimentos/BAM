@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../template.xhtml" >
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.BeneficiariosBusqueda_Title}" />
+    </ui:define>
+
+    <ui:define name="displayDataSection">
+        <h:outputScript library="js" name="agregaPlaceholders.js" target="body" />
+        <p:panelGrid id="filters" columns="4">
+            <p:outputLabel value="#{bundle.EncSocioNutriciaLabel_Expediente}" for="expediente"/>
+            <p:inputText id="expediente" 
+                         value="#{encSocioNutriciaBusqueda.filtro.expediente}"
+                         styleClass="ui-placeholder-todos"
+                         maxlength="16" />
+
+            <p:outputLabel value="#{bundle.EncSocioNutriciaLabel_AreaGeo}" for="areaGeo" />
+            <p:selectOneRadio 
+                id="areaGeo" value="#{encSocioNutriciaBusqueda.filtro.areaGeo}" >
+                <f:selectItems value="#{enumCtrl.areaGeograficaItems}"/>
+                <f:selectItem itemValue="#{null}" itemLabel="Todos" noSelectionOption="true" />
+                <p:ajax event="change" process="@this" />
+            </p:selectOneRadio>
+
+            <p:outputLabel value="#{bundle.EncSocioNutriciaIndLabel_FechaNacimiento}" />
+            <h:panelGroup>
+                <h:panelGroup layout="block" style="white-space: nowrap;">
+                    <p:outputLabel value="Desde:" for="fechaNacimientoEarly" />
+                    <p:calendar 
+                        id="fechaNacimientoEarly"
+                        value="#{encSocioNutriciaBusqueda.filtro.fechaNacimientoEarly}" 
+                        locale="#{bundle.locale}"
+                        pattern="#{bundle.DateFormat}"
+                        navigator="true"
+                        yearRange="c-100;c"
+                        styleClass="ui-placeholder-todos"
+                        maxdate="#{encSocioNutriciaBusqueda.filtro.fechaNacimientoLater}" >
+                        <p:ajax event="dateSelect" update="fechaNacimientoEarly fechaNacimientoLater" />
+                    </p:calendar>
+                </h:panelGroup>
+                <h:panelGroup layout="block" style="white-space: nowrap;">
+                    <p:outputLabel value="Hasta:" for="fechaNacimientoLater" />
+                    <p:calendar 
+                        id="fechaNacimientoLater"
+                        value="#{encSocioNutriciaBusqueda.filtro.fechaNacimientoLater}" 
+                        locale="#{bundle.locale}"
+                        pattern="#{bundle.DateFormat}"
+                        navigator="true"
+                        yearRange="c-100;c"
+                        styleClass="ui-placeholder-todos"
+                        mindate="#{encSocioNutriciaBusqueda.filtro.fechaNacimientoEarly}" 
+                        maxdate="#{now}" >
+                        <p:ajax event="dateSelect" update="fechaNacimientoEarly fechaNacimientoLater" />
+                    </p:calendar>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <p:outputLabel value="#{bundle.EncSocioNutriciaIndLabel_Genero}" for="genero" />
+            <p:selectOneRadio id="genero" value="#{encSocioNutriciaBusqueda.filtro.genero}" style="margin: auto;">
+                <f:selectItems value="#{enumCtrl.generoItems}" />
+                <f:selectItem itemValue="#{null}" itemLabel="#{bundle.ReporteLabel_GeneroAny}" noSelectionOption="true" />
+            </p:selectOneRadio>
+
+            <p:outputLabel value="#{bundle.EncSocioNutriciaLabel_MunDel}" for="municipio" />
+            <p:autoComplete id="municipio"
+                            value="#{encSocioNutriciaBusqueda.filtro.municipio}"
+                            dropdown="true" forceSelection="true"
+                            scrollHeight="180"
+                            global="false"
+                            size="43"
+                            styleClass="ui-placeholder-todos"
+                            maxResults="#{parametersController.suggestionLength}"
+                            completeMethod="#{encSocioNutriciaBusqueda.completeMunicipio}" />
+
+            <p:outputLabel value="#{bundle.EncSocioNutriciaLabel_JefeFamilia}" for="apellidos" />
+            <p:inputText id="apellidos" 
+                         value="#{encSocioNutriciaBusqueda.filtro.apellidos}" 
+                         styleClass="ui-placeholder-todos"
+                         maxlength="40"/>
+
+            <p:outputLabel value="#{bundle.EncSocioNutriciaLabel_Localidad}" for="institucion" />
+            <p:autoComplete id="institucion"
+                            value="#{encSocioNutriciaBusqueda.filtro.institucion}" var="item"
+                            itemValue="#{item}" itemLabel="#{item.institucion}"
+                            dropdown="true" forceSelection="true"
+                            scrollHeight="180"
+                            global="false"
+                            size="43"
+                            styleClass="ui-placeholder-todos"
+                            maxResults="#{parametersController.suggestionLength}"
+                            completeMethod="#{encSocioNutriciaBusqueda.completeComunidad}" />
+        </p:panelGrid>
+
+        <h:panelGrid columns="3">
+            <p:commandButton value="#{bundle.Filter}"
+                             icon="ui-icon-check"
+                             process="filters"
+                             update=":globalForm:tableGroup :globalMessages"
+                             onstart="tableWidget.paginator.setPage(0);" 
+                             onsuccess="tableWidget.jq.show();"
+                             action="#{encSocioNutriciaBusqueda.filter()}" />
+            <p:commandButton value="Seleccionar Columnas"
+                             icon="ui-icon-newwin"
+                             type="button" 
+                             onclick="columnSelector.show();" />
+            <p:commandButton value="#{bundle.ReporteLabel_ClearFilters}"
+                             icon="ui-icon-close"
+                             update=":globalForm:filters :globalMessages"
+                             onclick="tableWidget.jq.hide();"
+                             actionListener="#{encSocioNutriciaBusqueda.clear()}" />
+        </h:panelGrid>
+
+    </ui:define>
+
+    <ui:define name="dataTableSection">
+        <h:panelGroup id="tableGroup">
+            <p:dataTable 
+                id="table" widgetVar="tableWidget"
+                rendered="#{encSocioNutriciaBusqueda.tableRender}"
+                value="#{encSocioNutriciaBusqueda.items}" var="item" 
+                rows="5" rowsPerPageTemplate="5,10,15,30"
+                paginator="true" paginatorPosition="top" 
+                paginatorTemplate="#{bundle.paginatorTemplate}"
+                emptyMessage="#{bundle.EmptySearch}" 
+                draggableColumns="true" lazy="true" >
+                <f:facet name="header"> <h:outputText value="Beneficiarios" /></f:facet>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.areaGeo}"         exportable="#{encSocioNutriciaBusqueda.columns.areaGeo}"         > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_AreaGeo}"            /> </f:facet> <h:outputText value="#{encSocioNutriciaBusqueda.areaGeoOf(item)}"           /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.expediente}"      exportable="#{encSocioNutriciaBusqueda.columns.expediente}"      > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Expediente}"         /> </f:facet> <h:outputText value="#{item.encSocioNutriciaIndPK.expediente}"              /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.nombre}"          exportable="#{encSocioNutriciaBusqueda.columns.nombre}"          > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Nombre}"          /> </f:facet> <h:outputText value="#{item.encSocioNutriciaIndPK.nombre}"                  /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.parentesco}"      exportable="#{encSocioNutriciaBusqueda.columns.parentesco}"      > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Parentesco}"      /> </f:facet> <h:outputText value="#{item.parentesco}"                                    /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.curp}"            exportable="#{encSocioNutriciaBusqueda.columns.curp}"            > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Curp}"            /> </f:facet> <h:outputText value="#{item.curp}"                                          /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.fechaNacimiento}" exportable="#{encSocioNutriciaBusqueda.columns.fechaNacimiento}" > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_FechaNacimiento}" /> </f:facet> <h:outputText value="#{item.fechaNacimiento}"                               > <f:convertDateTime locale="#{bundle.locale}" dateStyle="medium" /> </h:outputText> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.anios}"           exportable="#{encSocioNutriciaBusqueda.columns.anios}"           > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Anios}"           /> </f:facet> <h:outputText value="#{item.anios}"                                         /> </p:column> 
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.meses}"           exportable="#{encSocioNutriciaBusqueda.columns.meses}"           > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Meses}"           /> </f:facet> <h:outputText value="#{item.meses}"                                         /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.genero}"          exportable="#{encSocioNutriciaBusqueda.columns.genero}"          > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Genero}"          /> </f:facet> <h:outputText value="#{item.genero}"                                        /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.peso}"            exportable="#{encSocioNutriciaBusqueda.columns.peso}"            > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Peso}"            /> </f:facet> <h:outputText value="#{item.peso}"                                          /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.talla}"           exportable="#{encSocioNutriciaBusqueda.columns.talla}"           > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Talla}"           /> </f:facet> <h:outputText value="#{item.talla}"                                         /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.estadoCivil}"     exportable="#{encSocioNutriciaBusqueda.columns.estadoCivil}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_ECivil}"          /> </f:facet> <h:outputText value="#{item.estadoCivil}"                                   /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.escolaridad}"     exportable="#{encSocioNutriciaBusqueda.columns.escolaridad}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Escolaridad}"     /> </f:facet> <h:outputText value="#{item.escolaridad}"                                   /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.condLaboral}"     exportable="#{encSocioNutriciaBusqueda.columns.condLaboral}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_CLaboral}"        /> </f:facet> <h:outputText value="#{item.condLaboral}"                                   /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.ramaActiv}"       exportable="#{encSocioNutriciaBusqueda.columns.ramaActiv}"       > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_RamaActividad}"   /> </f:facet> <h:outputText value="#{item.ramaActiv}"                                     /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.salario}"         exportable="#{encSocioNutriciaBusqueda.columns.salario}"         > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_Salario}"         /> </f:facet> <h:outputText value="#{item.salario}"                                       /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.seguroSocial}"    exportable="#{encSocioNutriciaBusqueda.columns.seguroSocial}"    > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_SSocial}"         /> </f:facet> <h:outputText value="#{item.seguroSocial}"                                  /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.probSalud}"       exportable="#{encSocioNutriciaBusqueda.columns.probSalud}"       > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_ProbSalud}"       /> </f:facet> <h:outputText value="#{item.probSalud}"                                     /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.ayudaAlim}"       exportable="#{encSocioNutriciaBusqueda.columns.ayudaAlim}"       > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_AyudaAlim}"       /> </f:facet> <h:outputText value="#{item.ayudaAlim}"                                     /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.etapaEstFis}"     exportable="#{encSocioNutriciaBusqueda.columns.etapaEstFis}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_EtapaEdoFis}"     /> </f:facet> <h:outputText value="#{item.etapaEstFis}"                                   /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.semEmbarazo}"     exportable="#{encSocioNutriciaBusqueda.columns.semEmbarazo}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_SemEmbarazo}"     /> </f:facet> <h:outputText value="#{item.semEmbarazo}"                                   /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.pesoPreg}"        exportable="#{encSocioNutriciaBusqueda.columns.pesoPreg}"        > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_PesoPreg}"        /> </f:facet> <h:outputText value="#{item.pesoPreg}"                                      /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.grupoEtnico}"     exportable="#{encSocioNutriciaBusqueda.columns.grupoEtnico}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaIndTitle_GpoEtnico}"       /> </f:facet> <h:outputText value="#{item.grupoEtnico}"                                   /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.IDInstitucion}"   exportable="#{encSocioNutriciaBusqueda.columns.IDInstitucion}"   > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Institucion}"        /> </f:facet> <h:outputText value="#{item.encSocioNutricia.IDInstitucion.institucion}"  /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.domicilio}"       exportable="#{encSocioNutriciaBusqueda.columns.domicilio}"       > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Domicilio}"          /> </f:facet> <h:outputText value="#{item.encSocioNutricia.domicilio}"                    /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.entrevistado}"    exportable="#{encSocioNutriciaBusqueda.columns.entrevistado}"    > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Entrevistado}"       /> </f:facet> <h:outputText value="#{item.encSocioNutricia.entrevistado}"                 /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.estado}"          exportable="#{encSocioNutriciaBusqueda.columns.estado}"          > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Estado}"             /> </f:facet> <h:outputText value="#{item.encSocioNutricia.estado}"                       /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.fechaCaptura}"    exportable="#{encSocioNutriciaBusqueda.columns.fechaCaptura}"    > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_FechaCaptura}"       /> </f:facet> <h:outputText value="#{item.encSocioNutricia.fechaCaptura}"                 /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.fechaLev}"        exportable="#{encSocioNutriciaBusqueda.columns.fechaLev}"        > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_FechaLev}"           /> </f:facet> <h:outputText value="#{item.encSocioNutricia.fechaLev}"                     /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.identificador}"   exportable="#{encSocioNutriciaBusqueda.columns.identificador}"   > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Identificador}"      /> </f:facet> <h:outputText value="#{item.encSocioNutricia.identificador.nombre}"         /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.jefeFamilia}"     exportable="#{encSocioNutriciaBusqueda.columns.jefeFamilia}"     > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_JefeFamilia}"        /> </f:facet> <h:outputText value="#{item.encSocioNutricia.jefeFamilia}"                  /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.localidad}"       exportable="#{encSocioNutriciaBusqueda.columns.localidad}"       > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Localidad}"          /> </f:facet> <h:outputText value="#{item.encSocioNutricia.localidad}"                    /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.municipio}"       exportable="#{encSocioNutriciaBusqueda.columns.municipio}"       > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Municipio}"          /> </f:facet> <h:outputText value="#{item.encSocioNutricia.municipio}"                    /> </p:column>
+                <p:column rendered="#{encSocioNutriciaBusqueda.columns.unidad}"          exportable="#{encSocioNutriciaBusqueda.columns.unidad}"          > <f:facet name="header"> <h:outputText value="#{bundle.EncSocioNutriciaTitle_Unidad}"             /> </f:facet> <h:outputText value="#{item.encSocioNutricia.unidad}"                       /> </p:column>
+                <f:facet name="footer">
+                    <h:outputText value="(#{bundle.RowsTotal}: #{encSocioNutriciaBusqueda.items.rowCount})" 
+                                  style="display: block;"/>
+                    <p:commandButton
+                        value="Excel"
+                        icon="ui-icon-print" 
+                        ajax="false"
+                        rendered="#{authorizationController.accesos.imprimir}"
+                        onclick="PrimeFaces.monitorDownload(function() {
+                                    statusDialog.show();
+                                }, function() {
+                                    statusDialog.hide();
+                                });" >
+                        <p:dataExporter type="csv"
+                                        target="table"
+                                        fileName="#{encSocioNutriciaBusqueda.filename}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:dataTable>
+        </h:panelGroup>
+    </ui:define>
+
+    <ui:define name="NonForm">
+        <h:form>
+            <p:dialog header="#{bundle.ReporteLabel_SelectedColumns}" 
+                      dynamic="true"
+                      height="200"
+                      width="410"
+                      styleClass="checkbox-grid"
+                      id="columnSelector"
+                      widgetVar="columnSelector" >
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_AreaGeo}"            value="#{encSocioNutriciaBusqueda.columns.areaGeo}"         />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Expediente}"         value="#{encSocioNutriciaBusqueda.columns.expediente}"      />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Nombre}"          value="#{encSocioNutriciaBusqueda.columns.nombre}"          />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Parentesco}"      value="#{encSocioNutriciaBusqueda.columns.parentesco}"      />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Curp}"            value="#{encSocioNutriciaBusqueda.columns.curp}"            />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_FechaNacimiento}" value="#{encSocioNutriciaBusqueda.columns.fechaNacimiento}" />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Anios}"           value="#{encSocioNutriciaBusqueda.columns.anios}"           />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Meses}"           value="#{encSocioNutriciaBusqueda.columns.meses}"           />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Genero}"          value="#{encSocioNutriciaBusqueda.columns.genero}"          />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Peso}"            value="#{encSocioNutriciaBusqueda.columns.peso}"            />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Talla}"           value="#{encSocioNutriciaBusqueda.columns.talla}"           />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_ECivil}"          value="#{encSocioNutriciaBusqueda.columns.estadoCivil}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Escolaridad}"     value="#{encSocioNutriciaBusqueda.columns.escolaridad}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_CLaboral}"        value="#{encSocioNutriciaBusqueda.columns.condLaboral}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_RamaActividad}"   value="#{encSocioNutriciaBusqueda.columns.ramaActiv}"       />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_Salario}"         value="#{encSocioNutriciaBusqueda.columns.salario}"         />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_SSocial}"         value="#{encSocioNutriciaBusqueda.columns.seguroSocial}"    />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_ProbSalud}"       value="#{encSocioNutriciaBusqueda.columns.probSalud}"       />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_AyudaAlim}"       value="#{encSocioNutriciaBusqueda.columns.ayudaAlim}"       />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_EtapaEdoFis}"     value="#{encSocioNutriciaBusqueda.columns.etapaEstFis}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_SemEmbarazo}"     value="#{encSocioNutriciaBusqueda.columns.semEmbarazo}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_PesoPreg}"        value="#{encSocioNutriciaBusqueda.columns.pesoPreg}"        />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaIndTitle_GpoEtnico}"       value="#{encSocioNutriciaBusqueda.columns.grupoEtnico}"     />
+                <p:separator style="display: block; clear: both;" />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Institucion}"            value="#{encSocioNutriciaBusqueda.columns.IDInstitucion}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Domicilio}"           value="#{encSocioNutriciaBusqueda.columns.domicilio}"         />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Entrevistado}"        value="#{encSocioNutriciaBusqueda.columns.entrevistado}"      />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Estado}"              value="#{encSocioNutriciaBusqueda.columns.estado}"            />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_FechaCaptura}"        value="#{encSocioNutriciaBusqueda.columns.fechaCaptura}"      />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_FechaLev}"            value="#{encSocioNutriciaBusqueda.columns.fechaLev}"          />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Identificador}"       value="#{encSocioNutriciaBusqueda.columns.identificador}"     />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_JefeFamilia}"         value="#{encSocioNutriciaBusqueda.columns.jefeFamilia}"       />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Localidad}"           value="#{encSocioNutriciaBusqueda.columns.localidad}"         />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Municipio}"           value="#{encSocioNutriciaBusqueda.columns.municipio}"         />
+                <p:selectBooleanCheckbox itemLabel="#{bundle.EncSocioNutriciaTitle_Unidad}"              value="#{encSocioNutriciaBusqueda.columns.unidad}"            />
+                <f:facet name="footer">
+                    <h:panelGroup layout="block">
+                        <p:commandButton value="#{bundle.Apply}"
+                                         icon="ui-icon-check"
+                                         update=":globalForm:tableGroup :globalMessages"
+                                         process="columnSelector"
+                                         onsuccess="columnSelector.hide();" />
+                        <p:commandButton value="#{bundle.Cancel}"
+                                         icon='ui-icon-close'
+                                         type="button"
+                                         onclick="columnSelector.hide();" />
+                    </h:panelGroup>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

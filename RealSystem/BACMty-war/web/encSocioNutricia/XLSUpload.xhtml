@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+
+        </ui:define>
+        <ui:define name="displayDataSection">
+            <p:commandButton type="button" 
+                             value="pop" 
+                             onclick="dialog.show();"
+                             />
+        </ui:define>
+
+        <ui:define name="NonForm">
+            <p:dialog widgetVar="dialog" dynamic="false">
+                <h:form enctype="multipart/form-data">
+                    <p:fileUpload value="#{encuestasUploadController.file}" 
+                                  mode="simple" />
+                    <p:commandButton value="Submit" 
+                                     ajax="false"  
+                                     actionListener="#{encuestasUploadController.upload}"/> 
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

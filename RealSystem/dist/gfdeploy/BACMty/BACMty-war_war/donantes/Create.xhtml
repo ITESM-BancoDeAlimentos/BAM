@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.DonantesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="actionTitle">
+            <h:outputText value="#{bundle.Create}" />
+        </ui:define>
+        <ui:define name="displayDataSection">
+            <h:panelGrid id="dataView" columns="6" styleClass="center" >
+                <p:outputLabel value="#{bundle.DonantesLabel_IDDonante}" for="IDDonante" />
+                <p:inputText
+                    id="IDDonante"
+                    value="#{donantesController.selected.IDDonante}"
+                    title="#{bundle.DonantesTitle_IDDonante}"
+                    size="8"
+                    maxlength="8"
+                    required="true"
+                    requiredMessage="#{bundle.DonantesRequiredMessage_IDDonante}"
+                    disabled="false"
+                    />
+                <p:message display="icon" for="IDDonante" />
+                <p:outputLabel value="#{bundle.DonantesLabel_donante}" for="donante" />
+                <p:inputText
+                    id="donante"
+                    value="#{donantesController.selected.donante}"
+                    title="#{bundle.DonantesTitle_donante}"
+                    size="50"
+                    maxlength="50"
+                    required="true"
+                    requiredMessage="#{bundle.DonantesRequiredMessage_donante}"/>
+                <p:message display="icon" for="donante" />
+                <p:outputLabel value="#{bundle.DonantesLabel_nombre}" for="nombre" />
+                <p:inputText
+                    id="nombre"
+                    value="#{donantesController.selected.nombre}"
+                    size="15"
+                    maxlength="15"
+                    title="#{bundle.DonantesTitle_nombre}"
+                    />
+                <p:message display="icon" for="nombre" />
+                <p:outputLabel value="#{bundle.DonantesLabel_direccion}" for="direccion" />
+                <p:inputText
+                    id="direccion"
+                    value="#{donantesController.selected.direccion}"
+                    title="#{bundle.DonantesTitle_direccion}"
+                    size="50"
+                    maxlength="50"
+                    />
+                <p:message display="icon" for="direccion" />
+                <p:outputLabel value="#{bundle.DonantesLabel_colonia}" for="colonia" />
+                <p:inputText
+                    id="colonia"
+                    value="#{donantesController.selected.colonia}"
+                    title="#{bundle.DonantesTitle_colonia}"
+                    size="50"
+                    maxlength="50"
+                    />
+                <p:message display="icon" for="colonia" />
+                <p:outputLabel value="#{bundle.DonantesLabel_ciudad}" for="ciudad" />
+                <p:inputText
+                    id="ciudad"
+                    value="#{donantesController.selected.ciudad}"
+                    title="#{bundle.DonantesTitle_ciudad}"
+                    size="30"
+                    maxlength="30"
+                    />
+                <p:message display="icon" for="ciudad" />
+                <p:outputLabel value="#{bundle.DonantesLabel_estado}" for="estado" />
+                <p:inputText
+                    id="estado"
+                    value="#{donantesController.selected.estado}"
+                    title="#{bundle.DonantesTitle_estado}"
+                    size="15"
+                    maxlength="15"
+                    />
+                <p:message display="icon" for="estado" />
+                <p:outputLabel value="#{bundle.DonantesLabel_telefono}" for="telefono" />
+                <p:inputText
+                    id="telefono"
+                    value="#{donantesController.selected.telefono}"
+                    title="#{bundle.DonantesTitle_telefono}"
+                    size="15"
+                    maxlength="15"
+                    />
+                <p:message display="icon" for="telefono" />
+                <p:outputLabel value="#{bundle.DonantesLabel_fax}" for="fax" />
+                <p:inputText
+                    id="fax"
+                    value="#{donantesController.selected.fax}"
+                    title="#{bundle.DonantesTitle_fax}"
+                    size="15"
+                    maxlength="15"
+                    />
+                <p:message display="icon" for="fax" />
+                <p:outputLabel value="#{bundle.DonantesLabel_contacto}" for="contacto" />
+                <p:inputText
+                    id="contacto"
+                    value="#{donantesController.selected.contacto}"
+                    title="#{bundle.DonantesTitle_contacto}"
+                    size="50"
+                    maxlength="50"
+                    />
+                <p:message display="icon" for="contacto" />
+                <p:outputLabel value="#{bundle.DonantesLabel_rfc}" for="rfc" />
+                <p:inputText
+                    id="rfc"
+                    value="#{donantesController.selected.rfc}"
+                    title="#{bundle.DonantesTitle_rfc}"
+                    size="15"
+                    maxlength="15"
+                    />
+                <p:message display="icon" for="rfc" />
+                <p:outputLabel value="#{bundle.DonantesLabel_sucursales}" for="sucursales" />
+                <p:selectOneRadio
+                    id="sucursales"
+                    value="#{donantesController.selected.sucursales}"
+                    required="true"
+                    requiredMessage="#{bundle.DonantesRequiredMessage_sucursales}"
+                    style="margin:auto" >
+                    <f:selectItem itemValue="true"  itemLabel="#{bundle.DonantesSucursales_true}" />
+                    <f:selectItem itemValue="false" itemLabel="#{bundle.DonantesSucursales_false}" />
+                </p:selectOneRadio>
+                <p:message display="icon" for="sucursales" />
+                <p:outputLabel value="#{bundle.DonantesLabel_frecuencia}" for="frecuencia" />
+                <p:selectOneMenu id="frecuencia" value="#{donantesController.selected.frecuencia}">
+                    <f:selectItem itemValue="A" itemLabel="#{bundle.DonantesFrecuencia_A}"/>
+                    <f:selectItem itemValue="O" itemLabel="#{bundle.DonantesFrecuencia_O}"/>
+                    <f:selectItem itemValue="P" itemLabel="#{bundle.DonantesFrecuencia_P}"/>
+                    <f:selectItem itemValue="U" itemLabel="#{bundle.DonantesFrecuencia_U}"/>
+                </p:selectOneMenu>
+                <p:message display="icon" for="frecuencia" />
+                <p:outputLabel value="#{bundle.DonantesLabel_mail}" for="mail" />
+                <p:inputText
+                    id="mail"
+                    value="#{donantesController.selected.mail}"
+                    title="#{bundle.DonantesTitle_mail}"
+                    maxlength="50"
+                    />
+                <p:message display="icon" for="mail" />
+                <p:outputLabel value="#{bundle.DonantesLabel_usuarioAlta}" for="usuarioAlta" />
+                <p:inputText
+                    id="usuarioAlta"
+                    value="#{donantesController.selected.usuarioAlta}" 
+                    title="#{bundle.DonantesTitle_usuarioAlta}" 
+                    disabled="true"
+                    />
+                <p:message display="icon" for="usuarioAlta" />
+                <p:outputLabel value="#{bundle.DonantesLabel_fechaAlta}" for="fechaAlta" />
+                <p:calendar 
+                    id="fechaAlta" 
+                    value="#{donantesController.selected.fechaAlta}" 
+                    required="true" 
+                    requiredMessage="#{bundle.EditDonantesRequiredMessage_fechaAlta}"
+                    locale="#{bundle.locale}"
+                    pattern="#{bundle.DateFormat}"
+                    disabled="true"
+                    />
+                <p:message display="icon" for="fechaAlta" />
+                <p:outputLabel value="#{bundle.DonantesLabel_IDTipoDon}" for="IDTipoDon" />
+                <p:selectOneMenu 
+                    id="IDTipoDon"
+                    value="#{donantesController.selected.IDTipoDon}"
+                    required="true"
+                    requiredMessage="#{bundle.DonantesRequiredMessage_IDTipoDon}"
+                    >
+                    <f:selectItems value="#{tipoDonController.itemsAvailableSelectOne}" />
+                </p:selectOneMenu>
+                <p:message display="icon" for="IDTipoDon" />
+            </h:panelGrid>
+        </ui:define>
+        <ui:define name="tools">
+            <comp:createTools controller="#{donantesController}" />
+        </ui:define>
+    </ui:composition>
+        
+</html>

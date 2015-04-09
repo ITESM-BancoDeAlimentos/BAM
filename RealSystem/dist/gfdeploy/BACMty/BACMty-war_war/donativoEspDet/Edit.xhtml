@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditDonativoEspDetTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_IDFolio}" for="IDFolio" />
+                    <h:inputText id="IDFolio" value="#{donativoEspDetController.selected.IDFolio}" title="#{bundle.EditDonativoEspDetTitle_IDFolio}" required="true" requiredMessage="#{bundle.EditDonativoEspDetRequiredMessage_IDFolio}"/>
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_producto}" for="producto" />
+                    <h:inputText id="producto" value="#{donativoEspDetController.selected.producto}" title="#{bundle.EditDonativoEspDetTitle_producto}" />
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_cantidad}" for="cantidad" />
+                    <h:inputText id="cantidad" value="#{donativoEspDetController.selected.cantidad}" title="#{bundle.EditDonativoEspDetTitle_cantidad}" required="true" requiredMessage="#{bundle.EditDonativoEspDetRequiredMessage_cantidad}"/>
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_descripcion}" for="descripcion" />
+                    <h:inputText id="descripcion" value="#{donativoEspDetController.selected.descripcion}" title="#{bundle.EditDonativoEspDetTitle_descripcion}" required="true" requiredMessage="#{bundle.EditDonativoEspDetRequiredMessage_descripcion}"/>
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_pesoTotal}" for="pesoTotal" />
+                    <h:inputText id="pesoTotal" value="#{donativoEspDetController.selected.pesoTotal}" title="#{bundle.EditDonativoEspDetTitle_pesoTotal}" required="true" requiredMessage="#{bundle.EditDonativoEspDetRequiredMessage_pesoTotal}"/>
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_costoUnitario}" for="costoUnitario" />
+                    <h:inputText id="costoUnitario" value="#{donativoEspDetController.selected.costoUnitario}" title="#{bundle.EditDonativoEspDetTitle_costoUnitario}" required="true" requiredMessage="#{bundle.EditDonativoEspDetRequiredMessage_costoUnitario}"/>
+                    <h:outputLabel value="#{bundle.EditDonativoEspDetLabel_IDDonativoEspDet}" for="IDDonativoEspDet" />
+                    <h:inputText id="IDDonativoEspDet" value="#{donativoEspDetController.selected.IDDonativoEspDet}" title="#{bundle.EditDonativoEspDetTitle_IDDonativoEspDet}" required="true" requiredMessage="#{bundle.EditDonativoEspDetRequiredMessage_IDDonativoEspDet}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{donativoEspDetController.update}" value="#{bundle.EditDonativoEspDetSaveLink}"/>
+                <br />
+                <br />
+                <h:commandLink action="View" value="#{bundle.EditDonativoEspDetViewLink}" immediate="true"/>
+                <br />
+                <h:commandLink action="#{donativoEspDetController.prepareList}" value="#{bundle.EditDonativoEspDetShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.EditDonativoEspDetIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

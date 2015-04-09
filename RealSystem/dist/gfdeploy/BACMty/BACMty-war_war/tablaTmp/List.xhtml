@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTablaTmpTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTablaTmpEmpty}" rendered="#{tablaTmpController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tablaTmpController.items.rowCount > 0}">
+                    <h:outputText value="#{tablaTmpController.pagination.pageFirstItem + 1}..#{tablaTmpController.pagination.pageLastItem + 1}/#{tablaTmpController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tablaTmpController.previous}" value="#{bundle.Previous} #{tablaTmpController.pagination.pageSize}" rendered="#{tablaTmpController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tablaTmpController.next}" value="#{bundle.Next} #{tablaTmpController.pagination.pageSize}" rendered="#{tablaTmpController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tablaTmpController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTablaTmpTitle_IDFolio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDFolio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTablaTmpTitle_total}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.total}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTablaTmpTitle_totalCDescto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalCDescto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTablaTmpTitle_porcDescto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.porcDescto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTablaTmpTitle_IDInstitucion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.IDInstitucion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tablaTmpController.prepareView}" value="#{bundle.ListTablaTmpViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tablaTmpController.prepareEdit}" value="#{bundle.ListTablaTmpEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tablaTmpController.destroy}" value="#{bundle.ListTablaTmpDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tablaTmpController.prepareCreate}" value="#{bundle.ListTablaTmpCreateLink}"/>
+                <br />
+                <br />
+                <h:commandLink value="#{bundle.ListTablaTmpIndexLink}" action="/index" immediate="true" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
