@@ -15,6 +15,10 @@ public class HistorialVisitas {
     private int IDRuta, IDSucursal, Vehiculo, Piloto, Copiloto;
     private Date Fecha, HoraSalida, HoraLlegada;
     private String Comentarios;
+    
+    public HistorialVisitas(){
+        //check for IDs?
+    }
 
     public HistorialVisitas(int IDRuta, int IDSucursal, int Vehiculo, int Piloto, int Copiloto, Date Fecha, Date HoraSalida, Date HoraLlegada, String Comentarios) {
         this.IDRuta = IDRuta;

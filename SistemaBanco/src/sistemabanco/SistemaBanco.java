@@ -11,6 +11,7 @@ package sistemabanco;
  */
 import java.sql.*;
 import java.io.*;
+import java.util.ArrayList;
 public class SistemaBanco {
 
     Connection conn;
@@ -71,24 +72,18 @@ public class SistemaBanco {
     
     //Podriamos modificar este metodo a que regrese un vector, 
     //ahorrandonos la primera query, despues lo veo
-    public Ruta[] consultaRutas(){
+    public ArrayList <Ruta> consultaRutas(){
         int count;
         //se crea un arreglo para el return
-        Ruta [] r = new Ruta[1];
+        ArrayList <Ruta> rutas = new ArrayList <Ruta>();
         try {
-            stmt.executeQuery("SELECT COUNT(*) as cant FROM Rutas");
-            ResultSet rs = stmt.getResultSet();
-            rs.next();
-            count=rs.getInt("cant");
-            rs.close();
             stmt.executeQuery("Select (*) FROM Rutas");
-            rs = stmt.getResultSet();
-            rs.next();
-            Ruta [] rutas = new Ruta[count];
-            for(int i=0; i<count; i++){
-                rutas[i].setIDRuta(rs.getInt("IDRuta"));
-                rutas[i].setNombre(rs.getString("Nombre"));
-                rs.next();
+            ResultSet rs = stmt.getResultSet();
+            while(rs.next()){
+                Ruta r = new Ruta();
+                r.setIDRuta(rs.getInt("IDRuta"));
+                r.setNombre(rs.getString("Nombre"));
+                rutas.add(r);
             }
             rs.close();
             return rutas;
@@ -96,31 +91,25 @@ public class SistemaBanco {
         catch(SQLException e){
             System.out.println("Cannot getAnuncios()"+e);
         }
-        return r;
+        return rutas;
     }
     
     //Podriamos modificar este metodo a que regrese un vector, 
     //ahorrandonos la primera query, despues lo veo
-    public Visitas[] consultaVisitas(Ruta ruta){
+    public ArrayList <Visitas> consultaVisitas(Ruta ruta){
         int count;
         //se crea un arreglo con un solo dato para el return
-        Visitas [] v = new Visitas[1];
+        ArrayList <Visitas> visitas = new ArrayList <Visitas>();
         try {
-            stmt.executeQuery("SELECT COUNT(*) as cant FROM Visitas");
-            ResultSet rs = stmt.getResultSet();
-            rs.next();
-            count=rs.getInt("cant");
-            rs.close();
             stmt.executeQuery("Select (*) FROM Visitas");
-            rs = stmt.getResultSet();
-            rs.next();
-            Visitas [] visitas = new Visitas[count];
-            for(int i=0; i<count; i++){
-                visitas[i].setIDRuta(rs.getInt("IDRuta"));
-                visitas[i].setIDSucursal(rs.getInt("IDSucursal"));
+            ResultSet rs = stmt.getResultSet();
+            while(rs.next()){
+                Visitas v = new Visitas();
+                v.setIDRuta(rs.getInt("IDRuta"));
+                v.setIDSucursal(rs.getInt("IDSucursal"));
                 //visitas[i].setDias(rs.getBoolean("Dias")); //Array? Boolean?
                 //resto de los datos para cada ruta
-                rs.next();
+                visitas.add(v);
             }
             rs.close();
             return visitas;
@@ -128,44 +117,35 @@ public class SistemaBanco {
         catch(SQLException e){
             System.out.println("Cannot getAnuncios()"+e);
         }
-        return v;
+        return visitas;
     }
     
-    public HistorialVisitas[] consultaHistorial(Ruta ruta){
-        int count;
-        //se crea un arreglo con un solo dato para el return
-        HistorialVisitas [] hv = new HistorialVisitas[1];
+    public ArrayList <HistorialVisitas> consultaHistorial(Ruta ruta){
+        ArrayList <HistorialVisitas> hv = new ArrayList <HistorialVisitas>();
         try {
-            stmt.executeQuery("SELECT COUNT(*) as cant FROM HistorialVisitas");
-            ResultSet rs = stmt.getResultSet();
-            rs.next();
-            count=rs.getInt("cant");
-            rs.close();
+            
             stmt.executeQuery("Select (*) FROM HistorialVisitas");
-            rs = stmt.getResultSet();
-            rs.next();
-            HistorialVisitas [] hVisitas = new HistorialVisitas[count];
-            for(int i=0; i<count; i++){
-                hVisitas[i].setIDRuta(rs.getInt("IDRuta"));
-                hVisitas[i].setIDSucursal(rs.getInt("IDSucursal"));
-                hVisitas[i].setFecha(rs.getDate("Fecha"));
-                hVisitas[i].setVehiculo(rs.getInt("Vehiculo"));
-                hVisitas[i].setPiloto(rs.getInt("Piloto"));
-                hVisitas[i].setCopiloto(rs.getInt("Copiloto"));
-                hVisitas[i].setHoraSalida(rs.getDate("HoraSalida"));
-                hVisitas[i].setHoraLlegada(rs.getDate("HoraLlegada"));
-                hVisitas[i].setComentarios(rs.getString("Comentarios"));
-                //visitas[i].setDias(rs.getBoolean("Dias")); //Array? Boolean?
-                //resto de los datos para cada ruta
-                rs.next();
+            ResultSet rs = stmt.getResultSet();
+            while(rs.next()){
+                HistorialVisitas hVisitas = new HistorialVisitas();
+                hVisitas.setIDRuta(rs.getInt("IDRuta"));
+                hVisitas.setIDSucursal(rs.getInt("IDSucursal"));
+                hVisitas.setFecha(rs.getDate("Fecha"));
+                hVisitas.setVehiculo(rs.getInt("Vehiculo"));
+                hVisitas.setPiloto(rs.getInt("Piloto"));
+                hVisitas.setCopiloto(rs.getInt("Copiloto"));
+                hVisitas.setHoraSalida(rs.getDate("HoraSalida"));
+                hVisitas.setHoraLlegada(rs.getDate("HoraLlegada"));
+                hVisitas.setComentarios(rs.getString("Comentarios"));
+                hv.add(hVisitas);
             }
             rs.close();
-            return visitas;
+            return hv;
         }
         catch(SQLException e){
             System.out.println("Cannot getAnuncios()"+e);
         }
-        return v;
+        return hv;
     }
     //Impresion? Cual es la diferencia con Consulta Rutas?
 

@@ -18,6 +18,10 @@ public class Visitas {
         this.dias = dias;
     }
 
+    public Visitas() {
+        //Maybe check something with the IDs?
+    }
+
     public int getIDRuta() {
         return IDRuta;
     }

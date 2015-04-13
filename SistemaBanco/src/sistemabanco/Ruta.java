@@ -12,18 +12,26 @@ package sistemabanco;
  */
 public class Ruta {
     
+    
+    
     private String nombre;
     private int IDRuta;
+    
+    public Ruta() {
+        //check something with the ID?
+    }
 
+    public Ruta(String nombre, int IDRuta) {
+        this.nombre = nombre;
+        this.IDRuta = IDRuta;
+    }
+    
     public int getIDRuta() {
         return IDRuta;
     }
 
     public void setIDRuta(int IDRuta) {
         this.IDRuta = IDRuta;
-    }
-
-    public Ruta() {
     }
 
     public String getNombre() {
