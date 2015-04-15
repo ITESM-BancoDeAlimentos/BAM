@@ -5,15 +5,19 @@
  */
 package sistemabanco;
 
+import java.util.Date;
+
 /**
  *
  * @author Enrique
  */
 public class Empleados {
     private int IDEmpleado;
-    private String Nombre, Direccion, Telefono, FechaNacimiento, Salario, Area, Puesto;
+    private double Salario;
+    private String Nombre, Direccion, Telefono, Area, Puesto;
+    private Date FechaNacimiento, FechaContratacion;
 
-    public Empleados(int IDEmpleado, String Nombre, String Direccion, String Telefono, String FechaNacimiento, String Salario, String Area, String Puesto) {
+    public Empleados(int IDEmpleado, String Nombre, String Direccion, String Telefono, Date FechaNacimiento, double Salario, String Area, String Puesto, Date FechaContratacion) {
         this.IDEmpleado = IDEmpleado;
         this.Nombre = Nombre;
         this.Direccion = Direccion;
@@ -22,6 +26,11 @@ public class Empleados {
         this.Salario = Salario;
         this.Area = Area;
         this.Puesto = Puesto;
+        this.FechaContratacion = FechaContratacion;
+    }
+
+    Empleados() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getIDEmpleado() {
@@ -56,19 +65,19 @@ public class Empleados {
         this.Telefono = Telefono;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return FechaNacimiento;
     }
 
-    public void setFechaNacimiento(String FechaNacimiento) {
+    public void setFechaNacimiento(Date FechaNacimiento) {
         this.FechaNacimiento = FechaNacimiento;
     }
 
-    public String getSalario() {
+    public double getSalario() {
         return Salario;
     }
 
-    public void setSalario(String Salario) {
+    public void setSalario(double Salario) {
         this.Salario = Salario;
     }
 
@@ -86,6 +95,14 @@ public class Empleados {
 
     public void setPuesto(String Puesto) {
         this.Puesto = Puesto;
+    }
+
+    public Date getFechaContratacion() {
+        return FechaContratacion;
+    }
+
+    public void setFechaContratacion(Date FechaContratacion) {
+        this.FechaContratacion = FechaContratacion;
     }
     
 }
