@@ -54,6 +54,7 @@ public class SistemaTrafico {
         }
         return false;
     }
+    
     public boolean borrarSucursalARuta(Ruta ruta, int IDSucursal){
         try{
             //No estoy seguro de si se puede mandar el bit string asi nada mas...
@@ -65,6 +66,7 @@ public class SistemaTrafico {
         }
         return false;
     }
+    
     public boolean editarDiasVisita(Ruta ruta, int IDSucursal, boolean dias[]){
         try{
             //No estoy seguro de si se puede mandar el bit string asi nada mas...
@@ -170,7 +172,6 @@ public class SistemaTrafico {
         return hv;
     }
 
-    
     public ArrayList <Empleados> consultaTransportistas(){
         ArrayList <Empleados> transportistas = new ArrayList <Empleados>();
         try {
