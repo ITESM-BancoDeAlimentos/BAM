@@ -14,10 +14,10 @@ import java.io.*;
 import java.util.ArrayList;
 public class SistemaTrafico {
 
-    Connection conn;
-    Statement stmt;
+    public Connection conn;
+    public Statement stmt;
     
-    public static void main(String[] args) {
+    public SistemaTrafico() {
         try{
             String userName="root";
             String password="password";
