@@ -46,7 +46,8 @@ public class SistemaTrafico {
     public boolean agregarSucursalARuta(Ruta ruta, int IDSucursal, boolean dias[]){
         try{
             //No estoy seguro de si se puede mandar el bit string asi nada mas...
-            String s = "INSERT INTO Visitas (IDRuta, IDSucursal, Dias)" + " VALUES ("+ruta.getIDRuta()+", "+IDSucursal +", "+dias+")";
+            String s = "INSERT INTO Visitas (IDRuta, IDSucursal, Lu, Ma, Mi, Ju, Vi, Sa, Do)" + " VALUES ("+ruta.getIDRuta()+", "+IDSucursal +", "+dias[0]+", "+
+                    dias[1]+", "+dias[2]+", "+dias[3]+", "+dias[4]+", "+dias[5]+", "+dias[6]+")";
             stmt.executeUpdate(s);
         }
         catch(Exception e){
@@ -57,7 +58,6 @@ public class SistemaTrafico {
     
     public boolean borrarSucursalARuta(Ruta ruta, int IDSucursal){
         try{
-            //No estoy seguro de si se puede mandar el bit string asi nada mas...
             String s = "DELETE FROM Visitas WHERE IDRuta = " + ruta.getIDRuta();
             stmt.executeUpdate(s);
         }
@@ -69,8 +69,8 @@ public class SistemaTrafico {
     
     public boolean editarDiasVisita(Ruta ruta, int IDSucursal, boolean dias[]){
         try{
-            //No estoy seguro de si se puede mandar el bit string asi nada mas...
-            String s = "UPDATE Visitas SET Dias = "+dias+ " WHERE IDRuta = "+ruta.getIDRuta()+" AND IDSucursal = "+IDSucursal;
+            String s = "UPDATE Visitas SET Lu = "+dias[0]+", Ma = "+dias[1]+", Mi = "+dias[2]+", Ju = " + dias[3]+", Vi = "+dias[4]+ 
+                    ", Sa = "+dias[5]+", Do = "+dias[6]+ "WHERE IDRuta = "+ruta.getIDRuta()+" AND IDSucursal = "+IDSucursal;
             stmt.executeUpdate(s);
         }
         catch(Exception e){
@@ -125,8 +125,15 @@ public class SistemaTrafico {
                 Visitas v = new Visitas();
                 v.setIDRuta(rs.getInt("IDRuta"));
                 v.setIDSucursal(rs.getInt("IDSucursal"));
-                //visitas[i].setDias(rs.getBoolean("Dias")); //Array? Boolean?
-                //resto de los datos para cada ruta
+                boolean dias [] = new boolean [7];
+                dias[0]=rs.getBoolean("Lu");
+                dias[1]=rs.getBoolean("Ma");
+                dias[2]=rs.getBoolean("Mi");
+                dias[3]=rs.getBoolean("Ju");
+                dias[4]=rs.getBoolean("Vi");
+                dias[5]=rs.getBoolean("Sa");
+                dias[6]=rs.getBoolean("Do");
+                v.setDias(dias);
                 visitas.add(v);
             }
             rs.close();
